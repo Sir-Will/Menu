@@ -30,7 +30,7 @@ import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuRegistry;
-import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
+import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.PageTarget;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
@@ -71,10 +71,10 @@ public class SimpleMenuContext implements MenuContext {
     private PluginContainer owner;
     private Set<Formatter> formatters;
     private Map<String, Formatter> specificFormatters;
-    private MenuVariables variables;
+    private SerializableMap variables;
     private MenuProperties properties;
 
-    public SimpleMenuContext(Menu.Type type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, MenuVariables variables, MenuProperties properties) {
+    public SimpleMenuContext(Menu.Type type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, SerializableMap variables, MenuProperties properties) {
         this.page = page;
         this.context = context;
         this.type = type;
@@ -126,7 +126,7 @@ public class SimpleMenuContext implements MenuContext {
     }
 
     @Override
-    public MenuVariables variables() {
+    public SerializableMap variables() {
         return this.variables;
     }
 

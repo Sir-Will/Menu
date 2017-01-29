@@ -21,7 +21,7 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.data;
 
-import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
+import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
@@ -32,21 +32,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class MenuVariablesBuilder extends AbstractDataBuilder<MenuVariables> {
+public class SerializableMapBuilder extends AbstractDataBuilder<SerializableMap> {
 
-    public MenuVariablesBuilder() {
-        super(MenuVariables.class, 1);
+    public SerializableMapBuilder() {
+        super(SerializableMap.class, 1);
     }
 
     @Override
-    protected Optional<MenuVariables> buildContent(DataView container) throws InvalidDataException {
+    protected Optional<SerializableMap> buildContent(DataView container) throws InvalidDataException {
         if(container.contains(MenuQueries.VARIABLES)) {
             List<SerializablePair<String, ?>> variables = (List<SerializablePair<String, ?>>) (List<?>) container.getSerializableList(MenuQueries.VARIABLES, SerializablePair.class).get();
             Map<String, SerializablePair<String, ?>> varMap = new HashMap<>();
             for(SerializablePair<String, ?> variable : variables) {
                 varMap.put(variable.getLeft(), variable);
             }
-            return Optional.of(new MenuVariables(varMap));
+            return Optional.of(new SerializableMap(varMap));
         }
         return Optional.empty();
     }

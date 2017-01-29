@@ -53,7 +53,7 @@ public interface MenuContext extends DataSerializable {
 
     Set<Formatter> formatters();
 
-    MenuVariables variables();
+    SerializableMap variables();
 
     MenuProperties properties();
 
@@ -93,8 +93,8 @@ public interface MenuContext extends DataSerializable {
         }
 
         @Override
-        public MenuVariables variables() {
-            return new MenuVariables();
+        public SerializableMap variables() {
+            return new SerializableMap();
         }
 
         @Override

@@ -27,7 +27,7 @@ import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
-import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
+import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
@@ -51,7 +51,7 @@ public class SimpleMenuContextReader implements MenuContextReader {
                 specificFormatters.put(pair.getLeft(), pair.getRight());
             }
 
-            return Optional.of(new SimpleMenuContext(type, container.getInt(MenuQueries.CONTEXT_PAGE).get(), container.getSerializable(MenuQueries.CONTEXT_INPUT, InputContext.class).get(), Sponge.getPluginManager().getPlugin(container.getString(MenuQueries.MENU_OWNER).get()).orElse(MenuPlugin.container()), specificFormatters, container.getSerializableList(MenuQueries.CONTEXT_FORMATTERS, Formatter.class).get().stream().collect(Collectors.toSet()), container.getSerializable(MenuQueries.CONTEXT_VARIABLES, MenuVariables.class).get(), container.getSerializable(MenuQueries.CONTEXT_PROPERTIES, MenuProperties.class).get()));
+            return Optional.of(new SimpleMenuContext(type, container.getInt(MenuQueries.CONTEXT_PAGE).get(), container.getSerializable(MenuQueries.CONTEXT_INPUT, InputContext.class).get(), Sponge.getPluginManager().getPlugin(container.getString(MenuQueries.MENU_OWNER).get()).orElse(MenuPlugin.container()), specificFormatters, container.getSerializableList(MenuQueries.CONTEXT_FORMATTERS, Formatter.class).get().stream().collect(Collectors.toSet()), container.getSerializable(MenuQueries.CONTEXT_VARIABLES, SerializableMap.class).get(), container.getSerializable(MenuQueries.CONTEXT_PROPERTIES, MenuProperties.class).get()));
         }
         return Optional.empty();
     }

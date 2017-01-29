@@ -25,7 +25,7 @@ import com.gmail.socraticphoenix.sponge.menu.catalogs.InputTypeCatalog;
 import com.gmail.socraticphoenix.sponge.menu.command.ButtonCommand;
 import com.gmail.socraticphoenix.sponge.menu.data.CatalogDataTranslator;
 import com.gmail.socraticphoenix.sponge.menu.data.EnumDataTranslator;
-import com.gmail.socraticphoenix.sponge.menu.data.MenuVariablesBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.SerializableMapBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ButtonData;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ButtonDataBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ImmutableButtonData;
@@ -153,7 +153,7 @@ public class MenuPlugin {
         MenuContextBuilder.addReader(new SimpleMenuContextReader());
 
         dataManager.registerBuilder(SendableMenu.class, new SendableMenuBuilder());
-        dataManager.registerBuilder(MenuVariables.class, new MenuVariablesBuilder());
+        dataManager.registerBuilder(SerializableMap.class, new SerializableMapBuilder());
 
         //Page
         dataManager.registerBuilder(Page.class, new PageBuilder());

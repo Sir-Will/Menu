@@ -25,7 +25,7 @@ import org.spongepowered.api.data.DataQuery;
 
 public interface MenuQueries {
 
-    DataQuery VARIABLES = DataQuery.of('.', "menuapi.context.variables");
+    DataQuery VARIABLES = DataQuery.of('.', "menuapi.map.variables");
 
     DataQuery SENDABLE_MENU = DataQuery.of('.', "menuapi.sendable.menu");
     DataQuery SENDABLE_PLUGIN = DataQuery.of('.', "menuapi.sendable.plugin");

@@ -29,7 +29,7 @@ import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuService;
-import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
+import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
 import com.gmail.socraticphoenix.sponge.menu.listeners.ChatRestrictTask;
@@ -45,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void send(Menu menu, MenuProperties properties, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters) {
         PluginContainer container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
-        MenuContext context = new SimpleMenuContext(Menu.Type.SIMPLE, 0, InputContext.EMPTY, container, specificFormatters, formatters, new MenuVariables(), properties);
+        MenuContext context = new SimpleMenuContext(Menu.Type.SIMPLE, 0, InputContext.EMPTY, container, specificFormatters, formatters, new SerializableMap(), properties);
         if(target.get(MenuData.class).isPresent()) {
             target.get(MenuData.class).get().context().get().terminate(EndMenuReason.NEW_MENU, target, menu);
         }

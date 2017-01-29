@@ -89,14 +89,8 @@ public class TreeNode implements DataSerializable {
     }
 
     public static class Builder {
-        private Builder parent;
         private Text value;
         private List<TreeNode> children;
-
-        private Builder(Builder parent) {
-            this();
-            this.parent = parent;
-        }
 
         public Builder() {
             this.value = Text.EMPTY;
@@ -112,17 +106,17 @@ public class TreeNode implements DataSerializable {
             return this;
         }
 
-        public Builder child() {
-            return new Builder(this);
+        public Builder child(TreeNode child) {
+            this.children.add(child);
+            return this;
         }
 
-        public Builder parent() {
-            if(this.parent != null) {
-                this.parent.children.add(this.build());
-                return this.parent;
-            } else {
-                return this;
-            }
+        public Builder child(Text value) {
+            return this.child(TreeNode.builder().value(value).build());
+        }
+
+        public Builder child(String value) {
+            return this.child(TreeNode.builder().value(value).build());
         }
 
         public TreeNode build() {
