@@ -22,20 +22,21 @@
 package com.gmail.socraticphoenix.sponge.menu.impl.input;
 
 import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 
 public class SimpleInput implements Input {
-    private Type type;
+    private InputType type;
 
-    public SimpleInput(Type type) {
+    public SimpleInput(InputType type) {
         this.type = type;
     }
 
     @Override
-    public Type type() {
+    public InputType type() {
         return this.type;
     }
 

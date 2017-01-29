@@ -19,21 +19,10 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu;
+package com.gmail.socraticphoenix.sponge.menu.impl.formatter.tree;
 
-import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.text.Text;
+public interface TriConsumer<A, B, C> {
 
-public interface Page extends DataSerializable {
-
-    Text title();
-
-    Input input();
-
-    PageTarget produceTarget();
-
-    String id();
-
-    boolean isChatBased();
+    void accept(A a, B b, C c);
 
 }

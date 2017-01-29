@@ -19,21 +19,25 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu;
+package com.gmail.socraticphoenix.sponge.menu.data.formatter;
 
-import org.spongepowered.api.data.DataSerializable;
+import com.gmail.socraticphoenix.sponge.menu.Formatter;
+import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.SequentialTextFormatter;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
-public interface Page extends DataSerializable {
+import java.util.Optional;
 
-    Text title();
+public class SequentialTextReader implements FormatterReader {
 
-    Input input();
-
-    PageTarget produceTarget();
-
-    String id();
-
-    boolean isChatBased();
+    @Override
+    public Optional<Formatter> read(PluginContainer owner, String page, String target, DataView container) {
+        if(container.contains(MenuQueries.SEQUENTIAL_TEXT_SEPARATOR)) {
+            return Optional.of(new SequentialTextFormatter(owner.getInstance(), container.getSerializable(MenuQueries.SEQUENTIAL_TEXT_SEPARATOR, Text.class).get()));
+        }
+        return Optional.empty();
+    }
 
 }

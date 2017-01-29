@@ -41,17 +41,19 @@ public class SendableMenu implements DataSerializable {
     private String pluginId;
     private Map<String, Formatter> specificFormatters;
     private Set<Formatter> formatters;
+    private MenuProperties properties;
 
-    public SendableMenu(Menu menu, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters) {
+    public SendableMenu(Menu menu, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, MenuProperties properties) {
         this.menu = menu;
         this.plugin = plugin;
         this.specificFormatters = specificFormatters;
         this.formatters = formatters;
+        this.properties = properties;
         this.pluginId = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")).getId();
     }
 
     public void send(Player target) {
-        Sponge.getServiceManager().provideUnchecked(MenuService.class).send(this.menu, target, this.plugin, this.specificFormatters, this.formatters);
+        Sponge.getServiceManager().provideUnchecked(MenuService.class).send(this.menu, this.properties, target, this.plugin, this.specificFormatters, this.formatters);
     }
 
     @Override
@@ -71,7 +73,8 @@ public class SendableMenu implements DataSerializable {
                 .set(MenuQueries.SENDABLE_MENU, this.menu)
                 .set(MenuQueries.SENDABLE_PLUGIN, this.pluginId)
                 .set(MenuQueries.SENDABLE_SPECIFIC_FORMATTERS, specificFormatters)
-                .set(MenuQueries.SENDABLE_FORMATTERS, formatters);
+                .set(MenuQueries.SENDABLE_FORMATTERS, formatters)
+                .set(MenuQueries.SENDABLE_PROPERTIES, this.properties);
     }
 
 }

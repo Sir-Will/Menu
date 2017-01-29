@@ -19,38 +19,37 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.event;
+package com.gmail.socraticphoenix.sponge.menu.listeners;
 
-import com.gmail.socraticphoenix.sponge.menu.Menu;
-import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.event.impl.AbstractEvent;
-import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 
-public class ButtonClickEvent extends AbstractEvent implements Cancellable {
-    private Cause cause;
-    private boolean cancelled;
+import java.util.Optional;
 
-    public ButtonClickEvent(Player player, String buttonId, PluginContainer buttonOwner, MenuContext context, Menu menu) {
-        this.cause = Cause.of(NamedCause.source(player), NamedCause.of("id", buttonId), NamedCause.of("owner", buttonOwner), NamedCause.of("context", context), NamedCause.of("menu", menu));
+public class PlayerListener {
+
+    @Listener
+    public void onJoin(ClientConnectionEvent.Join ev, @First Player player) {
+        Optional<MenuData> dataOptional = player.get(MenuData.class);
+        if (dataOptional.isPresent()) {
+            if (dataOptional.get().context().get().properties().isPersistent()) {
+                MenuData data = dataOptional.get();
+                data.context().get().refresh(player, data.menu().get());
+            } else {
+                player.remove(MenuData.class);
+            }
+        }
     }
 
-    @Override
-    public Cause getCause() {
-        return this.cause;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return this.cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancel) {
-        this.cancelled = cancel;
+    @Listener
+    public void onLeave(ClientConnectionEvent.Disconnect ev, @First Player player) {
+        Optional<MenuData> dataOptional = player.get(MenuData.class);
+        if (dataOptional.isPresent() && !dataOptional.get().context().get().properties().isPersistent()) {
+            player.remove(MenuData.class);
+        }
     }
 
 }

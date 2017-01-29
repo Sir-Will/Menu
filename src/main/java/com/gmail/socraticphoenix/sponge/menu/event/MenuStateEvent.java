@@ -19,24 +19,23 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.page;
+package com.gmail.socraticphoenix.sponge.menu.event;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
-import com.gmail.socraticphoenix.sponge.menu.Page;
-import com.gmail.socraticphoenix.sponge.menu.impl.page.BookTextPage;
-import org.spongepowered.api.data.DataView;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-import java.util.Optional;
-
-public class BookTextPageReader implements PageReader {
+public class MenuStateEvent extends AbstractEvent {
 
     @Override
-    public Optional<Page> read(Text title, Input input, String id, DataView container) {
-        if(input.type() == Input.Type.BOOK_TEXT_INPUT) {
-            return Optional.of(new BookTextPage(title, id));
-        }
-        return Optional.empty();
+    public Cause getCause() {
+        return null;
     }
 
+    public static class Close extends MenuStateEvent {
+
+    }
+
+    public static class Open extends MenuStateEvent {
+
+    }
 }

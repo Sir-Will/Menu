@@ -19,54 +19,25 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.impl.page;
+package com.gmail.socraticphoenix.sponge.menu.data.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Input;
-import com.gmail.socraticphoenix.sponge.menu.TextPage;
-import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.Queries;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
+import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.AnvilTextPage;
+import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.text.Text;
 
-public class BookTextPage implements TextPage {
-    private Text title;
-    private Input input;
-    private String id;
+import java.util.Optional;
 
-    public BookTextPage(Text title, String id) {
-        this.title = title;
-        this.id = id;
-        this.input = new SimpleInput(Input.Type.BOOK_TEXT_INPUT);
-    }
+public class AnvilTextPageReader implements PageReader {
 
     @Override
-    public Text title() {
-        return this.title;
-    }
-
-    @Override
-    public Input input() {
-        return this.input;
-    }
-
-    @Override
-    public String id() {
-        return this.id;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.PAGE_TITLE, this.title)
-                .set(MenuQueries.PAGE_INPUT, this.input)
-                .set(MenuQueries.PAGE_ID, this.id);
+    public Optional<Page> read(Text title, Input input, String id, DataView container) {
+        if(input.type() == InputTypes.ANVIL_TEXT_PAGE) {
+            return Optional.of(new AnvilTextPage(title, id));
+        }
+        return Optional.empty();
     }
 
 }

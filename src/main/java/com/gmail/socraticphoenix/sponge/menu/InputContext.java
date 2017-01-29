@@ -30,13 +30,13 @@ import org.spongepowered.api.data.Queries;
 public interface InputContext extends DataSerializable {
     InputContext.Empty EMPTY = new Empty();
 
-    Input.Type type();
+    InputType type();
 
     class Empty implements InputContext {
 
         @Override
-        public Input.Type type() {
-            return Input.Type.EMPTY;
+        public InputType type() {
+            return InputTypes.EMPTY;
         }
 
         @Override

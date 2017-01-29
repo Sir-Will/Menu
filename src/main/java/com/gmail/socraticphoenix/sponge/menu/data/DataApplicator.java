@@ -40,7 +40,7 @@ public class DataApplicator {
     }
 
     public static Text createText(Button button, PluginContainer owner) {
-        return Text.builder().append(button.title()).onClick(TextActions.runCommand("menuapibuttonevent \"" + button.id() + "\" \"" + owner.getId() + "\"")).build();
+        return Text.builder().append(button.title()).onClick(TextActions.runCommand("/menuapibuttonevent " + button.id() + " " + owner.getId())).build();
     }
 
 }

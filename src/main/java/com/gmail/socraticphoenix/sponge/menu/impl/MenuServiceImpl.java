@@ -26,10 +26,13 @@ import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.InputContext;
 import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
+import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuService;
 import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
+import com.gmail.socraticphoenix.sponge.menu.listeners.ChatRestrictTask;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -40,9 +43,9 @@ import java.util.Set;
 public class MenuServiceImpl implements MenuService {
 
     @Override
-    public void send(Menu menu, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters) {
+    public void send(Menu menu, MenuProperties properties, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters) {
         PluginContainer container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
-        MenuContext context = new SimpleMenuContext(Menu.Type.SIMPLE, 0, InputContext.EMPTY, container, specificFormatters, formatters, new MenuVariables());
+        MenuContext context = new SimpleMenuContext(Menu.Type.SIMPLE, 0, InputContext.EMPTY, container, specificFormatters, formatters, new MenuVariables(), properties);
         if(target.get(MenuData.class).isPresent()) {
             target.get(MenuData.class).get().context().get().terminate(EndMenuReason.NEW_MENU, target, menu);
         }
@@ -51,6 +54,7 @@ public class MenuServiceImpl implements MenuService {
         target.offer(newData);
 
         context.refresh(target, menu);
+        Sponge.getScheduler().createTaskBuilder().delayTicks(5).intervalTicks(60).execute(new ChatRestrictTask(target)).submit(MenuPlugin.instance());
     }
 
 }

@@ -19,38 +19,53 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.command;
+package com.gmail.socraticphoenix.sponge.menu.listeners;
 
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
-import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuStateEvent;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandException;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.scheduler.Task;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
-public class ButtonCommand implements CommandExecutor {
+public class ChatRestrictTask implements Consumer<Task> {
+    private Player player;
+    private boolean cancelled;
+
+    public ChatRestrictTask(Player player) {
+        this.player = player;
+        Sponge.getEventManager().registerListeners(MenuPlugin.instance(), this);
+    }
 
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(src instanceof Player) {
-            Player player = (Player) src;
-            String id = (String) args.getOne("id").get();
-            PluginContainer container = Sponge.getPluginManager().getPlugin((String) args.getOne("owner").get()).orElse(MenuPlugin.container());
-            Optional<MenuData> menuDataOptional = player.get(MenuData.class);
-            if(menuDataOptional.isPresent()) {
-                MenuData menuData = menuDataOptional.get();
-                MenuInputEvent event = new MenuInputEvent.Button(player, id, container, menuData.context().get(), menuData.menu().get());
-                Sponge.getEventManager().post(event);
+    public void accept(Task task) {
+        if(this.cancelled) {
+            task.cancel();
+            Sponge.getEventManager().unregisterListeners(this);
+        } else {
+            Optional<MenuData> dataOptional = this.player.get(MenuData.class);
+            if(dataOptional.isPresent()) {
+                MenuData data = dataOptional.get();
+                if(data.getCurrentPage().isPresent() && data.getCurrentPage().get().isChatBased()) {
+                    data.context().get().refresh(this.player, data.menu().get());
+                }
+            } else {
+                task.cancel();
             }
         }
-        return CommandResult.success();
+    }
+
+
+    @Listener
+    public void onMenuEnd(MenuStateEvent.Close ev, @First Player player) {
+        if(player.getUniqueId().equals(this.player.getUniqueId())) {
+            this.cancelled = true;
+        }
     }
 
 }

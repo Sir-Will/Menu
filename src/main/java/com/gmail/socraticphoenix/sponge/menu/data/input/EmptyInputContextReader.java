@@ -21,8 +21,9 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.data.input;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputContext;
+import com.gmail.socraticphoenix.sponge.menu.InputType;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import org.spongepowered.api.data.DataView;
 
 import java.util.Optional;
@@ -30,8 +31,8 @@ import java.util.Optional;
 public class EmptyInputContextReader implements InputContextReader {
 
     @Override
-    public Optional<InputContext> read(Input.Type type, DataView container) {
-        if(type == Input.Type.EMPTY) {
+    public Optional<InputContext> read(InputType type, DataView container) {
+        if(type == InputTypes.EMPTY) {
             return Optional.of(InputContext.EMPTY);
         }
         return Optional.empty();

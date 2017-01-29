@@ -24,7 +24,7 @@ package com.gmail.socraticphoenix.sponge.menu;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 
-public interface Finalizer<T extends Page, K extends PageTarget<T>> {
+public interface Finalizer<T extends Page, K extends PageTarget> {
 
     void display(Player player, K target, T page, PluginContainer owner);
 

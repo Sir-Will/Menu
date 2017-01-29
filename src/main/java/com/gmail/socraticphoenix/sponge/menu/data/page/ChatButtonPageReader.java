@@ -23,6 +23,7 @@ package com.gmail.socraticphoenix.sponge.menu.data.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
 import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatButtonPage;
@@ -35,7 +36,7 @@ public class ChatButtonPageReader implements PageReader {
 
     @Override
     public Optional<Page> read(Text title, Input input, String id, DataView container) {
-        if(container.contains(MenuQueries.PAGE_BUTTONS) && input.type() == Input.Type.CHAT_BUTTON_INPUT) {
+        if(container.contains(MenuQueries.PAGE_BUTTONS) && input.type() == InputTypes.CHAT_BUTTON) {
             return Optional.of(new ChatButtonPage(title, container.getSerializableList(MenuQueries.PAGE_BUTTONS, Button.class).get(), id));
         }
         return Optional.empty();

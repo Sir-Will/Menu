@@ -19,51 +19,47 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.impl.page;
+package com.gmail.socraticphoenix.sponge.menu.impl.formatter;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
-import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.TextButtonPage;
+import com.gmail.socraticphoenix.sponge.menu.data.DataApplicator;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.Queries;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
-import java.util.Collections;
 import java.util.List;
 
-public class BookButtonPage implements TextButtonPage {
-    private Text title;
-    private Input input;
-    private List<Button> buttons;
-    private String id;
+public class SequentialTextFormatter extends Formatter<TextButtonPage, TextTarget> {
+    private Text separator;
 
-    public BookButtonPage(Text title, List<Button> buttons, String id) {
-        this.title = title;
-        this.input = new SimpleInput(Input.Type.BOOK_BUTTON_INPUT);
-        this.buttons = Collections.unmodifiableList(buttons);
+    public SequentialTextFormatter(Object plugin, Text separator) {
+        super(TextButtonPage.class, TextTarget.class, plugin);
+        this.separator = separator;
+    }
+
+    public SequentialTextFormatter(PluginContainer plugin, Text separator) {
+        super(TextButtonPage.class, TextTarget.class, plugin);
+        this.separator = separator;
+    }
+
+    public Text getSeparator() {
+        return this.separator;
     }
 
     @Override
-    public List<Button> buttons() {
-        return this.buttons;
-    }
-
-    @Override
-    public Text title() {
-        return this.title;
-    }
-
-    @Override
-    public Input input() {
-        return this.input;
-    }
-
-    @Override
-    public String id() {
-        return this.id;
+    public void format(TextButtonPage page, TextTarget target, PluginContainer owner) {
+        target.getBuilder().append(page.title()).append(Text.NEW_LINE);
+        List<Button> buttons = page.buttons();
+        for (int i = 0; i < buttons.size(); i++) {
+            target.getBuilder().append(DataApplicator.createText(buttons.get(i), owner));
+            if(i < buttons.size() - 1) {
+                target.getBuilder().append(this.separator);
+            }
+        }
     }
 
     @Override
@@ -73,11 +69,7 @@ public class BookButtonPage implements TextButtonPage {
 
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.PAGE_TITLE, this.title)
-                .set(MenuQueries.PAGE_INPUT, this.input)
-                .set(MenuQueries.PAGE_BUTTONS, this.buttons)
-                .set(MenuQueries.PAGE_ID, this.id);
+        return super.toContainer()
+                .set(MenuQueries.SEQUENTIAL_TEXT_SEPARATOR, this.separator);
     }
-
 }

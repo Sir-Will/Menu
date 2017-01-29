@@ -26,6 +26,7 @@ import com.gmail.socraticphoenix.sponge.menu.InputContext;
 import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
+import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
@@ -43,14 +44,14 @@ public class SimpleMenuContextReader implements MenuContextReader {
 
     @Override
     public Optional<MenuContext> read(Menu.Type type, DataView container) {
-        if(container.contains(MenuQueries.CONTEXT_PAGE, MenuQueries.MENU_OWNER, MenuQueries.CONTEXT_INPUT, MenuQueries.CONTEXT_FORMATTERS, MenuQueries.CONTEXT_SPECIFIC_FORMATTERS, MenuQueries.CONTEXT_VARIABLES)) {
+        if(container.contains(MenuQueries.CONTEXT_PAGE, MenuQueries.MENU_OWNER, MenuQueries.CONTEXT_INPUT, MenuQueries.CONTEXT_FORMATTERS, MenuQueries.CONTEXT_SPECIFIC_FORMATTERS, MenuQueries.CONTEXT_VARIABLES, MenuQueries.CONTEXT_PROPERTIES)) {
             Map<String, Formatter> specificFormatters = new HashMap<>();
             List<SerializablePair<String, Formatter>> formatters = (List<SerializablePair<String, Formatter>>) (List<?>) container.getSerializableList(MenuQueries.CONTEXT_SPECIFIC_FORMATTERS, SerializablePair.class).get();
             for(SerializablePair<String, Formatter> pair : formatters) {
                 specificFormatters.put(pair.getLeft(), pair.getRight());
             }
 
-            return Optional.of(new SimpleMenuContext(type, container.getInt(MenuQueries.CONTEXT_PAGE).get(), container.getSerializable(MenuQueries.CONTEXT_INPUT, InputContext.class).get(), Sponge.getPluginManager().getPlugin(container.getString(MenuQueries.MENU_OWNER).get()).orElse(MenuPlugin.container()), specificFormatters, container.getSerializableList(MenuQueries.CONTEXT_FORMATTERS, Formatter.class).get().stream().collect(Collectors.toSet()), container.getSerializable(MenuQueries.CONTEXT_VARIABLES, MenuVariables.class).get()));
+            return Optional.of(new SimpleMenuContext(type, container.getInt(MenuQueries.CONTEXT_PAGE).get(), container.getSerializable(MenuQueries.CONTEXT_INPUT, InputContext.class).get(), Sponge.getPluginManager().getPlugin(container.getString(MenuQueries.MENU_OWNER).get()).orElse(MenuPlugin.container()), specificFormatters, container.getSerializableList(MenuQueries.CONTEXT_FORMATTERS, Formatter.class).get().stream().collect(Collectors.toSet()), container.getSerializable(MenuQueries.CONTEXT_VARIABLES, MenuVariables.class).get(), container.getSerializable(MenuQueries.CONTEXT_PROPERTIES, MenuProperties.class).get()));
         }
         return Optional.empty();
     }

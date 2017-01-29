@@ -30,6 +30,9 @@ public class TextButton extends AbstractButton {
     private String id;
 
     public TextButton(Text text, String id) {
+        if(id.contains(" ")) {
+            throw new IllegalArgumentException("Button IDs may not containe spaces");
+        }
         this.text = text;
         this.id = id;
     }

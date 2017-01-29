@@ -21,19 +21,26 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.util.annotation.CatalogedBy;
 
-public interface Page extends DataSerializable {
+@CatalogedBy(InputTypes.class)
+public class InputType implements CatalogType {
+    private String id;
+    private String name;
 
-    Text title();
+    public InputType(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-    Input input();
+    @Override
+    public String getId() {
+        return this.id;
+    }
 
-    PageTarget produceTarget();
-
-    String id();
-
-    boolean isChatBased();
-
+    @Override
+    public String getName() {
+        return this.name;
+    }
 }

@@ -33,6 +33,9 @@ public class ItemButton extends AbstractButton {
     private String id;
 
     public ItemButton(Text text, ItemStack icon, String id) {
+        if(id.contains(" ")) {
+            throw new IllegalArgumentException("Button IDs may not containe spaces");
+        }
         if(icon.get(ButtonData.class).isPresent()) {
             icon.remove(ButtonData.class);
         }

@@ -21,19 +21,13 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.text.Text;
+public interface InputTypes {
 
-public interface Page extends DataSerializable {
-
-    Text title();
-
-    Input input();
-
-    PageTarget produceTarget();
-
-    String id();
-
-    boolean isChatBased();
+    InputType INVENTORY_BUTTON = new InputType("inventory_button", "Inventory Button Input");
+    InputType CHAT_TEXT = new InputType("chat_text", "Chat Text Input");
+    InputType CHAT_BUTTON = new InputType("chat_button", "Chat Button Input");
+    InputType ANVIL_TEXT_PAGE = new InputType("anvil_text_page", "Anvil Text Page Input");
+    InputType EMPTY = new InputType("empty", "Empty Input");
+    InputType UNKNOWN = new InputType("unknown", "Unknown Input");
 
 }

@@ -19,24 +19,25 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.page;
+package com.gmail.socraticphoenix.sponge.menu.data;
 
-import com.gmail.socraticphoenix.sponge.menu.Button;
-import com.gmail.socraticphoenix.sponge.menu.Input;
-import com.gmail.socraticphoenix.sponge.menu.Page;
-import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import com.gmail.socraticphoenix.sponge.menu.impl.page.BookButtonPage;
+import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import org.spongepowered.api.data.DataView;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.data.persistence.AbstractDataBuilder;
+import org.spongepowered.api.data.persistence.InvalidDataException;
 
 import java.util.Optional;
 
-public class BookButtonPageReader implements PageReader {
+public class MenuPropertiesBuilder extends AbstractDataBuilder<MenuProperties> {
+
+    protected MenuPropertiesBuilder() {
+        super(MenuProperties.class, 1);
+    }
 
     @Override
-    public Optional<Page> read(Text title, Input input, String id, DataView container) {
-        if(container.contains(MenuQueries.PAGE_BUTTONS) && input.type() == Input.Type.BOOK_BUTTON_INPUT) {
-            return Optional.of(new BookButtonPage(title, container.getSerializableList(MenuQueries.PAGE_BUTTONS, Button.class).get(), id));
+    protected Optional<MenuProperties> buildContent(DataView container) throws InvalidDataException {
+        if(container.contains(MenuQueries.PROPERTIES.then("persistent"), MenuQueries.PROPERTIES.then("restrict_chat"))) {
+            return Optional.of(new MenuProperties(container.getBoolean(MenuQueries.PROPERTIES.then("persistent")).get(), container.getBoolean( MenuQueries.PROPERTIES.then("restrict_chat")).get()));
         }
         return Optional.empty();
     }

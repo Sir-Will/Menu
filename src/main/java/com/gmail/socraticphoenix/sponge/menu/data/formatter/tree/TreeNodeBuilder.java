@@ -19,21 +19,29 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu;
+package com.gmail.socraticphoenix.sponge.menu.data.formatter.tree;
 
-import org.spongepowered.api.data.DataSerializable;
+import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.tree.TreeNode;
+import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.data.persistence.AbstractDataBuilder;
+import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.text.Text;
 
-public interface Page extends DataSerializable {
+import java.util.Optional;
 
-    Text title();
+public class TreeNodeBuilder extends AbstractDataBuilder<TreeNode> {
 
-    Input input();
+    public TreeNodeBuilder() {
+        super(TreeNode.class, 1);
+    }
 
-    PageTarget produceTarget();
-
-    String id();
-
-    boolean isChatBased();
+    @Override
+    protected Optional<TreeNode> buildContent(DataView container) throws InvalidDataException {
+        if(container.contains(MenuQueries.TREE_VALUE, MenuQueries.TREE_CHILDREN)) {
+            return Optional.of(new TreeNode(container.getSerializableList(MenuQueries.TREE_CHILDREN, TreeNode.class).get(), container.getSerializable(MenuQueries.TREE_CHILDREN, Text.class).get()));
+        }
+        return Optional.empty();
+    }
 
 }

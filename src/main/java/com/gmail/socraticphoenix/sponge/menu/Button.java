@@ -49,7 +49,8 @@ public interface Button extends DataSerializable {
 
     enum Type {
         TEXT,
-        ITEM
+        ITEM,
+        CUSTOM
     }
 
 }

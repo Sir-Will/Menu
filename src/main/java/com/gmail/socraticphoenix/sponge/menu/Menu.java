@@ -42,7 +42,8 @@ public interface Menu extends DataSerializable {
 
     enum Type {
         EMPTY,
-        SIMPLE
+        SIMPLE,
+        CUSTOM
     }
 
     static Menu deserialize(DataView view, DataQuery query) {

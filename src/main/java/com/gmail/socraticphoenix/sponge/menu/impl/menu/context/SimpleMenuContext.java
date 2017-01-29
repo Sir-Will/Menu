@@ -24,8 +24,11 @@ package com.gmail.socraticphoenix.sponge.menu.impl.menu.context;
 import com.gmail.socraticphoenix.sponge.menu.EndMenuReason;
 import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.InputContext;
+import com.gmail.socraticphoenix.sponge.menu.InventoryReason;
 import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
+import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuRegistry;
 import com.gmail.socraticphoenix.sponge.menu.MenuVariables;
 import com.gmail.socraticphoenix.sponge.menu.Page;
@@ -33,21 +36,35 @@ import com.gmail.socraticphoenix.sponge.menu.PageTarget;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.OrderedGridFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.SequentialTextFormatter;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.NamedCause;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class SimpleMenuContext implements MenuContext {
+    private static Set<Formatter> defaultFormatters;
+
+    static {
+        SimpleMenuContext.defaultFormatters = new HashSet<>();
+        SimpleMenuContext.defaultFormatters.add(new OrderedGridFormatter(MenuPlugin.container(), false));
+        SimpleMenuContext.defaultFormatters.add(new SequentialTextFormatter(MenuPlugin.container(), Text.NEW_LINE));
+    }
+
     private int page;
     private InputContext context;
     private Menu.Type type;
@@ -55,19 +72,32 @@ public class SimpleMenuContext implements MenuContext {
     private Set<Formatter> formatters;
     private Map<String, Formatter> specificFormatters;
     private MenuVariables variables;
+    private MenuProperties properties;
 
-    public SimpleMenuContext(Menu.Type type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, MenuVariables variables) {
+    public SimpleMenuContext(Menu.Type type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, MenuVariables variables, MenuProperties properties) {
         this.page = page;
         this.context = context;
         this.type = type;
         this.owner = owner;
-        this.formatters = Collections.unmodifiableSet(formatters);
-        this.specificFormatters = Collections.unmodifiableMap(specificFormatters);
+        if(!formatters.isEmpty() || !specificFormatters.isEmpty()) {
+            this.formatters = Collections.unmodifiableSet(formatters);
+            this.specificFormatters = Collections.unmodifiableMap(specificFormatters);
+        } else {
+            this.formatters = Collections.unmodifiableSet(SimpleMenuContext.defaultFormatters);
+            this.specificFormatters = Collections.unmodifiableMap(new HashMap<>());
+        }
         this.variables = variables;
+        this.properties = properties;
     }
 
+    @Override
     public void setPage(int page) {
         this.page = page;
+    }
+
+    @Override
+    public void acceptInputContext() {
+
     }
 
     @Override
@@ -101,15 +131,29 @@ public class SimpleMenuContext implements MenuContext {
     }
 
     @Override
+    public MenuProperties properties() {
+        return this.properties;
+    }
+
+    @Override
     public void refresh(Player player, Menu menu) {
         if (this.page < menu.pages().size() && this.page >= 0) {
             Page page = menu.pages().get(this.page);
             PageTarget target = page.produceTarget();
             Formatter usableFormatter = null;
-            for (Formatter formatter : this.formatters) {
+            if (this.specificFormatters.containsKey(page.id())) {
+                Formatter formatter = this.specificFormatters.get(page.id());
                 if (formatter.page().isInstance(page) && formatter.target().isInstance(target)) {
                     usableFormatter = formatter;
-                    break;
+                }
+            }
+
+            if (usableFormatter == null) {
+                for (Formatter formatter : this.formatters) {
+                    if (formatter.page().isInstance(page) && formatter.target().isInstance(target)) {
+                        usableFormatter = formatter;
+                        break;
+                    }
                 }
             }
 
@@ -128,6 +172,9 @@ public class SimpleMenuContext implements MenuContext {
 
     @Override
     public void terminate(EndMenuReason reason, Player player, Menu menu) {
+        if(player.getOpenInventory().isPresent()) {
+            player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_MENU)));
+        }
         player.remove(MenuData.class);
     }
 
@@ -152,7 +199,8 @@ public class SimpleMenuContext implements MenuContext {
                 .set(MenuQueries.CONTEXT_INPUT, this.context)
                 .set(MenuQueries.CONTEXT_FORMATTERS, formatters)
                 .set(MenuQueries.CONTEXT_SPECIFIC_FORMATTERS, specificFormatters)
-                .set(MenuQueries.CONTEXT_VARIABLES, this.variables);
+                .set(MenuQueries.CONTEXT_VARIABLES, this.variables)
+                .set(MenuQueries.CONTEXT_PROPERTIES, this.properties);
     }
 
 }

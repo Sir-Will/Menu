@@ -19,21 +19,29 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu;
+package com.gmail.socraticphoenix.sponge.menu.impl.finalizer;
 
-import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.text.Text;
+import com.gmail.socraticphoenix.sponge.menu.Finalizer;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatTextPage;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.plugin.PluginContainer;
 
-public interface Page extends DataSerializable {
+public class ChatTextFinalizer implements Finalizer<ChatTextPage, TextTarget> {
 
-    Text title();
+    @Override
+    public void display(Player player, TextTarget target, ChatTextPage page, PluginContainer owner) {
+        player.sendMessage(target.getBuilder().build());
+    }
 
-    Input input();
+    @Override
+    public Class<ChatTextPage> page() {
+        return ChatTextPage.class;
+    }
 
-    PageTarget produceTarget();
-
-    String id();
-
-    boolean isChatBased();
+    @Override
+    public Class<TextTarget> target() {
+        return TextTarget.class;
+    }
 
 }

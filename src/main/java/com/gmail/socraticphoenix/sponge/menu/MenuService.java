@@ -28,6 +28,6 @@ import java.util.Set;
 
 public interface MenuService {
 
-    void send(Menu menu, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters);
+    void send(Menu menu, MenuProperties properties, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters);
 
 }

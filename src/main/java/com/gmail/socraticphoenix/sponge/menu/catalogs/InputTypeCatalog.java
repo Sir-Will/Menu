@@ -19,25 +19,55 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.input;
+package com.gmail.socraticphoenix.sponge.menu.catalogs;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputType;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import org.spongepowered.api.data.DataView;
+import org.spongepowered.api.registry.CatalogRegistryModule;
 
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
-public class SimpleInputReader implements InputReader {
+public class InputTypeCatalog implements CatalogRegistryModule<InputType> {
+    private static InputTypeCatalog instance = new InputTypeCatalog();
+
+    public static InputTypeCatalog instance() {
+        return InputTypeCatalog.instance;
+    }
+
+    private Map<String, InputType> types;
+
+    private InputTypeCatalog() {
+        this.types = new LinkedHashMap<>();
+    }
 
     @Override
-    public Optional<Input> read(InputType type, DataView container) {
-        if(type == InputTypes.INVENTORY_BUTTON || type == InputTypes.CHAT_TEXT || type == InputTypes.CHAT_BUTTON || type == InputTypes.EMPTY || type == InputTypes.UNKNOWN) {
-            return Optional.of(new SimpleInput(type));
-        } else {
-            return Optional.empty();
+    public void registerDefaults() {
+        register(InputTypes.INVENTORY_BUTTON);
+        register(InputTypes.CHAT_TEXT);
+        register(InputTypes.CHAT_BUTTON);
+        register(InputTypes.ANVIL_TEXT_PAGE);
+        register(InputTypes.EMPTY);
+        register(InputTypes.UNKNOWN);
+    }
+
+    public void register(InputType type) {
+        if(this.types.containsKey(type.getId())) {
+            throw new IllegalArgumentException("InputType with id \"" + type.getId() + "\" is already registered");
         }
+        this.types.put(type.getId(), type);
+    }
+
+    @Override
+    public Optional<InputType> getById(String id) {
+        return Optional.ofNullable(this.types.get(id));
+    }
+
+    @Override
+    public Collection<InputType> getAll() {
+        return this.types.values();
     }
 
 }

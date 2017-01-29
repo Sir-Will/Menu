@@ -21,19 +21,40 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.data.MemoryDataContainer;
+import org.spongepowered.api.data.Queries;
 
-public interface Page extends DataSerializable {
+public class MenuProperties implements DataSerializable {
+    private boolean persistent;
+    private boolean restrictChat;
 
-    Text title();
+    public MenuProperties(boolean persistent, boolean restrictChat) {
+        this.persistent = persistent;
+        this.restrictChat = restrictChat;
+    }
 
-    Input input();
+    public boolean isPersistent() {
+        return this.persistent;
+    }
 
-    PageTarget produceTarget();
+    public boolean isRestrictChat() {
+        return this.restrictChat;
+    }
 
-    String id();
 
-    boolean isChatBased();
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
+
+    @Override
+    public DataContainer toContainer() {
+        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
+                .set(MenuQueries.PROPERTIES.then("persistent"), this.persistent)
+                .set(MenuQueries.PROPERTIES.then("restrict_chat"), this.restrictChat);
+    }
 
 }

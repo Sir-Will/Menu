@@ -31,6 +31,7 @@ public interface MenuQueries {
     DataQuery SENDABLE_PLUGIN = DataQuery.of('.', "menuapi.sendable.plugin");
     DataQuery SENDABLE_SPECIFIC_FORMATTERS = DataQuery.of('.', "menuapi.sendable.specific");
     DataQuery SENDABLE_FORMATTERS = DataQuery.of('.', "menuapi.sendable.formatters");
+    DataQuery SENDABLE_PROPERTIES = DataQuery.of('.', "menuapi.sendable.properties");
 
     DataQuery BUTTON_TYPE = DataQuery.of('.', "menuapi.button.type");
     DataQuery BUTTON_ICON = DataQuery.of('.', "menuapi.button.icon");
@@ -50,6 +51,7 @@ public interface MenuQueries {
     DataQuery CONTEXT_SPECIFIC_FORMATTERS = DataQuery.of('.', "menuapi.context.specific");
     DataQuery CONTEXT_FORMATTERS = DataQuery.of('.', "menuapi.context.formatters");
     DataQuery CONTEXT_VARIABLES = DataQuery.of('.', "menuapi.context.variables");
+    DataQuery CONTEXT_PROPERTIES = DataQuery.of('.', "menuapi.context.properties");
 
     DataQuery FORMATTER_OWNER = DataQuery.of('.', "menuapi.formatter.owner");
     DataQuery FORMATTER_TARGET = DataQuery.of('.', "menuapi.formatter.target");
@@ -71,6 +73,17 @@ public interface MenuQueries {
     DataQuery ORDERED_GRID_VERTICAL = DataQuery.of('.', "menuapi.formatter.orderedgrid.vertical");
     DataQuery STRICT_GRID_LOCATIONS = DataQuery.of('.', "menuapi.formatter.strictgrid.locations");
 
+    DataQuery SEQUENTIAL_TEXT_SEPARATOR = DataQuery.of('.', "menuapi.formatter.sequentialtext.separator");
+
+    DataQuery CATEGORICAL_TEXT_CATEGORIES = DataQuery.of('.', "menuapi.categoricaltext.categories");
+    DataQuery CATEGORICAL_TEXT_INDENT = DataQuery.of('.', "menuapi.categoricaltext.categories");
+
+    DataQuery PROPERTIES = DataQuery.of('.', "menuapi.properties");
+
+    DataQuery TREE_CHILDREN = DataQuery.of('.', "menuapi.tree.children");
+    DataQuery TREE_VALUE = DataQuery.of('.', "menuapi.tree.value");
+
+    DataQuery CATALOG_ID = DataQuery.of('.', "menuapi.catalog.id");
 
 
 }

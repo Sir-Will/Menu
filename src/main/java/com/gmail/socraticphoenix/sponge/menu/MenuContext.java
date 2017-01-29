@@ -55,9 +55,15 @@ public interface MenuContext extends DataSerializable {
 
     MenuVariables variables();
 
+    MenuProperties properties();
+
     void refresh(Player player, Menu menu);
 
     void terminate(EndMenuReason reason, Player player, Menu menu);
+
+    void setPage(int page);
+
+    void acceptInputContext();
 
     class Empty implements MenuContext {
 
@@ -92,12 +98,27 @@ public interface MenuContext extends DataSerializable {
         }
 
         @Override
+        public MenuProperties properties() {
+            return new MenuProperties(false, false);
+        }
+
+        @Override
         public void refresh(Player player, Menu menu) {
 
         }
 
         @Override
         public void terminate(EndMenuReason reason, Player player, Menu menu) {
+
+        }
+
+        @Override
+        public void setPage(int page) {
+
+        }
+
+        @Override
+        public void acceptInputContext() {
 
         }
 

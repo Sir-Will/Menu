@@ -24,6 +24,7 @@ package com.gmail.socraticphoenix.sponge.menu.data.menu;
 import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
+import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.SendableMenu;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
@@ -46,7 +47,7 @@ public class SendableMenuBuilder extends AbstractDataBuilder<SendableMenu> {
 
     @Override
     protected Optional<SendableMenu> buildContent(DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.SENDABLE_MENU, MenuQueries.SENDABLE_PLUGIN, MenuQueries.SENDABLE_SPECIFIC_FORMATTERS, MenuQueries.SENDABLE_FORMATTERS)) {
+        if(container.contains(MenuQueries.SENDABLE_MENU, MenuQueries.SENDABLE_PLUGIN, MenuQueries.SENDABLE_SPECIFIC_FORMATTERS, MenuQueries.SENDABLE_FORMATTERS, MenuQueries.SENDABLE_PROPERTIES)) {
             List<SerializablePair<String, Formatter>> formatters = (List<SerializablePair<String, Formatter>>) (List<?>) container.getSerializableList(MenuQueries.SENDABLE_SPECIFIC_FORMATTERS, SerializablePair.class).get();
             Map<String, Formatter> specificFormatters = new HashMap<>();
             for(SerializablePair<String, Formatter> pair : formatters) {
@@ -55,7 +56,7 @@ public class SendableMenuBuilder extends AbstractDataBuilder<SendableMenu> {
 
             String id = container.getString(MenuQueries.SENDABLE_PLUGIN).get();
             Object plugin = Sponge.getPluginManager().getPlugin(id).orElse(MenuPlugin.container()).getInstance().get();
-            return Optional.of(new SendableMenu(container.getSerializable(MenuQueries.SENDABLE_MENU, Menu.class).get(), plugin, specificFormatters, container.getSerializableList(MenuQueries.SENDABLE_FORMATTERS, Formatter.class).get().stream().collect(Collectors.toSet())));
+            return Optional.of(new SendableMenu(container.getSerializable(MenuQueries.SENDABLE_MENU, Menu.class).get(), plugin, specificFormatters, container.getSerializableList(MenuQueries.SENDABLE_FORMATTERS, Formatter.class).get().stream().collect(Collectors.toSet()), container.getSerializable(MenuQueries.SENDABLE_PROPERTIES, MenuProperties.class).get()));
         }
         return Optional.empty();
     }

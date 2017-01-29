@@ -23,6 +23,7 @@ package com.gmail.socraticphoenix.sponge.menu.data.attached.player;
 
 import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuKeys;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
@@ -42,6 +43,14 @@ public class MenuData extends AbstractData<MenuData, ImmutableMenuData> {
         this.menu = menu;
         this.context = context;
         this.registerGettersAndSetters();
+    }
+
+    public Optional<Page> getCurrentPage() {
+        if(this.context.page() >= 0 && this.context.page() < menu.pages().size()) {
+            return Optional.of(this.menu.pages().get(this.context.page()));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public Value<Menu> menu() {

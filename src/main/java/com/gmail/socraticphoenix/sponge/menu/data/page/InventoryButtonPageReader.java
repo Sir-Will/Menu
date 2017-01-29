@@ -23,6 +23,7 @@ package com.gmail.socraticphoenix.sponge.menu.data.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
 import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.InventoryButtonPage;
@@ -35,7 +36,7 @@ public class InventoryButtonPageReader implements PageReader {
 
     @Override
     public Optional<Page> read(Text title, Input input, String id, DataView container) {
-        if(container.contains(MenuQueries.PAGE_BUTTONS, MenuQueries.PAGE_HEIGHT, MenuQueries.PAGE_LENGTH) && input.type() == Input.Type.INVENTORY_BUTTON) {
+        if(container.contains(MenuQueries.PAGE_BUTTONS, MenuQueries.PAGE_HEIGHT, MenuQueries.PAGE_LENGTH) && input.type() == InputTypes.INVENTORY_BUTTON) {
             return Optional.of(new InventoryButtonPage(title, container.getSerializableList(MenuQueries.PAGE_BUTTONS, Button.class).get(), container.getInt(MenuQueries.PAGE_HEIGHT).get(), container.getInt(MenuQueries.PAGE_LENGTH).get(), id));
         }
         return Optional.empty();

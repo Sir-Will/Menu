@@ -22,6 +22,7 @@
 package com.gmail.socraticphoenix.sponge.menu.impl.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.TextPage;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
@@ -38,7 +39,7 @@ public class ChatTextPage implements TextPage {
     public ChatTextPage(Text title, String id) {
         this.title = title;
         this.id = id;
-        this.input = new SimpleInput(Input.Type.CHAT_TEXT_INPUT);
+        this.input = new SimpleInput(InputTypes.CHAT_TEXT);
     }
 
     @Override
@@ -54,6 +55,11 @@ public class ChatTextPage implements TextPage {
     @Override
     public String id() {
         return this.id;
+    }
+
+    @Override
+    public boolean isChatBased() {
+        return true;
     }
 
     @Override

@@ -24,6 +24,7 @@ package com.gmail.socraticphoenix.sponge.menu.impl.page;
 import com.gmail.socraticphoenix.sponge.menu.Button;
 import com.gmail.socraticphoenix.sponge.menu.ButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.PageTarget;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
@@ -46,7 +47,7 @@ public class InventoryButtonPage implements ButtonPage {
 
     public InventoryButtonPage(Text title, List<Button> buttons, int height, int length, String id) {
         this.title = title;
-        this.input = new SimpleInput(Input.Type.INVENTORY_BUTTON);
+        this.input = new SimpleInput(InputTypes.INVENTORY_BUTTON);
         this.buttons = Collections.unmodifiableList(buttons);
         this.height = height;
         this.length = length;
@@ -80,6 +81,11 @@ public class InventoryButtonPage implements ButtonPage {
     @Override
     public String id() {
         return this.id;
+    }
+
+    @Override
+    public boolean isChatBased() {
+        return false;
     }
 
     @Override

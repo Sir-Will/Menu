@@ -22,8 +22,9 @@
 package com.gmail.socraticphoenix.sponge.menu.data.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
-import com.gmail.socraticphoenix.sponge.menu.impl.page.BookTextPage;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatTextPage;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.text.Text;
 
@@ -33,8 +34,8 @@ public class ChatTextPageReader implements PageReader {
 
     @Override
     public Optional<Page> read(Text title, Input input, String id, DataView container) {
-        if(input.type() == Input.Type.CHAT_TEXT_INPUT) {
-            return Optional.of(new BookTextPage(title, id));
+        if(input.type() == InputTypes.CHAT_TEXT) {
+            return Optional.of(new ChatTextPage(title, id));
         }
         return Optional.empty();
     }

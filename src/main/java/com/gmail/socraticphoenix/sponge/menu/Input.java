@@ -21,29 +21,10 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.data.DataView;
-
-import java.util.Optional;
 
 public interface Input extends DataSerializable {
 
-    static Optional<Input> deserialize(DataView view, DataQuery query) {
-        return (Optional<Input>) (view.getSerializable(query, SimpleInput.class).isPresent() ? view.getSerializable(query, SimpleInput.class) :
-                Optional.empty());
-    }
-
-    Type type();
-
-    enum Type {
-        INVENTORY_BUTTON,
-        BOOK_TEXT_INPUT,
-        CHAT_TEXT_INPUT,
-        CHAT_BUTTON_INPUT,
-        BOOK_BUTTON_INPUT,
-        EMPTY
-    }
+    InputType type();
 
 }

@@ -19,52 +19,60 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu;
+package com.gmail.socraticphoenix.sponge.menu.impl.page;
 
+import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputTypes;
+import com.gmail.socraticphoenix.sponge.menu.TextPage;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import org.spongepowered.api.Sponge;
+import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
-import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.text.Text;
 
-public abstract class Formatter<T extends Page, K extends PageTarget> implements DataSerializable {
-    private Class<T> page;
-    private Class<K> target;
-    private PluginContainer plugin;
+public class AnvilTextPage implements TextPage {
+    private Text title;
+    private String id;
+    private Input input;
 
-    public Formatter(Class<T> page, Class<K> target, Object plugin) {
-        this(page, target, Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")));
+    public AnvilTextPage(Text title, String id) {
+        this.title = title;
+        this.id = id;
+        this.input = new SimpleInput(InputTypes.ANVIL_TEXT_PAGE);
     }
 
-    public Formatter(Class<T> page, Class<K> target, PluginContainer plugin) {
-        this.page = page;
-        this.target = target;
-        this.plugin = plugin;
+    @Override
+    public Text title() {
+        return this.title;
     }
 
-    public abstract void format(T page, K target, PluginContainer owner);
-
-    public Class<T> page() {
-        return this.page;
+    @Override
+    public Input input() {
+        return this.input;
     }
 
-    public Class<K> target() {
-        return this.target;
+    @Override
+    public String id() {
+        return this.id;
     }
 
+    @Override
+    public boolean isChatBased() {
+        return false;
+    }
 
-    public PluginContainer owner() {
-        return this.plugin;
+    @Override
+    public int getContentVersion() {
+        return 1;
     }
 
     @Override
     public DataContainer toContainer() {
         return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.FORMATTER_OWNER, this.plugin.getId())
-                .set(MenuQueries.FORMATTER_PAGE, this.page.getName())
-                .set(MenuQueries.FORMATTER_TARGET, this.target.getName());
+                .set(MenuQueries.PAGE_TITLE, this.title)
+                .set(MenuQueries.PAGE_INPUT, this.input)
+                .set(MenuQueries.PAGE_ID, this.id);
     }
 
 }
