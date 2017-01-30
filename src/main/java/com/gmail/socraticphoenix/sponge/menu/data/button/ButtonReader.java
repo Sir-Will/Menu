@@ -22,14 +22,17 @@
 package com.gmail.socraticphoenix.sponge.menu.data.button;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
+import com.gmail.socraticphoenix.sponge.menu.ButtonType;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.text.Text;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ButtonReader {
 
-    Optional<Button> read(Text title, String id, DataView container) throws InvalidDataException;
+    Optional<Button> read(ButtonType type, Text title, String id, List<Tracker> trackers, DataView container) throws InvalidDataException;
 
 }

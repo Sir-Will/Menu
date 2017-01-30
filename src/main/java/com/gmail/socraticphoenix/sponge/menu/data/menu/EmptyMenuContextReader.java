@@ -21,8 +21,9 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
+import com.gmail.socraticphoenix.sponge.menu.MenuTypes;
 import org.spongepowered.api.data.DataView;
 
 import java.util.Optional;
@@ -30,8 +31,8 @@ import java.util.Optional;
 public class EmptyMenuContextReader implements MenuContextReader {
 
     @Override
-    public Optional<MenuContext> read(Menu.Type type, DataView container) {
-        if(type == Menu.Type.EMPTY) {
+    public Optional<MenuContext> read(MenuType type, DataView container) {
+        if(type == MenuTypes.EMPTY) {
             return Optional.of(MenuContext.EMPTY);
         }
         return Optional.empty();

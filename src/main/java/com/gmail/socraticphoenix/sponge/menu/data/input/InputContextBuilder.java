@@ -46,7 +46,7 @@ public class InputContextBuilder extends AbstractDataBuilder<InputContext> {
     @Override
     protected Optional<InputContext> buildContent(DataView container) throws InvalidDataException {
         if (container.contains(MenuQueries.CONTEXT_INPUT_TYPE)) {
-            InputType type = container.getObject(MenuQueries.CONTEXT_INPUT_TYPE, InputType.class).get();
+            InputType type = container.getCatalogType(MenuQueries.CONTEXT_INPUT_TYPE, InputType.class).get();
             for (InputContextReader reader : InputContextBuilder.readers) {
                 Optional<InputContext> contextOptional = reader.read(type, container);
                 if (contextOptional.isPresent()) {

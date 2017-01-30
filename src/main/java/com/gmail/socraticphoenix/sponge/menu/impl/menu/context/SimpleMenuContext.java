@@ -30,11 +30,12 @@ import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuRegistry;
-import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.PageTarget;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
+import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.OrderedGridFormatter;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.SequentialTextFormatter;
@@ -67,14 +68,14 @@ public class SimpleMenuContext implements MenuContext {
 
     private int page;
     private InputContext context;
-    private Menu.Type type;
+    private MenuType type;
     private PluginContainer owner;
     private Set<Formatter> formatters;
     private Map<String, Formatter> specificFormatters;
     private SerializableMap variables;
     private MenuProperties properties;
 
-    public SimpleMenuContext(Menu.Type type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, SerializableMap variables, MenuProperties properties) {
+    public SimpleMenuContext(MenuType type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, SerializableMap variables, MenuProperties properties) {
         this.page = page;
         this.context = context;
         this.type = type;
@@ -111,7 +112,7 @@ public class SimpleMenuContext implements MenuContext {
     }
 
     @Override
-    public Menu.Type type() {
+    public MenuType type() {
         return this.type;
     }
 

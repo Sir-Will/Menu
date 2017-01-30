@@ -30,10 +30,10 @@ import org.spongepowered.api.data.Queries;
 public class SerializablePair<L, R> implements DataSerializable {
     private L left;
     private R right;
-    private Class<? super L> leftTarget;
-    private Class<? super    R> rightTarget;
+    private Class<? extends L> leftTarget;
+    private Class<? extends R> rightTarget;
 
-    public SerializablePair(L left, R right, Class<? super L> leftTarget, Class<? super R> rightTarget) {
+    public SerializablePair(L left, R right, Class<? extends L> leftTarget, Class<? extends R> rightTarget) {
         this.left = left;
         this.right = right;
         this.leftTarget = leftTarget;
@@ -48,11 +48,11 @@ public class SerializablePair<L, R> implements DataSerializable {
         return this.right;
     }
 
-    public Class<? super L> getLeftTarget() {
+    public Class<? extends L> getLeftTarget() {
         return this.leftTarget;
     }
 
-    public Class<? super R> getRightTarget() {
+    public Class<? extends R> getRightTarget() {
         return this.rightTarget;
     }
 

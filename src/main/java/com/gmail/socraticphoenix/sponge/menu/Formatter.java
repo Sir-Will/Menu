@@ -21,13 +21,23 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.flowpowered.math.vector.Vector2i;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.CategoricalTextFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.OrderedGridFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.SequentialTextFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.StrictGridFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.tree.TreeNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.text.Text;
+
+import java.util.List;
+import java.util.Map;
 
 public abstract class Formatter<T extends Page, K extends PageTarget> implements DataSerializable {
     private Class<T> page;
@@ -36,6 +46,22 @@ public abstract class Formatter<T extends Page, K extends PageTarget> implements
 
     public Formatter(Class<T> page, Class<K> target, Object plugin) {
         this(page, target, Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")));
+    }
+
+    public static Formatter categoricalText(Object plugin, TreeNode categories, Text indent) {
+        return new CategoricalTextFormatter(plugin, categories, indent);
+    }
+
+    public static Formatter sequentialText(Object plugin, Text separator) {
+        return new SequentialTextFormatter(plugin, separator);
+    }
+
+    public static Formatter orderedGrid(Object plugin, boolean vertical) {
+        return new OrderedGridFormatter(plugin, vertical);
+    }
+
+    public static Formatter strictGrid(Object plugin, Map<String, List<Vector2i>> locations) {
+        return new StrictGridFormatter(locations, plugin);
     }
 
     public Formatter(Class<T> page, Class<K> target, PluginContainer plugin) {

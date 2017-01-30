@@ -32,15 +32,22 @@ import java.util.Optional;
 
 public class InputTypeCatalog implements CatalogRegistryModule<InputType> {
     private static InputTypeCatalog instance = new InputTypeCatalog();
+    private Map<String, InputType> types;
+
+    private InputTypeCatalog() {
+        this.types = new LinkedHashMap<>();
+        registerDefaults();
+    }
 
     public static InputTypeCatalog instance() {
         return InputTypeCatalog.instance;
     }
 
-    private Map<String, InputType> types;
-
-    private InputTypeCatalog() {
-        this.types = new LinkedHashMap<>();
+    public void register(InputType type) {
+        if (this.types.containsKey(type.getId())) {
+            throw new IllegalArgumentException("InputType with id \"" + type.getId() + "\" is already registered");
+        }
+        this.types.put(type.getId(), type);
     }
 
     @Override
@@ -51,13 +58,6 @@ public class InputTypeCatalog implements CatalogRegistryModule<InputType> {
         register(InputTypes.ANVIL_TEXT_PAGE);
         register(InputTypes.EMPTY);
         register(InputTypes.UNKNOWN);
-    }
-
-    public void register(InputType type) {
-        if(this.types.containsKey(type.getId())) {
-            throw new IllegalArgumentException("InputType with id \"" + type.getId() + "\" is already registered");
-        }
-        this.types.put(type.getId(), type);
     }
 
     @Override

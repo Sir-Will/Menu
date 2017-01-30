@@ -23,12 +23,12 @@ package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.InputContext;
-import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
-import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
 import org.spongepowered.api.Sponge;
@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 public class SimpleMenuContextReader implements MenuContextReader {
 
     @Override
-    public Optional<MenuContext> read(Menu.Type type, DataView container) {
+    public Optional<MenuContext> read(MenuType type, DataView container) {
         if(container.contains(MenuQueries.CONTEXT_PAGE, MenuQueries.MENU_OWNER, MenuQueries.CONTEXT_INPUT, MenuQueries.CONTEXT_FORMATTERS, MenuQueries.CONTEXT_SPECIFIC_FORMATTERS, MenuQueries.CONTEXT_VARIABLES, MenuQueries.CONTEXT_PROPERTIES)) {
             Map<String, Formatter> specificFormatters = new HashMap<>();
             List<SerializablePair<String, Formatter>> formatters = (List<SerializablePair<String, Formatter>>) (List<?>) container.getSerializableList(MenuQueries.CONTEXT_SPECIFIC_FORMATTERS, SerializablePair.class).get();

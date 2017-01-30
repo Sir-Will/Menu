@@ -21,12 +21,10 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.builder.SendableMenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import com.gmail.socraticphoenix.sponge.menu.impl.menu.SimpleMenu;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 
@@ -38,17 +36,10 @@ public interface Menu extends DataSerializable {
 
     List<Page> pages();
 
-    Type type();
+    MenuType type();
 
-    enum Type {
-        EMPTY,
-        SIMPLE,
-        CUSTOM
-    }
-
-    static Menu deserialize(DataView view, DataQuery query) {
-        return view.getSerializable(query, SimpleMenu.class).isPresent() ? view.getSerializable(query, SimpleMenu.class).get() :
-                Menu.EMPTY;
+    static SendableMenuBuilder builder(Object plugin) {
+        return new SendableMenuBuilder(plugin);
     }
 
     class Empty implements Menu {
@@ -59,8 +50,8 @@ public interface Menu extends DataSerializable {
         }
 
         @Override
-        public Type type() {
-            return Type.EMPTY;
+        public MenuType type() {
+            return MenuTypes.EMPTY;
         }
 
         @Override

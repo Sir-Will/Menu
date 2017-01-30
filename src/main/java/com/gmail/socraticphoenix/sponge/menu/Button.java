@@ -21,23 +21,14 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
-import com.gmail.socraticphoenix.sponge.menu.impl.button.TextButton;
-import org.spongepowered.api.data.DataQuery;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface Button extends DataSerializable {
-
-    static Optional<Button> deserialize(DataView view, DataQuery query) {
-        return (Optional<Button>) (view.getSerializable(query, ItemButton.class).isPresent() ? view.getSerializable(query, ItemButton.class) :
-                view.getSerializable(query, TextButton.class).isPresent() ? view.getSerializable(query, TextButton.class) :
-                        Optional.empty());
-    }
 
     Text title();
 
@@ -45,12 +36,8 @@ public interface Button extends DataSerializable {
 
     String id();
 
-    Type type();
+    ButtonType type();
 
-    enum Type {
-        TEXT,
-        ITEM,
-        CUSTOM
-    }
+    List<Tracker> trackers();
 
 }

@@ -22,12 +22,13 @@
 package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import org.spongepowered.api.data.DataView;
 
 import java.util.Optional;
 
 public interface MenuReader {
 
-    Optional<Menu> read(Menu.Type type, DataView container);
+    Optional<Menu> read(MenuType type, DataView container);
 
 }

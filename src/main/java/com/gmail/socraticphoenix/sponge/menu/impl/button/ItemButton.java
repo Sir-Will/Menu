@@ -21,58 +21,31 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.impl.button;
 
+import com.gmail.socraticphoenix.sponge.menu.ButtonTypes;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ButtonData;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
-public class ItemButton extends AbstractButton {
-    private Text text;
-    private ItemStack icon;
-    private String id;
+import java.util.List;
 
-    public ItemButton(Text text, ItemStack icon, String id) {
+public class ItemButton extends AbstractButton {
+
+    public ItemButton(Text text, ItemStack icon, List<Tracker> trackers, String id) {
+        super(trackers, id, text, ButtonTypes.ITEM, icon);
         if(id.contains(" ")) {
-            throw new IllegalArgumentException("Button IDs may not containe spaces");
+            throw new IllegalArgumentException("Button IDs may not contain spaces");
         }
         if(icon.get(ButtonData.class).isPresent()) {
             icon.remove(ButtonData.class);
         }
-
-        this.text = text;
-        this.icon = icon;
-        this.id = id;
-    }
-
-    @Override
-    public Text title() {
-        return this.text;
-    }
-
-    @Override
-    public ItemStack icon() {
-        return this.icon;
-    }
-
-    @Override
-    public String id() {
-        return this.id;
-    }
-
-    @Override
-    public Type type() {
-        return Type.ITEM;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
     }
 
     @Override
     public DataContainer toContainer() {
-        return super.toContainer().set(MenuQueries.BUTTON_ICON, this.icon);
+        return super.toContainer().set(MenuQueries.BUTTON_ICON, this.icon());
     }
 
 }

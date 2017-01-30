@@ -22,6 +22,7 @@
 package com.gmail.socraticphoenix.sponge.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataQuery;
@@ -47,7 +48,7 @@ public interface MenuContext extends DataSerializable {
 
     InputContext input();
 
-    Menu.Type type();
+    MenuType type();
 
     PluginContainer owner();
 
@@ -78,8 +79,8 @@ public interface MenuContext extends DataSerializable {
         }
 
         @Override
-        public Menu.Type type() {
-            return Menu.Type.EMPTY;
+        public MenuType type() {
+            return MenuTypes.EMPTY;
         }
 
         @Override

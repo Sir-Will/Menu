@@ -22,6 +22,8 @@
 package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
+import com.gmail.socraticphoenix.sponge.menu.MenuTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.SimpleMenu;
@@ -32,8 +34,8 @@ import java.util.Optional;
 public class SimpleMenuReader implements MenuReader {
 
     @Override
-    public Optional<Menu> read(Menu.Type type, DataView container) {
-        if(type == Menu.Type.SIMPLE && container.contains(MenuQueries.MENU_PAGES)) {
+    public Optional<Menu> read(MenuType type, DataView container) {
+        if(type == MenuTypes.SIMPLE && container.contains(MenuQueries.MENU_PAGES)) {
             return Optional.of(new SimpleMenu(container.getSerializableList(MenuQueries.MENU_PAGES, Page.class).get()));
         }
         return null;

@@ -19,11 +19,11 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu;
+package com.gmail.socraticphoenix.sponge.menu.data.map;
 
+import com.gmail.socraticphoenix.sponge.menu.builder.SerializableMapBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
@@ -34,8 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
-public class SerializableMap implements DataSerializable {
+public class SerializableMap<K, V> implements DataSerializable {
     private static Map<Class, Class> primitivesByBox;
 
     static {
@@ -52,27 +53,39 @@ public class SerializableMap implements DataSerializable {
 
     }
 
-    private Map<String, SerializablePair<String, ?>> variables;
+    private Map<K, SerializablePair<K, V>> variables;
 
-    public SerializableMap(Map<String, SerializablePair<String, ?>> variables) {
+    public static <L, R> com.gmail.socraticphoenix.sponge.menu.builder.SerializableMapBuilder<L, R> builder() {
+        return new SerializableMapBuilder<>();
+    }
+
+    public SerializableMap(Map<K, SerializablePair<K, V>> variables) {
         this.variables = variables;
+    }
+
+    public SerializablePair<K, V> rawGet(K key) {
+        return this.variables.get(key);
+    }
+
+    public void rawPut(SerializablePair<K, V> pair) {
+        this.put(pair.getLeft(), pair.getRight(), pair.getLeftTarget(), pair.getRightTarget());
     }
 
     public SerializableMap() {
         this.variables = new HashMap<>();
     }
 
-    public <T> Optional<T> get(String key) {
-        SerializablePair<String, ?> pair = variables.get(key);
-        return pair == null ? Optional.empty() : (Optional<T>) Optional.of(pair.getRight());
+    public Set<K> keySet() {
+        return this.variables.keySet();
     }
 
-    public <T> void put(String key, T object, Class<? super T> type) {
-        if (Sponge.getDataManager().getTranslator(type).isPresent() || DataSerializable.class.isAssignableFrom(type) || type.isPrimitive() || SerializableMap.primitivesByBox.containsKey(type)) {
-            this.variables.put(key, new SerializablePair<>(key, object, String.class, type));
-        } else {
-            throw new IllegalArgumentException(type + " is not DataSerializable or DataTranslatable");
-        }
+    public Optional<V> get(K key) {
+        SerializablePair<K, V> pair = this.variables.get(key);
+        return pair == null ? Optional.empty() : Optional.of(pair.getRight());
+    }
+
+    public void put(K key, V object, Class<? extends K> keyType, Class<? extends V> valueType) {
+        this.variables.put(key, new SerializablePair(key, object, keyType, valueType));
     }
 
     @Override
@@ -82,7 +95,7 @@ public class SerializableMap implements DataSerializable {
 
     @Override
     public DataContainer toContainer() {
-        List<SerializablePair<String, ?>> variables = new ArrayList<>();
+        List<SerializablePair<K, V>> variables = new ArrayList<>();
         variables.addAll(this.variables.values());
         return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
                 .set(MenuQueries.VARIABLES, variables);

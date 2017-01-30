@@ -23,13 +23,15 @@ package com.gmail.socraticphoenix.sponge.menu.data.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.text.Text;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PageReader {
 
-    Optional<Page> read(Text title, Input input, String id, DataView container);
+    Optional<Page> read(Text title, Input input, String id, List<Tracker> trackers, DataView container);
 
 }

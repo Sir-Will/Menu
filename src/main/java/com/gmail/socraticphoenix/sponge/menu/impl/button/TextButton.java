@@ -21,45 +21,21 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.impl.button;
 
+import com.gmail.socraticphoenix.sponge.menu.ButtonTypes;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
-public class TextButton extends AbstractButton {
-    private Text text;
-    private String id;
+import java.util.List;
 
-    public TextButton(Text text, String id) {
+public class TextButton extends AbstractButton {
+
+    public TextButton(Text text, String id, List<Tracker> trackers) {
+        super(trackers, id, text, ButtonTypes.TEXT, ItemStack.of(ItemTypes.EMERALD, 1));
         if(id.contains(" ")) {
             throw new IllegalArgumentException("Button IDs may not containe spaces");
         }
-        this.text = text;
-        this.id = id;
-    }
-
-    @Override
-    public Text title() {
-        return this.text;
-    }
-
-    @Override
-    public ItemStack icon() {
-        return ItemStack.of(ItemTypes.EMERALD, 1);
-    }
-
-    @Override
-    public String id() {
-        return this.id;
-    }
-
-    @Override
-    public Type type() {
-        return Type.TEXT;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
     }
 
 }

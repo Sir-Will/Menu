@@ -19,36 +19,18 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data;
+package com.gmail.socraticphoenix.sponge.menu.data.tracker;
 
-import com.gmail.socraticphoenix.sponge.menu.SerializableMap;
-import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
+import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
-import org.spongepowered.api.data.persistence.AbstractDataBuilder;
-import org.spongepowered.api.data.persistence.InvalidDataException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
-public class SerializableMapBuilder extends AbstractDataBuilder<SerializableMap> {
+public interface TrackerReader {
 
-    public SerializableMapBuilder() {
-        super(SerializableMap.class, 1);
-    }
-
-    @Override
-    protected Optional<SerializableMap> buildContent(DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.VARIABLES)) {
-            List<SerializablePair<String, ?>> variables = (List<SerializablePair<String, ?>>) (List<?>) container.getSerializableList(MenuQueries.VARIABLES, SerializablePair.class).get();
-            Map<String, SerializablePair<String, ?>> varMap = new HashMap<>();
-            for(SerializablePair<String, ?> variable : variables) {
-                varMap.put(variable.getLeft(), variable);
-            }
-            return Optional.of(new SerializableMap(varMap));
-        }
-        return Optional.empty();
-    }
+    Optional<Tracker> read(Class<? extends MenuInputEvent> event, Class<? extends BiConsumer> listener, SerializableMap vars, String id, DataView container);
 
 }

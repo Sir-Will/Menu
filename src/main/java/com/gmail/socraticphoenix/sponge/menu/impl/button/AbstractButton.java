@@ -22,18 +22,76 @@
 package com.gmail.socraticphoenix.sponge.menu.impl.button;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
+import com.gmail.socraticphoenix.sponge.menu.ButtonType;
+import com.gmail.socraticphoenix.sponge.menu.MenuRegistry;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.data.tracker.DummyConsumer;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractButton implements Button {
+    private List<Tracker> trackers;
+    private String id;
+    private Text title;
+    private ButtonType type;
+    private ItemStack icon;
+
+
+    public AbstractButton(List<Tracker> trackers, String id, Text title, ButtonType type, ItemStack icon) {
+        trackers = trackers.stream().filter(t -> !(t.getConsumer() instanceof DummyConsumer)).collect(Collectors.toList());
+        this.trackers = Collections.unmodifiableList(trackers);
+        trackers.forEach(MenuRegistry::addTracker);
+        this.id = id;
+        this.title = title;
+        this.type = type;
+        this.icon = icon;
+    }
+
+
+    @Override
+    public List<Tracker> trackers() {
+        return this.trackers;
+    }
+
+    @Override
+    public Text title() {
+        return this.title;
+    }
+
+    @Override
+    public String id() {
+        return this.id;
+    }
+
+    @Override
+    public ButtonType type() {
+        return this.type;
+    }
+
+    @Override
+    public ItemStack icon() {
+        return this.icon;
+    }
+
+    @Override
+    public int getContentVersion() {
+        return 1;
+    }
 
     @Override
     public DataContainer toContainer() {
         return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
                 .set(MenuQueries.BUTTON_TYPE, this.type())
-                .set(MenuQueries.BUTTON_TITLE, this.title());
+                .set(MenuQueries.BUTTON_TITLE, this.title())
+                .set(MenuQueries.BUTTON_TRACKERS, this.trackers());
     }
 
 }

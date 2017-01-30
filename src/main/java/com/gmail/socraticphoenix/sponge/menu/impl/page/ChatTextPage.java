@@ -21,58 +21,19 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.impl.page;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.TextPage;
-import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.Queries;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.text.Text;
 
-public class ChatTextPage implements TextPage {
-    private Text title;
-    private Input input;
-    private String id;
+import java.util.List;
 
-    public ChatTextPage(Text title, String id) {
-        this.title = title;
-        this.id = id;
-        this.input = new SimpleInput(InputTypes.CHAT_TEXT);
-    }
+public class ChatTextPage extends AbstractPage implements TextPage {
 
-    @Override
-    public Text title() {
-        return this.title;
-    }
-
-    @Override
-    public Input input() {
-        return this.input;
-    }
-
-    @Override
-    public String id() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isChatBased() {
-        return true;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.PAGE_TITLE, this.title)
-                .set(MenuQueries.PAGE_INPUT, this.input)
-                .set(MenuQueries.PAGE_ID, this.id);
+    public ChatTextPage(Text title, String id, List<Tracker> trackers) {
+        super(title, new SimpleInput(InputTypes.CHAT_TEXT), TextTarget::new, id, trackers, true);
     }
 
 }

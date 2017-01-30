@@ -22,6 +22,7 @@
 package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
@@ -45,7 +46,7 @@ public class MenuBuilder extends AbstractDataBuilder<Menu> {
     @Override
     protected Optional<Menu> buildContent(DataView container) throws InvalidDataException {
         if(container.contains(MenuQueries.MENU_TYPE)) {
-            Menu.Type type = container.getObject(MenuQueries.MENU_TYPE, Menu.Type.class).get();
+            MenuType type = container.getCatalogType(MenuQueries.MENU_TYPE, MenuType.class).get();
             for(MenuReader reader : MenuBuilder.readers) {
                 Optional<Menu> menuOptional = reader.read(type, container);
                 if (menuOptional.isPresent()) {

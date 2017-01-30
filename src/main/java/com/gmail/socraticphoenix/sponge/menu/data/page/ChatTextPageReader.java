@@ -25,17 +25,19 @@ import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatTextPage;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.text.Text;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ChatTextPageReader implements PageReader {
 
     @Override
-    public Optional<Page> read(Text title, Input input, String id, DataView container) {
+    public Optional<Page> read(Text title, Input input, String id, List<Tracker> trackers, DataView container) {
         if(input.type() == InputTypes.CHAT_TEXT) {
-            return Optional.of(new ChatTextPage(title, id));
+            return Optional.of(new ChatTextPage(title, id, trackers));
         }
         return Optional.empty();
     }

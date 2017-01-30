@@ -27,17 +27,19 @@ import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.InventoryButtonPage;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.text.Text;
 
+import java.util.List;
 import java.util.Optional;
 
 public class InventoryButtonPageReader implements PageReader {
 
     @Override
-    public Optional<Page> read(Text title, Input input, String id, DataView container) {
+    public Optional<Page> read(Text title, Input input, String id, List<Tracker> trackers, DataView container) {
         if(container.contains(MenuQueries.PAGE_BUTTONS, MenuQueries.PAGE_HEIGHT, MenuQueries.PAGE_LENGTH) && input.type() == InputTypes.INVENTORY_BUTTON) {
-            return Optional.of(new InventoryButtonPage(title, container.getSerializableList(MenuQueries.PAGE_BUTTONS, Button.class).get(), container.getInt(MenuQueries.PAGE_HEIGHT).get(), container.getInt(MenuQueries.PAGE_LENGTH).get(), id));
+            return Optional.of(new InventoryButtonPage(title, container.getSerializableList(MenuQueries.PAGE_BUTTONS, Button.class).get(), trackers, container.getInt(MenuQueries.PAGE_HEIGHT).get(), container.getInt(MenuQueries.PAGE_LENGTH).get(), id));
         }
         return Optional.empty();
     }

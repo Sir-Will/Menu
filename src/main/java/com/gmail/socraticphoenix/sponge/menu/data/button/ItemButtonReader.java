@@ -22,21 +22,25 @@
 package com.gmail.socraticphoenix.sponge.menu.data.button;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
+import com.gmail.socraticphoenix.sponge.menu.ButtonType;
+import com.gmail.socraticphoenix.sponge.menu.ButtonTypes;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ItemButtonReader implements ButtonReader {
 
     @Override
-    public Optional<Button> read(Text title, String id, DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.BUTTON_ICON)) {
-            return Optional.of(new ItemButton(title, container.getSerializable(MenuQueries.BUTTON_ICON, ItemStack.class).get(), id));
+    public Optional<Button> read(ButtonType type, Text title, String id, List<Tracker> trackers, DataView container) throws InvalidDataException {
+        if(type == ButtonTypes.ITEM) {
+            return Optional.of(new ItemButton(title, container.getSerializable(MenuQueries.BUTTON_ICON, ItemStack.class).get(), trackers, id));
         }
         return Optional.empty();
     }

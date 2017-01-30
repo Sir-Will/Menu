@@ -25,6 +25,14 @@ import org.spongepowered.api.data.DataQuery;
 
 public interface MenuQueries {
 
+    DataQuery TRACKER_VARS = DataQuery.of('.', "menuapi.tracker.vars");
+    DataQuery TRACKER_LISTENER = DataQuery.of('.', "menuapi.tracker.listener");
+    DataQuery TRACKER_EVENT = DataQuery.of('.', "menuapi.tracker.event");
+    DataQuery TRACKER_BUTTON = DataQuery.of('.', "menuapi.tracker.button.id");
+    DataQuery TRACKER_PLUGIN = DataQuery.of('.', "menuapi.tracker.plugin");
+    DataQuery TRACKER_ID = DataQuery.of('.', "menuapi.tracker.id");
+    DataQuery TRACKER_PAGE = DataQuery.of('.', "menuapi.tracker.page.id");
+
     DataQuery VARIABLES = DataQuery.of('.', "menuapi.map.variables");
 
     DataQuery SENDABLE_MENU = DataQuery.of('.', "menuapi.sendable.menu");
@@ -37,6 +45,7 @@ public interface MenuQueries {
     DataQuery BUTTON_ICON = DataQuery.of('.', "menuapi.button.icon");
     DataQuery BUTTON_TITLE = DataQuery.of('.', "menuapi.button.title");
     DataQuery BUTTON_ID = DataQuery.of('.', "menuapi.button.id");
+    DataQuery BUTTON_TRACKERS = DataQuery.of('.', "menuapi.button.trackers");
 
     DataQuery MENU_TYPE = DataQuery.of('.', "menuapi.menu.type");
     DataQuery MENU_PAGES = DataQuery.of('.', "menuapi.menu.pages");
@@ -63,6 +72,7 @@ public interface MenuQueries {
     DataQuery PAGE_BUTTONS = DataQuery.of('.', "menuapi.page.buttons");
     DataQuery PAGE_HEIGHT = DataQuery.of('.', "menuapi.page.height");
     DataQuery PAGE_LENGTH = DataQuery.of('.', "menuapi.page.length");
+    DataQuery PAGE_TRACKERS = DataQuery.of('.', "menuapi.page.trackers");
 
     DataQuery SERIALIZABLE_PAIR_LEFT = DataQuery.of('.', "menuapi.pair.left");
     DataQuery SERIALIZABLE_PAIR_RIGHT = DataQuery.of('.', "menuapi.pair.right");
@@ -82,8 +92,4 @@ public interface MenuQueries {
 
     DataQuery TREE_CHILDREN = DataQuery.of('.', "menuapi.tree.children");
     DataQuery TREE_VALUE = DataQuery.of('.', "menuapi.tree.value");
-
-    DataQuery CATALOG_ID = DataQuery.of('.', "menuapi.catalog.id");
-
-
 }

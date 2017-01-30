@@ -22,30 +22,24 @@
 package com.gmail.socraticphoenix.sponge.menu.impl.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
-import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.ButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
-import com.gmail.socraticphoenix.sponge.menu.TextButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.Queries;
 import org.spongepowered.api.text.Text;
 
 import java.util.Collections;
 import java.util.List;
 
-public class ChatButtonPage implements TextButtonPage {
-    private Text title;
-    private Input input;
+public class ChatButtonPage extends AbstractPage implements ButtonPage {
     private List<Button> buttons;
-    private String id;
 
-    public ChatButtonPage(Text title, List<Button> buttons, String id) {
-        this.title = title;
-        this.input = new SimpleInput(InputTypes.CHAT_BUTTON);
+    public ChatButtonPage(Text title, List<Button> buttons, List<Tracker> trackers, String id) {
+        super(title, new SimpleInput(InputTypes.CHAT_BUTTON), TextTarget::new, id, trackers, true);
         this.buttons = Collections.unmodifiableList(buttons);
-        this.id = id;
     }
 
     @Override
@@ -53,38 +47,10 @@ public class ChatButtonPage implements TextButtonPage {
         return this.buttons;
     }
 
-    @Override
-    public Text title() {
-        return this.title;
-    }
-
-    @Override
-    public Input input() {
-        return this.input;
-    }
-
-    @Override
-    public String id() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isChatBased() {
-        return true;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
-    }
 
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.PAGE_TITLE, this.title)
-                .set(MenuQueries.PAGE_INPUT, this.input)
-                .set(MenuQueries.PAGE_BUTTONS, this.buttons)
-                .set(MenuQueries.PAGE_ID, this.id);
+        return super.toContainer().set(MenuQueries.PAGE_BUTTONS, this.buttons);
     }
 
 }

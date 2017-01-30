@@ -21,58 +21,20 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.impl.page;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.TextPage;
-import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.Queries;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.text.Text;
 
-public class AnvilTextPage implements TextPage {
-    private Text title;
-    private String id;
-    private Input input;
+import java.util.List;
 
-    public AnvilTextPage(Text title, String id) {
-        this.title = title;
-        this.id = id;
-        this.input = new SimpleInput(InputTypes.ANVIL_TEXT_PAGE);
+public class AnvilTextPage extends AbstractPage implements TextPage {
+
+    public AnvilTextPage(Text title, String id, List<Tracker> trackers) {
+        super(title, new SimpleInput(InputTypes.ANVIL_TEXT_PAGE), TextTarget::new, id, trackers, false);
     }
 
-    @Override
-    public Text title() {
-        return this.title;
-    }
-
-    @Override
-    public Input input() {
-        return this.input;
-    }
-
-    @Override
-    public String id() {
-        return this.id;
-    }
-
-    @Override
-    public boolean isChatBased() {
-        return false;
-    }
-
-    @Override
-    public int getContentVersion() {
-        return 1;
-    }
-
-    @Override
-    public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.PAGE_TITLE, this.title)
-                .set(MenuQueries.PAGE_INPUT, this.input)
-                .set(MenuQueries.PAGE_ID, this.id);
-    }
 
 }

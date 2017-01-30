@@ -23,35 +23,27 @@ package com.gmail.socraticphoenix.sponge.menu.impl.page;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
 import com.gmail.socraticphoenix.sponge.menu.ButtonPage;
-import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
-import com.gmail.socraticphoenix.sponge.menu.PageTarget;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.GridTarget;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.MemoryDataContainer;
-import org.spongepowered.api.data.Queries;
 import org.spongepowered.api.text.Text;
 
 import java.util.Collections;
 import java.util.List;
 
-public class InventoryButtonPage implements ButtonPage {
-    private Text title;
-    private Input input;
+public class InventoryButtonPage extends AbstractPage implements ButtonPage {
     private List<Button> buttons;
     private int height;
     private int length;
-    private String id;
 
-    public InventoryButtonPage(Text title, List<Button> buttons, int height, int length, String id) {
-        this.title = title;
-        this.input = new SimpleInput(InputTypes.INVENTORY_BUTTON);
+    public InventoryButtonPage(Text title, List<Button> buttons, List<Tracker> trackers, int height, int length, String id) {
+        super(title, new SimpleInput(InputTypes.INVENTORY_BUTTON), () -> new GridTarget(length, height), id, trackers, false);
         this.buttons = Collections.unmodifiableList(buttons);
         this.height = height;
         this.length = length;
-        this.id = id;
         if(length > 9 || length < 1) {
             throw new IllegalArgumentException("Length may not be greater than 9 or less than 1");
         } else if (height > 6 || height < 1) {
@@ -61,26 +53,6 @@ public class InventoryButtonPage implements ButtonPage {
 
     public List<Button> buttons() {
         return this.buttons;
-    }
-
-    @Override
-    public Text title() {
-        return this.title;
-    }
-
-    @Override
-    public Input input() {
-        return this.input;
-    }
-
-    @Override
-    public PageTarget produceTarget() {
-        return new GridTarget(this.length, this.height);
-    }
-
-    @Override
-    public String id() {
-        return this.id;
     }
 
     @Override
@@ -95,13 +67,9 @@ public class InventoryButtonPage implements ButtonPage {
 
     @Override
     public DataContainer toContainer() {
-        return new MemoryDataContainer().set(Queries.CONTENT_VERSION, this.getContentVersion())
-                .set(MenuQueries.PAGE_TITLE, this.title)
-                .set(MenuQueries.PAGE_INPUT, this.input)
-                .set(MenuQueries.PAGE_BUTTONS, this.buttons)
+        return super.toContainer().set(MenuQueries.PAGE_BUTTONS, this.buttons)
                 .set(MenuQueries.PAGE_HEIGHT, this.height)
-                .set(MenuQueries.PAGE_LENGTH, this.length)
-                .set(MenuQueries.PAGE_ID, this.id);
+                .set(MenuQueries.PAGE_LENGTH, this.length);
     }
 
 }

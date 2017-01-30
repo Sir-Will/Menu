@@ -21,8 +21,11 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.text.Text;
+
+import java.util.List;
 
 public interface Page extends DataSerializable {
 
@@ -33,6 +36,8 @@ public interface Page extends DataSerializable {
     PageTarget produceTarget();
 
     String id();
+
+    List<Tracker> trackers();
 
     boolean isChatBased();
 

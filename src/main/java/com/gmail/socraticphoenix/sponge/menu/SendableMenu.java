@@ -21,6 +21,7 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.builder.SendableMenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import org.spongepowered.api.Sponge;
@@ -52,6 +53,10 @@ public class SendableMenu implements DataSerializable {
         this.pluginId = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")).getId();
     }
 
+    public static SendableMenuBuilder builder(Object plugin) {
+        return new SendableMenuBuilder(plugin);
+    }
+
     public void send(Player target) {
         Sponge.getServiceManager().provideUnchecked(MenuService.class).send(this.menu, this.properties, target, this.plugin, this.specificFormatters, this.formatters);
     }
@@ -64,7 +69,7 @@ public class SendableMenu implements DataSerializable {
     @Override
     public DataContainer toContainer() {
         List<SerializablePair<String, Formatter>> specificFormatters = new ArrayList<>();
-        for(Map.Entry<String, Formatter> entry : this.specificFormatters.entrySet()) {
+        for (Map.Entry<String, Formatter> entry : this.specificFormatters.entrySet()) {
             specificFormatters.add(new SerializablePair<>(entry.getKey(), entry.getValue(), String.class, Formatter.class));
         }
         List<Formatter> formatters = new ArrayList<>();

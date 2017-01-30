@@ -90,7 +90,7 @@ public class MenuData extends AbstractData<MenuData, ImmutableMenuData> {
 
     public Optional<MenuData> from(DataView view) {
         if(view.contains(MenuKeys.PLAYER_MENU) && view.contains(MenuKeys.PLAYER_CONTEXT)) {
-            this.menu = Menu.deserialize(view, MenuKeys.PLAYER_MENU.getQuery());
+            this.menu = view.getSerializable(MenuKeys.PLAYER_MENU.getQuery(), Menu.class).get();
             this.context = MenuContext.deserialize(view, MenuKeys.PLAYER_CONTEXT.getQuery());
         }
         return Optional.empty();

@@ -21,14 +21,31 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class MenuRegistry {
     private static List<Finalizer> finalizers;
+    private static Map<String, Tracker> trackers;
 
     static {
         MenuRegistry.finalizers = new ArrayList<>();
+        MenuRegistry.trackers = new HashMap<>();
+    }
+
+    public static void addTracker(Tracker tracker) {
+        if(!MenuRegistry.trackers.containsKey(tracker.compositeId())) {
+            MenuRegistry.trackers.put(tracker.compositeId(), tracker);
+        }
+    }
+
+    public static Stream<Tracker> getTrackers() {
+        return MenuRegistry.trackers.values().stream();
     }
 
     public static void addFinalizer(Finalizer finalizer) {

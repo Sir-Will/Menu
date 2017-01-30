@@ -22,6 +22,8 @@
 package com.gmail.socraticphoenix.sponge.menu.impl.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
+import com.gmail.socraticphoenix.sponge.menu.MenuTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import org.spongepowered.api.data.DataContainer;
@@ -44,8 +46,8 @@ public class SimpleMenu implements Menu {
     }
 
     @Override
-    public Type type() {
-        return Type.SIMPLE;
+    public MenuType type() {
+        return MenuTypes.SIMPLE;
     }
 
     @Override

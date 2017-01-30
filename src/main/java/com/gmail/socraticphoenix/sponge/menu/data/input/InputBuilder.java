@@ -46,7 +46,7 @@ public class InputBuilder extends AbstractDataBuilder<Input> {
     @Override
     protected Optional<Input> buildContent(DataView container) throws InvalidDataException {
         if (container.contains(MenuQueries.INPUT_TYPE)) {
-            InputType type = container.getObject(MenuQueries.INPUT_TYPE, InputType.class).get();
+            InputType type = container.getCatalogType(MenuQueries.INPUT_TYPE, InputType.class).get();
             for (InputReader reader : InputBuilder.readers) {
                 Optional<Input> inputOptional = reader.read(type, container);
                 if (inputOptional.isPresent()) {

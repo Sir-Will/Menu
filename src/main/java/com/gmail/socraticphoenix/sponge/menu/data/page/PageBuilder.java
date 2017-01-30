@@ -24,6 +24,7 @@ package com.gmail.socraticphoenix.sponge.menu.data.page;
 import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
@@ -46,12 +47,13 @@ public class PageBuilder extends AbstractDataBuilder<Page> {
 
     @Override
     protected Optional<Page> buildContent(DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.PAGE_TITLE, MenuQueries.PAGE_INPUT, MenuQueries.PAGE_ID)) {
+        if(container.contains(MenuQueries.PAGE_TITLE, MenuQueries.PAGE_INPUT, MenuQueries.PAGE_ID, MenuQueries.PAGE_TRACKERS)) {
             Text title = container.getSerializable(MenuQueries.PAGE_TITLE, Text.class).get();
             Input input = container.getSerializable(MenuQueries.PAGE_INPUT, Input.class).get();
             String id = container.getString(MenuQueries.PAGE_ID).get();
+            List<Tracker> trackers = container.getSerializableList(MenuQueries.PAGE_TRACKERS, Tracker.class).orElse(new ArrayList<>());
             for(PageReader reader : PageBuilder.readers) {
-                Optional<Page> pageOptional = reader.read(title, input, id, container);
+                Optional<Page> pageOptional = reader.read(title, input, id, trackers, container);
                 if(pageOptional.isPresent()) {
                     return pageOptional;
                 }

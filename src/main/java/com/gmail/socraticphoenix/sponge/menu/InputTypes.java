@@ -23,11 +23,11 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 public interface InputTypes {
 
-    InputType INVENTORY_BUTTON = new InputType("inventory_button", "Inventory Button Input");
-    InputType CHAT_TEXT = new InputType("chat_text", "Chat Text Input");
-    InputType CHAT_BUTTON = new InputType("chat_button", "Chat Button Input");
-    InputType ANVIL_TEXT_PAGE = new InputType("anvil_text_page", "Anvil Text Page Input");
-    InputType EMPTY = new InputType("empty", "Empty Input");
-    InputType UNKNOWN = new InputType("unknown", "Unknown Input");
+    InputType INVENTORY_BUTTON = new InputType("menuapi:inventory_button", "Inventory Button Input");
+    InputType CHAT_TEXT = new InputType("menuapi:chat_text", "Chat Text Input");
+    InputType CHAT_BUTTON = new InputType("menuapi:chat_button", "Chat Button Input");
+    InputType ANVIL_TEXT_PAGE = new InputType("menuapi:anvil_text_page", "Anvil Text Page Input");
+    InputType EMPTY = new InputType("menuapi:empty", "Empty Input");
+    InputType UNKNOWN = new InputType("menuapi:unknown", "Unknown Input");
 
 }

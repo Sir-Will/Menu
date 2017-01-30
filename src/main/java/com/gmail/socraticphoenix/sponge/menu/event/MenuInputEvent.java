@@ -55,19 +55,66 @@ public abstract class MenuInputEvent extends AbstractEvent implements Cancellabl
     }
 
     public static class Button extends MenuInputEvent {
+        private String buttonId;
+        private PluginContainer buttonOwner;
+        private MenuContext context;
+        private Menu menu;
+        private Player player;
 
         public Button(Player player, String buttonId, PluginContainer buttonOwner, MenuContext context, Menu menu) {
             super(Cause.of(NamedCause.source(player), NamedCause.of("id", buttonId), NamedCause.of("owner", buttonOwner), NamedCause.of("context", context), NamedCause.of("menu", menu)));
+            this.buttonId = buttonId;
+            this.buttonOwner = buttonOwner;
+            this.context = context;
+            this.menu = menu;
+            this.player = player;
         }
 
+        public Player player() {
+            return this.player;
+        }
+
+        public String buttonId() {
+            return this.buttonId;
+        }
+
+        public PluginContainer buttonOwner() {
+            return this.buttonOwner;
+        }
+
+        public MenuContext context() {
+            return this.context;
+        }
+
+        public Menu menu() {
+            return this.menu;
+        }
     }
 
     public static class Text extends MenuInputEvent {
         private String input;
+        private MenuContext context;
+        private Menu menu;
+        private Player player;
 
         public Text(Player player, MenuContext context, Menu menu, String input) {
             super(Cause.of(NamedCause.source(player), NamedCause.of("context", context), NamedCause.of("menu", menu)));
             this.input = input;
+            this.context = context;
+            this.menu = menu;
+            this.player = player;
+        }
+
+        public Player player() {
+            return this.player;
+        }
+
+        public Menu menu() {
+            return this.menu;
+        }
+
+        public MenuContext context() {
+            return this.context;
         }
 
         public String input() {
