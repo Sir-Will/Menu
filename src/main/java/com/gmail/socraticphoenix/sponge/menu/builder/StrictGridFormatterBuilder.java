@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Map;
 
 public class StrictGridFormatterBuilder {
-    private SendableMenuBuilder parent;
+    private MenuBuilder parent;
     private String pageId;
 
     private Map<String, List<Vector2i>> locations;
     private Object plugin;
 
-    public StrictGridFormatterBuilder(SendableMenuBuilder parent, String pageId) {
+    public StrictGridFormatterBuilder(MenuBuilder parent, String pageId) {
         this.parent = parent;
         this.locations = new HashMap<>();
         this.plugin = parent.getPlugin();

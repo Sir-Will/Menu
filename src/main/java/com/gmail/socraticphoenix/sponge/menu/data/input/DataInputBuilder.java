@@ -19,10 +19,10 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.menu;
+package com.gmail.socraticphoenix.sponge.menu.data.input;
 
-import com.gmail.socraticphoenix.sponge.menu.MenuContext;
-import com.gmail.socraticphoenix.sponge.menu.MenuType;
+import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.InputType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
@@ -32,25 +32,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MenuContextBuilder extends AbstractDataBuilder<MenuContext> {
-    private static List<MenuContextReader> readers = new ArrayList<>();
+public class DataInputBuilder extends AbstractDataBuilder<Input> {
+    private static List<InputReader> readers = new ArrayList<>();
 
-    public MenuContextBuilder() {
-        super(MenuContext.class, 1);
+    public DataInputBuilder() {
+        super(Input.class, 1);
     }
 
-    public static void addReader(MenuContextReader reader) {
-        MenuContextBuilder.readers.add(reader);
+    public static void addReader(InputReader reader) {
+        DataInputBuilder.readers.add(reader);
     }
 
     @Override
-    protected Optional<MenuContext> buildContent(DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.CONTEXT_MENU_TYPE)) {
-            MenuType type = container.getCatalogType(MenuQueries.CONTEXT_MENU_TYPE, MenuType.class).get();
-            for(MenuContextReader reader : MenuContextBuilder.readers) {
-                Optional<MenuContext> contextOptional = reader.read(type, container);
-                if(contextOptional.isPresent()) {
-                    return contextOptional;
+    protected Optional<Input> buildContent(DataView container) throws InvalidDataException {
+        if (container.contains(MenuQueries.INPUT_TYPE)) {
+            InputType type = container.getCatalogType(MenuQueries.INPUT_TYPE, InputType.class).get();
+            for (InputReader reader : DataInputBuilder.readers) {
+                Optional<Input> inputOptional = reader.read(type, container);
+                if (inputOptional.isPresent()) {
+                    return inputOptional;
                 }
             }
         }

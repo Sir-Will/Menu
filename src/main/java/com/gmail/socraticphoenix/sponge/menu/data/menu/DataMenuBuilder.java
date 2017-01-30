@@ -19,10 +19,10 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.input;
+package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
-import com.gmail.socraticphoenix.sponge.menu.InputType;
+import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
@@ -32,25 +32,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InputBuilder extends AbstractDataBuilder<Input> {
-    private static List<InputReader> readers = new ArrayList<>();
+public class DataMenuBuilder extends AbstractDataBuilder<Menu> {
+    private static List<MenuReader> readers = new ArrayList<>();
 
-    public InputBuilder() {
-        super(Input.class, 1);
+    public static void addReader(MenuReader reader) {
+        DataMenuBuilder.readers.add(reader);
     }
 
-    public static void addReader(InputReader reader) {
-        InputBuilder.readers.add(reader);
+    public DataMenuBuilder() {
+        super(Menu.class, 1);
     }
 
     @Override
-    protected Optional<Input> buildContent(DataView container) throws InvalidDataException {
-        if (container.contains(MenuQueries.INPUT_TYPE)) {
-            InputType type = container.getCatalogType(MenuQueries.INPUT_TYPE, InputType.class).get();
-            for (InputReader reader : InputBuilder.readers) {
-                Optional<Input> inputOptional = reader.read(type, container);
-                if (inputOptional.isPresent()) {
-                    return inputOptional;
+    protected Optional<Menu> buildContent(DataView container) throws InvalidDataException {
+        if(container.contains(MenuQueries.MENU_TYPE)) {
+            MenuType type = container.getCatalogType(MenuQueries.MENU_TYPE, MenuType.class).get();
+            for(MenuReader reader : DataMenuBuilder.readers) {
+                Optional<Menu> menuOptional = reader.read(type, container);
+                if (menuOptional.isPresent()) {
+                    return menuOptional;
                 }
             }
         }

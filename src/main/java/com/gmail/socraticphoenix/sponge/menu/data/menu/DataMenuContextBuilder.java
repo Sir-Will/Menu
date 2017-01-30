@@ -19,46 +19,42 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.button;
+package com.gmail.socraticphoenix.sponge.menu.data.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.Button;
-import com.gmail.socraticphoenix.sponge.menu.ButtonType;
+import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
-import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ButtonBuilder extends AbstractDataBuilder<Button> {
-    private static List<ButtonReader> readers = new ArrayList<>();
+public class DataMenuContextBuilder extends AbstractDataBuilder<MenuContext> {
+    private static List<MenuContextReader> readers = new ArrayList<>();
 
-    public ButtonBuilder() {
-        super(Button.class, 1);
+    public DataMenuContextBuilder() {
+        super(MenuContext.class, 1);
     }
 
-    public static void addReader(ButtonReader reader) {
-        ButtonBuilder.readers.add(reader);
+    public static void addReader(MenuContextReader reader) {
+        DataMenuContextBuilder.readers.add(reader);
     }
 
     @Override
-    protected Optional<Button> buildContent(DataView container) throws InvalidDataException {
-        if (container.contains(MenuQueries.BUTTON_ID, MenuQueries.BUTTON_TITLE, MenuQueries.BUTTON_TYPE, MenuQueries.BUTTON_TRACKERS)) {
-            String id = container.getString(MenuQueries.BUTTON_ID).get();
-            Text title = container.getSerializable(MenuQueries.BUTTON_TITLE, Text.class).get();
-            ButtonType type = container.getCatalogType(MenuQueries.BUTTON_TYPE, ButtonType.class).get();
-            List<Tracker> trackers = container.getSerializableList(MenuQueries.BUTTON_TRACKERS, Tracker.class).orElse(new ArrayList<>());
-            for (ButtonReader reader : ButtonBuilder.readers) {
-                Optional<Button> buttonOptional = reader.read(type, title, id, trackers, container);
-                if (buttonOptional.isPresent()) {
-                    return buttonOptional;
+    protected Optional<MenuContext> buildContent(DataView container) throws InvalidDataException {
+        if(container.contains(MenuQueries.CONTEXT_MENU_TYPE)) {
+            MenuType type = container.getCatalogType(MenuQueries.CONTEXT_MENU_TYPE, MenuType.class).get();
+            for(MenuContextReader reader : DataMenuContextBuilder.readers) {
+                Optional<MenuContext> contextOptional = reader.read(type, container);
+                if(contextOptional.isPresent()) {
+                    return contextOptional;
                 }
             }
         }
         return Optional.empty();
     }
+
 }

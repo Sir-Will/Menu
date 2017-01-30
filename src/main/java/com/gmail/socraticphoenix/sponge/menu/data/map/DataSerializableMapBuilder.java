@@ -19,46 +19,36 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.formatter;
+package com.gmail.socraticphoenix.sponge.menu.data.map;
 
-import com.gmail.socraticphoenix.sponge.menu.Formatter;
-import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import org.spongepowered.api.Sponge;
+import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
-import org.spongepowered.api.plugin.PluginContainer;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public class FormatterBuilder extends AbstractDataBuilder<Formatter> {
-    private static List<FormatterReader> readers = new ArrayList<>();
+public class DataSerializableMapBuilder extends AbstractDataBuilder<SerializableMap> {
 
-    public FormatterBuilder() {
-        super(Formatter.class, 1);
-    }
-
-    public static void addReader(FormatterReader reader) {
-        FormatterBuilder.readers.add(reader);
+    public DataSerializableMapBuilder() {
+        super(SerializableMap.class, 1);
     }
 
     @Override
-    protected Optional<Formatter> buildContent(DataView container) throws InvalidDataException {
-        if (container.contains(MenuQueries.FORMATTER_OWNER) && container.contains(MenuQueries.FORMATTER_PAGE) && container.contains(MenuQueries.FORMATTER_TARGET)) {
-            String ownerId = container.getString(MenuQueries.FORMATTER_OWNER).get();
-            PluginContainer pluginContainer = Sponge.getPluginManager().getPlugin(ownerId).orElse(MenuPlugin.container());
-            String page = container.getString(MenuQueries.FORMATTER_PAGE).get();
-            String target = container.getString(MenuQueries.FORMATTER_TARGET).get();
-            for (FormatterReader reader : FormatterBuilder.readers) {
-                Optional<Formatter> formatterOptional = reader.read(pluginContainer, page, target, container);
-                if (formatterOptional.isPresent()) {
-                    return formatterOptional;
-                }
+    protected Optional<SerializableMap> buildContent(DataView container) throws InvalidDataException {
+        if (container.contains(MenuQueries.VARIABLES)) {
+            List<SerializablePair> variables = container.getSerializableList(MenuQueries.VARIABLES, SerializablePair.class).get();
+            Map<Object, SerializablePair> varMap = new HashMap<>();
+            for (SerializablePair variable : variables) {
+                varMap.put(variable.getLeft(), variable);
             }
+            return Optional.of(new SerializableMap(varMap));
         }
         return Optional.empty();
     }
+
 }

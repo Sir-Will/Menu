@@ -39,12 +39,12 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class TextPageBuilder {
-    private SendableMenuBuilder parent;
+    private MenuBuilder parent;
     private Text title;
     private String id;
     private List<Tracker> trackers;
 
-    public TextPageBuilder(SendableMenuBuilder parent) {
+    public TextPageBuilder(MenuBuilder parent) {
         this.parent = parent;
         this.title = Text.of("Page");
         this.id = "default_id";
@@ -94,7 +94,7 @@ public class TextPageBuilder {
         return this.tracker(listener, new SerializableMap(), id);
     }
 
-    public SendableMenuBuilder getParent() {
+    public MenuBuilder getParent() {
         return this.parent;
     }
 

@@ -28,7 +28,6 @@ import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.TextButton;
 import com.gmail.socraticphoenix.sponge.menu.tracker.ButtonTracker;
 import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -51,7 +50,7 @@ public class ButtonBuilder {
         this.parent = parent;
         this.title = Text.of("Button");
         this.id = "default_id";
-        this.plugin = Sponge.getPluginManager().fromInstance(parent).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
+        this.plugin = parent.getParent().getContainer();
         this.trackers = new ArrayList<>();
     }
 
@@ -98,7 +97,7 @@ public class ButtonBuilder {
         } else {
             button = new TextButton(this.title, this.id, this.trackers);
         }
-
+        this.parent.button(button);
     }
 
 }

@@ -113,8 +113,8 @@ publishing {
 }
 
 bintray {
-    user = ""
-    key = ""
+    user = bintrayUser
+    key = bintrayKey
     publications = ["maven"]
     publish = true
     pkg {

@@ -39,9 +39,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SendableMenuBuilder extends AbstractDataBuilder<SendableMenu> {
+public class DataSendableMenuBuilder extends AbstractDataBuilder<SendableMenu> {
 
-    public SendableMenuBuilder() {
+    public DataSendableMenuBuilder() {
         super(SendableMenu.class, 1);
     }
 

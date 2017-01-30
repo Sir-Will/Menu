@@ -35,20 +35,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ButtonPageBuilder {
-    private SendableMenuBuilder parent;
+    private MenuBuilder parent;
     private Text title;
     private String id;
     private List<Button> buttons;
     private int height;
     private int width;
 
-    public ButtonPageBuilder(SendableMenuBuilder parent) {
+    public ButtonPageBuilder(MenuBuilder parent) {
         this.parent = parent;
         this.title = Text.of("Page");
         this.id = "default_id";
         this.buttons = new ArrayList<>();
         this.height = 6;
         this.width = 9;
+    }
+
+    public MenuBuilder getParent() {
+        return this.parent;
     }
 
     public ButtonPageBuilder id(String id) {
@@ -111,4 +115,8 @@ public class ButtonPageBuilder {
         this.parent.page(page);
     }
 
+    public ButtonPageBuilder button(Button button) {
+        this.buttons.add(button);
+        return this;
+    }
 }

@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class SendableMenuBuilder {
+public class MenuBuilder {
     private List<Page> pages;
     private Object plugin;
     private PluginContainer container;
@@ -46,7 +46,7 @@ public class SendableMenuBuilder {
     private Set<Formatter> formatters;
     private MenuProperties properties;
 
-    public SendableMenuBuilder(Object plugin) {
+    public MenuBuilder(Object plugin) {
         this.container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
         this.pages = new ArrayList<>();
         this.plugin = plugin;
@@ -71,46 +71,46 @@ public class SendableMenuBuilder {
         return new StrictGridFormatterBuilder(this, id);
     }
 
-    public SendableMenuBuilder categoricalTextFormatter(TreeNode categories, Text indent) {
+    public MenuBuilder categoricalTextFormatter(TreeNode categories, Text indent) {
         return this.formatter(Formatter.categoricalText(this.plugin, categories, indent));
     }
 
-    public SendableMenuBuilder categoricalTextFormatter(String page, TreeNode categories, Text indent) {
+    public MenuBuilder categoricalTextFormatter(String page, TreeNode categories, Text indent) {
         return this.formatter(page, Formatter.categoricalText(this.plugin, categories, indent));
     }
 
-    public SendableMenuBuilder sequentialTextFormatter(Text separator) {
+    public MenuBuilder sequentialTextFormatter(Text separator) {
         return this.formatter(Formatter.sequentialText(this.plugin, separator));
     }
 
-    public SendableMenuBuilder sequentialTextFormatter(String page, Text separator) {
+    public MenuBuilder sequentialTextFormatter(String page, Text separator) {
         return this.formatter(page, Formatter.sequentialText(this.plugin, separator));
     }
 
-    public SendableMenuBuilder orderedGridFormatter(boolean vertical) {
+    public MenuBuilder orderedGridFormatter(boolean vertical) {
         return this.formatter(Formatter.orderedGrid(this.plugin, vertical));
     }
 
-    public SendableMenuBuilder orderedGridFormatter(String page, boolean vertical) {
+    public MenuBuilder orderedGridFormatter(String page, boolean vertical) {
         return this.formatter(page, Formatter.orderedGrid(this.plugin, vertical));
     }
 
-    public SendableMenuBuilder formatter(String page, Formatter formatter) {
+    public MenuBuilder formatter(String page, Formatter formatter) {
         this.specificFormatters.put(page, formatter);
         return this;
     }
 
-    public SendableMenuBuilder formatter(Formatter formatter) {
+    public MenuBuilder formatter(Formatter formatter) {
         this.formatters.add(formatter);
         return this;
     }
 
-    public SendableMenuBuilder properties(MenuProperties properties) {
+    public MenuBuilder properties(MenuProperties properties) {
         this.properties = properties;
         return this;
     }
 
-    public SendableMenuBuilder page(Page page) {
+    public MenuBuilder page(Page page) {
         this.pages.add(page);
         return this;
     }

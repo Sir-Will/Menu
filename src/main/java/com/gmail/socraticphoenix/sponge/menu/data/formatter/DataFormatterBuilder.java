@@ -19,47 +19,46 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.page;
+package com.gmail.socraticphoenix.sponge.menu.data.formatter;
 
-import com.gmail.socraticphoenix.sponge.menu.Input;
-import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.Formatter;
+import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.plugin.PluginContainer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PageBuilder extends AbstractDataBuilder<Page> {
-    private static List<PageReader> readers = new ArrayList<>();
+public class DataFormatterBuilder extends AbstractDataBuilder<Formatter> {
+    private static List<FormatterReader> readers = new ArrayList<>();
 
-    public PageBuilder() {
-        super(Page.class, 1);
+    public DataFormatterBuilder() {
+        super(Formatter.class, 1);
     }
 
-    public static void addReader(PageReader reader) {
-        PageBuilder.readers.add(reader);
+    public static void addReader(FormatterReader reader) {
+        DataFormatterBuilder.readers.add(reader);
     }
 
     @Override
-    protected Optional<Page> buildContent(DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.PAGE_TITLE, MenuQueries.PAGE_INPUT, MenuQueries.PAGE_ID, MenuQueries.PAGE_TRACKERS)) {
-            Text title = container.getSerializable(MenuQueries.PAGE_TITLE, Text.class).get();
-            Input input = container.getSerializable(MenuQueries.PAGE_INPUT, Input.class).get();
-            String id = container.getString(MenuQueries.PAGE_ID).get();
-            List<Tracker> trackers = container.getSerializableList(MenuQueries.PAGE_TRACKERS, Tracker.class).orElse(new ArrayList<>());
-            for(PageReader reader : PageBuilder.readers) {
-                Optional<Page> pageOptional = reader.read(title, input, id, trackers, container);
-                if(pageOptional.isPresent()) {
-                    return pageOptional;
+    protected Optional<Formatter> buildContent(DataView container) throws InvalidDataException {
+        if (container.contains(MenuQueries.FORMATTER_OWNER) && container.contains(MenuQueries.FORMATTER_PAGE) && container.contains(MenuQueries.FORMATTER_TARGET)) {
+            String ownerId = container.getString(MenuQueries.FORMATTER_OWNER).get();
+            PluginContainer pluginContainer = Sponge.getPluginManager().getPlugin(ownerId).orElse(MenuPlugin.container());
+            String page = container.getString(MenuQueries.FORMATTER_PAGE).get();
+            String target = container.getString(MenuQueries.FORMATTER_TARGET).get();
+            for (FormatterReader reader : DataFormatterBuilder.readers) {
+                Optional<Formatter> formatterOptional = reader.read(pluginContainer, page, target, container);
+                if (formatterOptional.isPresent()) {
+                    return formatterOptional;
                 }
             }
         }
         return Optional.empty();
     }
-
 }

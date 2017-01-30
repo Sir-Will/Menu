@@ -34,15 +34,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
-public class TrackerBuilder extends AbstractDataBuilder<Tracker> {
+public class DataTrackerBuilder extends AbstractDataBuilder<Tracker> {
     private static List<TrackerReader> readers = new ArrayList<>();
 
-    public TrackerBuilder() {
+    public DataTrackerBuilder() {
         super(Tracker.class, 1);
     }
 
     public static void addReader(TrackerReader reader) {
-        TrackerBuilder.readers.add(reader);
+        DataTrackerBuilder.readers.add(reader);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TrackerBuilder extends AbstractDataBuilder<Tracker> {
                 }
                 SerializableMap vars = container.getSerializable(MenuQueries.TRACKER_VARS, SerializableMap.class).get();
                 String id = container.getString(MenuQueries.TRACKER_ID).get();
-                for(TrackerReader reader : TrackerBuilder.readers) {
+                for(TrackerReader reader : DataTrackerBuilder.readers) {
                     Optional<Tracker> trackerOptional = reader.read(event, listener, vars, id, container);
                     if(trackerOptional.isPresent()) {
                         return trackerOptional;

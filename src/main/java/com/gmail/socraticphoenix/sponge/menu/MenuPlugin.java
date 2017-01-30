@@ -31,36 +31,36 @@ import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ImmutableButto
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.ImmutableMenuData;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuDataBuilder;
-import com.gmail.socraticphoenix.sponge.menu.data.button.ButtonBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.button.DataButtonBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.button.ItemButtonReader;
 import com.gmail.socraticphoenix.sponge.menu.data.button.TextButtonReader;
-import com.gmail.socraticphoenix.sponge.menu.data.formatter.FormatterBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.formatter.DataFormatterBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.formatter.OrderedGridReader;
 import com.gmail.socraticphoenix.sponge.menu.data.formatter.StrictGridReader;
 import com.gmail.socraticphoenix.sponge.menu.data.formatter.tree.TreeNodeBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.input.DataInputBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.input.EmptyInputContextReader;
-import com.gmail.socraticphoenix.sponge.menu.data.input.InputBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.input.InputContextBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.input.SimpleInputReader;
+import com.gmail.socraticphoenix.sponge.menu.data.map.DataSerializableMapBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
-import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMapBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.menu.DataMenuBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.menu.DataMenuContextBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.menu.DataSendableMenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.menu.EmptyMenuContextReader;
 import com.gmail.socraticphoenix.sponge.menu.data.menu.EmptyMenuReader;
-import com.gmail.socraticphoenix.sponge.menu.data.menu.MenuBuilder;
-import com.gmail.socraticphoenix.sponge.menu.data.menu.MenuContextBuilder;
-import com.gmail.socraticphoenix.sponge.menu.data.menu.SendableMenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.menu.SimpleMenuContextReader;
 import com.gmail.socraticphoenix.sponge.menu.data.menu.SimpleMenuReader;
 import com.gmail.socraticphoenix.sponge.menu.data.page.AnvilTextPageReader;
 import com.gmail.socraticphoenix.sponge.menu.data.page.ChatButtonPageReader;
 import com.gmail.socraticphoenix.sponge.menu.data.page.ChatTextPageReader;
+import com.gmail.socraticphoenix.sponge.menu.data.page.DataPageBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.page.InventoryButtonPageReader;
-import com.gmail.socraticphoenix.sponge.menu.data.page.PageBuilder;
+import com.gmail.socraticphoenix.sponge.menu.data.pair.DataSerializablePairBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
-import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePairBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.tracker.ButtonTrackerReader;
+import com.gmail.socraticphoenix.sponge.menu.data.tracker.DataTrackerBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.tracker.TextTrackerReader;
-import com.gmail.socraticphoenix.sponge.menu.data.tracker.TrackerBuilder;
 import com.gmail.socraticphoenix.sponge.menu.impl.MenuServiceImpl;
 import com.gmail.socraticphoenix.sponge.menu.impl.finalizer.AnvilTextFinalizer;
 import com.gmail.socraticphoenix.sponge.menu.impl.finalizer.ChatButtonFinalizer;
@@ -123,46 +123,46 @@ public class MenuPlugin {
         dataManager.register(MenuData.class, ImmutableMenuData.class, new MenuDataBuilder());
 
         //Buttons
-        dataManager.registerBuilder(Button.class, new ButtonBuilder());
-        ButtonBuilder.addReader(new ItemButtonReader());
-        ButtonBuilder.addReader(new TextButtonReader());
+        dataManager.registerBuilder(Button.class, new DataButtonBuilder());
+        DataButtonBuilder.addReader(new ItemButtonReader());
+        DataButtonBuilder.addReader(new TextButtonReader());
 
         //Formatters
-        dataManager.registerBuilder(Formatter.class, new FormatterBuilder());
-        FormatterBuilder.addReader(new OrderedGridReader());
-        FormatterBuilder.addReader(new StrictGridReader());
+        dataManager.registerBuilder(Formatter.class, new DataFormatterBuilder());
+        DataFormatterBuilder.addReader(new OrderedGridReader());
+        DataFormatterBuilder.addReader(new StrictGridReader());
 
         //Builders
         dataManager.registerBuilder(TreeNode.class, new TreeNodeBuilder());
-        dataManager.registerBuilder(SerializableMap.class, new SerializableMapBuilder());
-        dataManager.registerBuilder(SerializablePair.class, new SerializablePairBuilder());
+        dataManager.registerBuilder(SerializableMap.class, new DataSerializableMapBuilder());
+        dataManager.registerBuilder(SerializablePair.class, new DataSerializablePairBuilder());
 
         //Trackers
-        dataManager.registerBuilder(Tracker.class, new TrackerBuilder());
-        TrackerBuilder.addReader(new TextTrackerReader());
-        TrackerBuilder.addReader(new ButtonTrackerReader());
+        dataManager.registerBuilder(Tracker.class, new DataTrackerBuilder());
+        DataTrackerBuilder.addReader(new TextTrackerReader());
+        DataTrackerBuilder.addReader(new ButtonTrackerReader());
 
         //Inputs
-        dataManager.registerBuilder(Input.class, new InputBuilder());
-        InputBuilder.addReader(new SimpleInputReader());
+        dataManager.registerBuilder(Input.class, new DataInputBuilder());
+        DataInputBuilder.addReader(new SimpleInputReader());
         dataManager.registerBuilder(InputContext.class, new InputContextBuilder());
         InputContextBuilder.addReader(new EmptyInputContextReader());
 
         //Menus
-        dataManager.registerBuilder(Menu.class, new MenuBuilder());
-        MenuBuilder.addReader(new EmptyMenuReader());
-        MenuBuilder.addReader(new SimpleMenuReader());
-        dataManager.registerBuilder(MenuContext.class, new MenuContextBuilder());
-        MenuContextBuilder.addReader(new EmptyMenuContextReader());
-        MenuContextBuilder.addReader(new SimpleMenuContextReader());
-        dataManager.registerBuilder(SendableMenu.class, new SendableMenuBuilder());
+        dataManager.registerBuilder(Menu.class, new DataMenuBuilder());
+        DataMenuBuilder.addReader(new EmptyMenuReader());
+        DataMenuBuilder.addReader(new SimpleMenuReader());
+        dataManager.registerBuilder(MenuContext.class, new DataMenuContextBuilder());
+        DataMenuContextBuilder.addReader(new EmptyMenuContextReader());
+        DataMenuContextBuilder.addReader(new SimpleMenuContextReader());
+        dataManager.registerBuilder(SendableMenu.class, new DataSendableMenuBuilder());
 
         //Page
-        dataManager.registerBuilder(Page.class, new PageBuilder());
-        PageBuilder.addReader(new AnvilTextPageReader());
-        PageBuilder.addReader(new ChatButtonPageReader());
-        PageBuilder.addReader(new ChatTextPageReader());
-        PageBuilder.addReader(new InventoryButtonPageReader());
+        dataManager.registerBuilder(Page.class, new DataPageBuilder());
+        DataPageBuilder.addReader(new AnvilTextPageReader());
+        DataPageBuilder.addReader(new ChatButtonPageReader());
+        DataPageBuilder.addReader(new ChatTextPageReader());
+        DataPageBuilder.addReader(new InventoryButtonPageReader());
 
         //Finalizers
         MenuRegistry.addFinalizer(new ChatButtonFinalizer());

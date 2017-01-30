@@ -19,38 +19,43 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.data.menu;
+package com.gmail.socraticphoenix.sponge.menu.data.page;
 
-import com.gmail.socraticphoenix.sponge.menu.Menu;
-import com.gmail.socraticphoenix.sponge.menu.MenuType;
+import com.gmail.socraticphoenix.sponge.menu.Input;
+import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.AbstractDataBuilder;
 import org.spongepowered.api.data.persistence.InvalidDataException;
+import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class MenuBuilder extends AbstractDataBuilder<Menu> {
-    private static List<MenuReader> readers = new ArrayList<>();
+public class DataPageBuilder extends AbstractDataBuilder<Page> {
+    private static List<PageReader> readers = new ArrayList<>();
 
-    public static void addReader(MenuReader reader) {
-        MenuBuilder.readers.add(reader);
+    public DataPageBuilder() {
+        super(Page.class, 1);
     }
 
-    public MenuBuilder() {
-        super(Menu.class, 1);
+    public static void addReader(PageReader reader) {
+        DataPageBuilder.readers.add(reader);
     }
 
     @Override
-    protected Optional<Menu> buildContent(DataView container) throws InvalidDataException {
-        if(container.contains(MenuQueries.MENU_TYPE)) {
-            MenuType type = container.getCatalogType(MenuQueries.MENU_TYPE, MenuType.class).get();
-            for(MenuReader reader : MenuBuilder.readers) {
-                Optional<Menu> menuOptional = reader.read(type, container);
-                if (menuOptional.isPresent()) {
-                    return menuOptional;
+    protected Optional<Page> buildContent(DataView container) throws InvalidDataException {
+        if(container.contains(MenuQueries.PAGE_TITLE, MenuQueries.PAGE_INPUT, MenuQueries.PAGE_ID, MenuQueries.PAGE_TRACKERS)) {
+            Text title = container.getSerializable(MenuQueries.PAGE_TITLE, Text.class).get();
+            Input input = container.getSerializable(MenuQueries.PAGE_INPUT, Input.class).get();
+            String id = container.getString(MenuQueries.PAGE_ID).get();
+            List<Tracker> trackers = container.getSerializableList(MenuQueries.PAGE_TRACKERS, Tracker.class).orElse(new ArrayList<>());
+            for(PageReader reader : DataPageBuilder.readers) {
+                Optional<Page> pageOptional = reader.read(title, input, id, trackers, container);
+                if(pageOptional.isPresent()) {
+                    return pageOptional;
                 }
             }
         }

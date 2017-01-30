@@ -29,9 +29,9 @@ import org.spongepowered.api.data.persistence.InvalidDataException;
 
 import java.util.Optional;
 
-public class SerializablePairBuilder extends AbstractDataBuilder<SerializablePair> {
+public class DataSerializablePairBuilder extends AbstractDataBuilder<SerializablePair> {
 
-    public SerializablePairBuilder() {
+    public DataSerializablePairBuilder() {
         super(SerializablePair.class, 1);
     }
 

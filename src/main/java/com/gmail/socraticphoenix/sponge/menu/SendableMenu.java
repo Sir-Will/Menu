@@ -21,7 +21,7 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.builder.SendableMenuBuilder;
+import com.gmail.socraticphoenix.sponge.menu.builder.MenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import org.spongepowered.api.Sponge;
@@ -53,8 +53,8 @@ public class SendableMenu implements DataSerializable {
         this.pluginId = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")).getId();
     }
 
-    public static SendableMenuBuilder builder(Object plugin) {
-        return new SendableMenuBuilder(plugin);
+    public static MenuBuilder builder(Object plugin) {
+        return new MenuBuilder(plugin);
     }
 
     public void send(Player target) {

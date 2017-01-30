@@ -28,9 +28,9 @@ import org.spongepowered.api.data.persistence.InvalidDataException;
 
 import java.util.Optional;
 
-public class MenuPropertiesBuilder extends AbstractDataBuilder<MenuProperties> {
+public class DataMenuPropertiesBuilder extends AbstractDataBuilder<MenuProperties> {
 
-    protected MenuPropertiesBuilder() {
+    protected DataMenuPropertiesBuilder() {
         super(MenuProperties.class, 1);
     }
 

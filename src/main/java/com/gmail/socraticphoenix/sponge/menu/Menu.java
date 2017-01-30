@@ -21,7 +21,7 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.builder.SendableMenuBuilder;
+import com.gmail.socraticphoenix.sponge.menu.builder.MenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
@@ -38,8 +38,8 @@ public interface Menu extends DataSerializable {
 
     MenuType type();
 
-    static SendableMenuBuilder builder(Object plugin) {
-        return new SendableMenuBuilder(plugin);
+    static MenuBuilder builder(Object plugin) {
+        return new MenuBuilder(plugin);
     }
 
     class Empty implements Menu {
