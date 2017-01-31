@@ -23,8 +23,14 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import java.util.List;
 
+/**
+ * A {@link Page} which takes input through button presses.
+ */
 public interface ButtonPage extends Page {
 
+    /**
+     * @return The {@link Button Buttons} associated with this page
+     */
     List<Button> buttons();
 
 }

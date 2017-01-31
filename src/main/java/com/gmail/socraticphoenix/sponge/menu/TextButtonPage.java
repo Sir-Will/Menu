@@ -23,6 +23,9 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
 
+/**
+ * Represents a page whose primary mode of input is from button presses, with buttons which are displayed in chat.
+ */
 public interface TextButtonPage extends ButtonPage, TextPage {
 
     @Override

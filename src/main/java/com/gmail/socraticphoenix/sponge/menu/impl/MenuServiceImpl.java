@@ -31,6 +31,7 @@ import com.gmail.socraticphoenix.sponge.menu.MenuProperties;
 import com.gmail.socraticphoenix.sponge.menu.MenuService;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuStateEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
 import com.gmail.socraticphoenix.sponge.menu.listeners.ChatRestrictTask;
 import org.spongepowered.api.Sponge;
@@ -55,6 +56,9 @@ public class MenuServiceImpl implements MenuService {
 
         context.refresh(target, menu);
         Sponge.getScheduler().createTaskBuilder().delayTicks(5).intervalTicks(60).execute(new ChatRestrictTask(target)).submit(MenuPlugin.instance());
+
+        MenuStateEvent event = new MenuStateEvent.Open(target, menu, context);
+        Sponge.getEventManager().post(event);
     }
 
 }

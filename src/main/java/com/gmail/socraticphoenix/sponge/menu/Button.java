@@ -21,6 +21,8 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
+import com.gmail.socraticphoenix.sponge.menu.impl.button.TextButton;
 import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -28,16 +30,37 @@ import org.spongepowered.api.text.Text;
 
 import java.util.List;
 
+/**
+ * Represents a button in a {@link ButtonPage}.
+ */
 public interface Button extends DataSerializable {
 
+    /**
+     * @return The title of this button.
+     */
     Text title();
 
+    /**
+     * Returns the icon of this button, if this button is an {@link ItemButton}. If this button is a {@link TextButton},
+     * return is guaranteed non-null, but is undefined.
+     *
+     * @return The icon of this button.
+     */
     ItemStack icon();
 
+    /**
+     * @return The id of this button.
+     */
     String id();
 
+    /**
+     * @return The type of this button.
+     */
     ButtonType type();
 
+    /**
+     * @return The {@link Tracker Trackers} associated with this button.
+     */
     List<Tracker> trackers();
 
 }

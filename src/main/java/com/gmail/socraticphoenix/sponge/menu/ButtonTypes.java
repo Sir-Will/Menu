@@ -21,10 +21,22 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+/**
+ * Contains all the default {@link ButtonType ButtonTypes}.
+ */
 public interface ButtonTypes {
 
+    /**
+     * A button which has a title, and no icon.
+     */
     ButtonType TEXT = new ButtonType("menuapi:text", "Text Button");
+    /**
+     * A button which has a title and an icon.
+     */
     ButtonType ITEM = new ButtonType("menuapi:item", "Item Button");
+    /*
+     * A button whose type is unknown. This type can be used by plugins adding their own button implementation, though it is suggested that such buttons have their own custom type.
+     */
     ButtonType UNKNOWN = new ButtonType("menuapi:unknown", "Unknown Button");
 
 }

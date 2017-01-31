@@ -27,18 +27,39 @@ import org.spongepowered.api.text.Text;
 
 import java.util.List;
 
+/**
+ * Represents one page in a menu.
+ */
 public interface Page extends DataSerializable {
 
+    /**
+     * @return The title of this page.
+     */
     Text title();
 
+    /**
+     * @return The {@link Input} Object associated with this page.
+     */
     Input input();
 
+    /**
+     * @return A {@link PageTarget} which this page can be formatted to.
+     */
     PageTarget produceTarget();
 
+    /**
+     * @return The id associated with this page.
+     */
     String id();
 
+    /**
+     * @return The {@link Tracker Trackers} associated with this page.
+     */
     List<Tracker> trackers();
 
+    /**
+     * @return true if this page is displayed in chat, false otherwise.
+     */
     boolean isChatBased();
 
 }

@@ -24,7 +24,6 @@ package com.gmail.socraticphoenix.sponge.menu.impl.menu.context;
 import com.gmail.socraticphoenix.sponge.menu.EndMenuReason;
 import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.InputContext;
-import com.gmail.socraticphoenix.sponge.menu.InventoryReason;
 import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
@@ -37,8 +36,10 @@ import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuStateEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.OrderedGridFormatter;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.SequentialTextFormatter;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
@@ -80,7 +81,7 @@ public class SimpleMenuContext implements MenuContext {
         this.context = context;
         this.type = type;
         this.owner = owner;
-        if(!formatters.isEmpty() || !specificFormatters.isEmpty()) {
+        if (!formatters.isEmpty() || !specificFormatters.isEmpty()) {
             this.formatters = Collections.unmodifiableSet(formatters);
             this.specificFormatters = Collections.unmodifiableMap(specificFormatters);
         } else {
@@ -173,10 +174,12 @@ public class SimpleMenuContext implements MenuContext {
 
     @Override
     public void terminate(EndMenuReason reason, Player player, Menu menu) {
-        if(player.getOpenInventory().isPresent()) {
-            player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_MENU)));
+        if (player.getOpenInventory().isPresent()) {
+            player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", reason)));
         }
         player.remove(MenuData.class);
+        MenuStateEvent event = new MenuStateEvent.Close(reason, player, menu, this);
+        Sponge.getEventManager().post(event);
     }
 
     @Override

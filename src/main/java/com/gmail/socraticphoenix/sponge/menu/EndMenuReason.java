@@ -21,9 +21,24 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+/**
+ * Represents the reason a menu was closed
+ */
 public enum EndMenuReason {
+    /**
+     * A reason representing the player quitting the menu.
+     */
     QUIT,
+    /**
+     * A reason representing a new menu being sent to the player, while the player is already in a menu.
+     */
     NEW_MENU,
+    /**
+     * A reason representing a menu being completed.
+     */
     FINISHED,
+    /**
+     * A reason representing an error occurred at some point in menu creation or input or event handling.
+     */
     ERROR
 }
