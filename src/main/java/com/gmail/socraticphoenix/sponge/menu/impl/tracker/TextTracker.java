@@ -19,27 +19,28 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.tracker;
+package com.gmail.socraticphoenix.sponge.menu.impl.tracker;
 
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
+import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataContainer;
 
 import java.util.function.BiConsumer;
 
-public class ButtonTracker extends Tracker<MenuInputEvent.Button> {
-    private String buttonId;
+public class TextTracker extends Tracker<MenuInputEvent.Text> {
+    private String pageId;
     private String pluginId;
 
-    public ButtonTracker(Class<MenuInputEvent.Button> event, BiConsumer<SerializableMap, MenuInputEvent.Button> consumer, SerializableMap vars, String buttonId, String pluginId, String id) {
+    public TextTracker(Class<MenuInputEvent.Text> event, BiConsumer<SerializableMap, MenuInputEvent.Text> consumer, SerializableMap vars, String pageId, String pluginId, String id) {
         super(event, consumer, vars, id);
-        this.buttonId = buttonId;
+        this.pageId = pageId;
         this.pluginId = pluginId;
     }
 
-    public String getButtonId() {
-        return this.buttonId;
+    public String getPageId() {
+        return this.pageId;
     }
 
     public String getPluginId() {
@@ -48,17 +49,17 @@ public class ButtonTracker extends Tracker<MenuInputEvent.Button> {
 
     @Override
     public String compositeId() {
-        return this.pluginId + ".tracker.button." + this.id() + "." + this.buttonId;
+        return this.pluginId + ".tracker.text." + this.id() + "." + this.pageId;
     }
 
     @Override
-    public void invoke(MenuInputEvent.Button event) {
+    public void invoke(MenuInputEvent.Text event) {
         this.getConsumer().accept(this.getVars(), event);
     }
 
-    @Override
     public DataContainer toContainer() {
-        return super.toContainer().set(MenuQueries.TRACKER_BUTTON, this.buttonId)
+        return super.toContainer().set(MenuQueries.TRACKER_PAGE, this.pageId)
                 .set(MenuQueries.TRACKER_PLUGIN, this.pluginId);
     }
+
 }

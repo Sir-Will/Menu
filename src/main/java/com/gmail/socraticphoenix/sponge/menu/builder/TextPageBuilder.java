@@ -30,7 +30,7 @@ import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.tree.TreeNode;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.AnvilTextPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatTextPage;
-import com.gmail.socraticphoenix.sponge.menu.tracker.TextTracker;
+import com.gmail.socraticphoenix.sponge.menu.impl.tracker.TextTracker;
 import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.text.Text;
 

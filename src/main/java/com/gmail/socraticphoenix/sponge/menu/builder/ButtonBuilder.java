@@ -26,7 +26,7 @@ import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.TextButton;
-import com.gmail.socraticphoenix.sponge.menu.tracker.ButtonTracker;
+import com.gmail.socraticphoenix.sponge.menu.impl.tracker.ButtonTracker;
 import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;

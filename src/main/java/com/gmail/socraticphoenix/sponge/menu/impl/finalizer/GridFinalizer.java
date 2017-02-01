@@ -58,7 +58,8 @@ public class GridFinalizer implements Finalizer<InventoryButtonPage, GridTarget>
             }
         }
 
-        player.openInventory(inventory, Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.OPEN_MENU)));
+        player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
+        player.openInventory(inventory, Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
     }
 
     @Override

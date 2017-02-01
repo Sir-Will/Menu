@@ -22,6 +22,7 @@
 package com.gmail.socraticphoenix.sponge.menu.listeners;
 
 import com.gmail.socraticphoenix.sponge.menu.EndMenuReason;
+import com.gmail.socraticphoenix.sponge.menu.InventoryReason;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ButtonData;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ImmutableButtonData;
@@ -54,7 +55,7 @@ public class InventoryListener {
 
     @Listener
     public void onClose(InteractInventoryEvent.Close ev, @First Player player) {
-        if(!ev.getCause().containsType(EndMenuReason.class) && player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent() && player.get(MenuData.class).get().getCurrentPage().get().isChatBased()) {
+        if(!ev.getCause().containsType(EndMenuReason.class) && !ev.getCause().containsType(InventoryReason.class) && player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent() && player.get(MenuData.class).get().getCurrentPage().get().isChatBased()) {
             MenuData data = player.get(MenuData.class).get();
             data.context().get().terminate(EndMenuReason.QUIT, player, data.menu().get());
         }
