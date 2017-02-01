@@ -23,8 +23,14 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import org.spongepowered.api.data.DataSerializable;
 
+/**
+ * Represents a method of input. (At the moment, this class exists for future updates and could theoretically be replaced by {@link InputType InputTypes}).
+ */
 public interface Input extends DataSerializable {
 
+    /**
+     * @return The {@link InputType} of this input.
+     */
     InputType type();
 
 }

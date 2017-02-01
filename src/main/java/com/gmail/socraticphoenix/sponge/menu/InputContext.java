@@ -27,9 +27,18 @@ import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 
+/**
+ * Holds contextual information about an {@link Input}. (At the moment, this class exists for future updates and could theoretically be replaced by {@link InputType InputTypes}).
+ */
 public interface InputContext extends DataSerializable {
+    /**
+     * A InputContext with the type {@link InputTypes#EMPTY}.
+     */
     InputContext.Empty EMPTY = new Empty();
 
+    /**
+     * @return The {@link InputType} of this input context
+     */
     InputType type();
 
     class Empty implements InputContext {

@@ -21,6 +21,7 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.listeners;
 
+import com.gmail.socraticphoenix.sponge.menu.EndMenuReason;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ButtonData;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.button.ImmutableButtonData;
@@ -37,6 +38,7 @@ import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.IsCancelled;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
+import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Container;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
@@ -49,6 +51,14 @@ import org.spongepowered.api.util.Tristate;
 import java.util.Optional;
 
 public class InventoryListener {
+
+    @Listener
+    public void onClose(InteractInventoryEvent.Close ev, @First Player player) {
+        if(!ev.getCause().containsType(EndMenuReason.class) && player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent() && player.get(MenuData.class).get().getCurrentPage().get().isChatBased()) {
+            MenuData data = player.get(MenuData.class).get();
+            data.context().get().terminate(EndMenuReason.QUIT, player, data.menu().get());
+        }
+    }
 
     @Listener(order = Order.EARLY)
     public void onClick(ClickInventoryEvent.Primary ev, @First Player player, @Getter("getTargetInventory") Container container) {

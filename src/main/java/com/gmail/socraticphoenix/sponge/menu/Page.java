@@ -58,8 +58,12 @@ public interface Page extends DataSerializable {
     List<Tracker> trackers();
 
     /**
-     * @return true if this page is displayed in chat, false otherwise.
+     * @return True if this page is displayed in chat, false otherwise.
      */
     boolean isChatBased();
 
+    /**
+     * @return True if this page is displayed through an inventory, false otherwise.
+     */
+    boolean isInventoryBased();
 }

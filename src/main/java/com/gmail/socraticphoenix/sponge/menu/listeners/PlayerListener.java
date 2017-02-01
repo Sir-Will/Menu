@@ -21,6 +21,7 @@
  */
 package com.gmail.socraticphoenix.sponge.menu.listeners;
 
+import com.gmail.socraticphoenix.sponge.menu.EndMenuReason;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -47,8 +48,11 @@ public class PlayerListener {
     @Listener
     public void onLeave(ClientConnectionEvent.Disconnect ev, @First Player player) {
         Optional<MenuData> dataOptional = player.get(MenuData.class);
-        if (dataOptional.isPresent() && !dataOptional.get().context().get().properties().isPersistent()) {
-            player.remove(MenuData.class);
+        if (dataOptional.isPresent()) {
+            MenuData data = dataOptional.get();
+            if (!data.context().get().properties().isPersistent()) {
+                data.context().get().terminate(EndMenuReason.QUIT, player, data.menu().get());
+            }
         }
     }
 

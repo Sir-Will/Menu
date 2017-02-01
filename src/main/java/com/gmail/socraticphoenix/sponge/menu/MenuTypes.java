@@ -21,10 +21,23 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+/**
+ * Contains all the default {@link MenuType MenuTypes}
+ */
 public interface MenuTypes {
 
+    /**
+     * A simple {@link Menu}, one of the two default implementations of {@link Menu}.
+     */
     MenuType SIMPLE = new MenuType("menuapi:simple", "Simple Menu");
+    /**
+     * An empty {@link Menu}, one of the two default implementations of {@link Menu}.
+     */
     MenuType EMPTY = new MenuType("menuapi:empty", "Empty Menu");
+    /**
+     * A {@link Menu} whose type is unknown. This type can be used by plugins adding their own {@link Menu}
+     * implementation, though it is suggested that such {@link Menu Menus} have their own custom type
+     */
     MenuType UNKNOWN = new MenuType("menuapi:unknown", "Unknown Menu");
 
 }

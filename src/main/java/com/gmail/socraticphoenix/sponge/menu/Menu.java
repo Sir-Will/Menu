@@ -31,11 +31,23 @@ import org.spongepowered.api.data.Queries;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Represents a menu without any additional contextual or formatting information.
+ */
 public interface Menu extends DataSerializable {
+    /**
+     * A menu with the type {@link MenuTypes#EMPTY}.
+     */
     Menu.Empty EMPTY = new Empty();
 
+    /**
+     * @return The {@link Page Pages} that make up this menu.
+     */
     List<Page> pages();
 
+    /**
+     * @return The {@link MenuType} of this menu.
+     */
     MenuType type();
 
     static MenuBuilder builder(Object plugin) {

@@ -32,7 +32,7 @@ import com.gmail.socraticphoenix.sponge.menu.MenuService;
 import com.gmail.socraticphoenix.sponge.menu.data.attached.player.MenuData;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuStateEvent;
-import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
+import com.gmail.socraticphoenix.sponge.menu.impl.menu.SimpleMenuContext;
 import com.gmail.socraticphoenix.sponge.menu.listeners.ChatRestrictTask;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;

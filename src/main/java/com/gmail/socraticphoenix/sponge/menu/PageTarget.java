@@ -21,6 +21,11 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+/**
+ * A marker interface which is implemented by classes which represent formatted {@link Page}s.
+ *
+ * @param <T> The type of {@link Page} this PageTarget is a target of.
+ */
 public interface PageTarget<T extends Page> {
 
 }

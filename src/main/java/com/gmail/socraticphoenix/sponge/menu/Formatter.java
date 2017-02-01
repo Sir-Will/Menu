@@ -39,48 +39,102 @@ import org.spongepowered.api.text.Text;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class accepts a {@link Page} and a {@link PageTarget}, and formats the {@link Page} to the {@link PageTarget}.
+ *
+ * @param <T> The type of {@link Page} this formatter accepts.
+ * @param <K> The type of {@link PageTarget} this formatter accepts.
+ */
 public abstract class Formatter<T extends Page, K extends PageTarget> implements DataSerializable {
     private Class<T> page;
     private Class<K> target;
     private PluginContainer plugin;
 
-    public Formatter(Class<T> page, Class<K> target, Object plugin) {
+    protected Formatter(Class<T> page, Class<K> target, Object plugin) {
         this(page, target, Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")));
     }
 
-    public static Formatter categoricalText(Object plugin, TreeNode categories, Text indent) {
-        return new CategoricalTextFormatter(plugin, categories, indent);
-    }
-
-    public static Formatter sequentialText(Object plugin, Text separator) {
-        return new SequentialTextFormatter(plugin, separator);
-    }
-
-    public static Formatter orderedGrid(Object plugin, boolean vertical) {
-        return new OrderedGridFormatter(plugin, vertical);
-    }
-
-    public static Formatter strictGrid(Object plugin, Map<String, List<Vector2i>> locations) {
-        return new StrictGridFormatter(locations, plugin);
-    }
-
-    public Formatter(Class<T> page, Class<K> target, PluginContainer plugin) {
+    protected Formatter(Class<T> page, Class<K> target, PluginContainer plugin) {
         this.page = page;
         this.target = target;
         this.plugin = plugin;
     }
 
+    /**
+     * Creates a new {@link CategoricalTextFormatter} and returns it.
+     *
+     * @param plugin     The plugin that owns the new {@link Formatter}.
+     * @param categories The categories the {@link Formatter} should use.
+     * @param indent     The indent the {@link Formatter} should use.
+     *
+     * @return A new {@link Formatter}.
+     */
+    public static Formatter categoricalText(Object plugin, TreeNode categories, Text indent) {
+        return new CategoricalTextFormatter(plugin, categories, indent);
+    }
+
+    /**
+     * Creates a new {@link SequentialTextFormatter} and returns it.
+     *
+     * @param plugin    The plugin that owns the new {@link Formatter}.
+     * @param separator The separator used by the {@link Formatter}.
+     *
+     * @return A new {@link Formatter}.
+     */
+    public static Formatter sequentialText(Object plugin, Text separator) {
+        return new SequentialTextFormatter(plugin, separator);
+    }
+
+    /**
+     * Creates a new {@link OrderedGridFormatter} and returns it.
+     *
+     * @param plugin   The plugin that owns the new {@link Formatter}.
+     * @param vertical If true, items will be gridded in vertically, otherwise they will be gridded in horizontally.
+     *
+     * @return A new {@link Formatter}.
+     */
+    public static Formatter orderedGrid(Object plugin, boolean vertical) {
+        return new OrderedGridFormatter(plugin, vertical);
+    }
+
+    /**
+     * Creates a new {@link StrictGridFormatter} and returns it.
+     *
+     * @param plugin    The plugin that owns the new {@link Formatter}.
+     * @param locations The button id to grid location map.
+     *
+     * @return A new {@link Formatter}.
+     */
+    public static Formatter strictGrid(Object plugin, Map<String, List<Vector2i>> locations) {
+        return new StrictGridFormatter(locations, plugin);
+    }
+
+    /**
+     * Takes the given {@link Page} and formats it to the given {@link PageTarget}.
+     *
+     * @param page   The {@link Page} to format.
+     * @param target THe {@link PageTarget} to format the {@link Page} to.
+     * @param owner  The plugin that owns the given {@link Page}.
+     */
     public abstract void format(T page, K target, PluginContainer owner);
 
+    /**
+     * @return The type of {@link Page} this formatter accepts.
+     */
     public Class<T> page() {
         return this.page;
     }
 
+    /**
+     * @return The type of {@link PageTarget} this formatter accepts.
+     */
     public Class<K> target() {
         return this.target;
     }
 
-
+    /**
+     * @return The owner of this formatter.
+     */
     public PluginContainer owner() {
         return this.plugin;
     }

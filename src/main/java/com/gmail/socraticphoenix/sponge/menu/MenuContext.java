@@ -23,48 +23,94 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
-import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
 import org.spongepowered.api.data.DataContainer;
-import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataSerializable;
-import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Holds contextual information about a {@link Menu}.
+ */
 public interface MenuContext extends DataSerializable {
+    /**
+     * A MenuContext with the type {@link MenuTypes#EMPTY}.
+     */
     MenuContext.Empty EMPTY = new Empty();
 
-    static MenuContext deserialize(DataView view, DataQuery query) {
-        return view.getSerializable(query, SimpleMenuContext.class).isPresent() ? view.getSerializable(query, SimpleMenuContext.class).get() :
-                MenuContext.EMPTY;
-    }
-
+    /**
+     * @return The index of the current page.
+     */
     int page();
 
+    /**
+     * @return The {@link InputContext} associated with this menu context.
+     */
     InputContext input();
 
+    /**
+     * @return The {@link MenuType} of this menu context.
+     */
     MenuType type();
 
+    /**
+     * @return The plugin which owns this menu context.
+     */
     PluginContainer owner();
 
+    /**
+     * @return The set of {@link Formatter Formatters} to apply to {@link Page Pages} when displaying them to the player.
+     */
     Set<Formatter> formatters();
 
+    /**
+     * @return The set of variables maintained in relation to the {@link Menu} instance. This map can be used to store information about a specific menu across different event calls.
+     */
     SerializableMap variables();
 
+    /**
+     * @return The {@link MenuProperties} associated with this menu context.
+     */
     MenuProperties properties();
 
+    /**
+     * Refreshes this menu context for the given player, using the pages in the given {@link Menu}.
+     *
+     * @param player The player to refresh the {@link Menu} for.
+     * @param menu The {@link Menu} to pull pages from.
+     */
     void refresh(Player player, Menu menu);
 
+    /**
+     * Terminates the current {@link Menu} instance, for the given player, for the given reason.
+     *
+     * @param reason The reason the {@link Menu} instance is being terminated.
+     * @param player The player to terminate the {@link Menu} for.
+     * @param menu The {@link Menu} to terminate.
+     */
     void terminate(EndMenuReason reason, Player player, Menu menu);
 
+    /**
+     * Sets the current page.
+     *
+     * @param page The new current page.
+     */
     void setPage(int page);
 
-    void acceptInputContext();
+    /**
+     * Returns the current {@link Page}, as defined by {@link #page()}, from the given {@link Menu}. If {@link #page()} is out of bounds, {@link Optional#empty()} is returned.
+     *
+     * @param menu The {@link Menu} to pull the page from.
+     * @return The current {@link Page}, if {@link #page()} is in bounds.
+     */
+    default Optional<Page> getCurrentPage(Menu menu) {
+        return this.page() >= 0 && this.page() < menu.pages().size() ? Optional.of(menu.pages().get(this.page())) : Optional.empty();
+    }
 
     class Empty implements MenuContext {
 
@@ -118,10 +164,6 @@ public interface MenuContext extends DataSerializable {
 
         }
 
-        @Override
-        public void acceptInputContext() {
-
-        }
 
         @Override
         public int getContentVersion() {

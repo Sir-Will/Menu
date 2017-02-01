@@ -26,20 +26,43 @@ import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
 import org.spongepowered.api.data.Queries;
+import org.spongepowered.api.entity.living.player.Player;
 
+/**
+ * Represents a set of properties that are applied to a {@link Menu} when it is sent to an {@link Player}. This class is
+ * expected to evolve, however, constructors will always be backwards compatible, linking to new constructors and
+ * providing default values.
+ */
 public class MenuProperties implements DataSerializable {
     private boolean persistent;
     private boolean restrictChat;
 
+    //IMPORTANT NOTE: By contract, the below constructor must remain FOR ALL ETERNITY, and simple link to any new constructors and provide default values
+
+    /**
+     * Constructs a new set of properties with the given parameters
+     *
+     * @param persistent   If true, any active {@link Menu Menus} will persist between server restarts, and be reapplied
+     *                     to players when the rejoin.
+     * @param restrictChat If true, any Player with an active {@link Menu} will not receive chat messages, and their
+     *                     chat will be consistently cleared if their current {@link Page} returns true for {@link
+     *                     Page#isChatBased()}.
+     */
     public MenuProperties(boolean persistent, boolean restrictChat) {
         this.persistent = persistent;
         this.restrictChat = restrictChat;
     }
 
+    /**
+     * @return True if the these properties indicate that a {@link Menu} should be persistent.
+     */
     public boolean isPersistent() {
         return this.persistent;
     }
 
+    /**
+     * @return True if these properties indicated that a {@link Menu} should restrict chat.
+     */
     public boolean isRestrictChat() {
         return this.restrictChat;
     }

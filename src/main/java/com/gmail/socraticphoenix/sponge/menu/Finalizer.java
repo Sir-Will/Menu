@@ -21,15 +21,40 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.impl.finalizer.GridFinalizer;
+import com.gmail.socraticphoenix.sponge.menu.impl.page.target.GridTarget;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.plugin.PluginContainer;
 
+/**
+ * Represents the final step in the {@link Page} display process. The finalizer takes a {@link Page}, a filled {@link
+ * PageTarget} and displays it to the player in the game. For example, the {@link GridFinalizer} takes a {@link
+ * GridTarget} and creates a custom {@link Inventory} and forces the player to open that {@link Inventory}.
+ *
+ * @param <T> The type of {@link Page} this finalizer accepts.
+ * @param <K> The type of {@link PageTarget} this finalizer accepts.
+ */
 public interface Finalizer<T extends Page, K extends PageTarget> {
 
+    /**
+     * Displays the given {@link Page}, formatted to the given {@link PageTarget}, to the given {@link Player}.
+     *
+     * @param player The {@link Player} to display the given {@link Page} to.
+     * @param target The formatted {@link Page}.
+     * @param page   The {@link Page}.
+     * @param owner  The plugin which owns the {@link Menu} being displayed.
+     */
     void display(Player player, K target, T page, PluginContainer owner);
 
+    /**
+     * @return The type of {@link Page} this finalizer accepts.
+     */
     Class<T> page();
 
+    /**
+     * @return The type of {@link PageTarget} this finalizer accepts.
+     */
     Class<K> target();
 
 }

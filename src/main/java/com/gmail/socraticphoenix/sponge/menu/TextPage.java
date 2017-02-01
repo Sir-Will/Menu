@@ -24,7 +24,8 @@ package com.gmail.socraticphoenix.sponge.menu;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
 
 /**
- * Represents a page whose primary mode of input is Text. Either through string input from the player, or through buttons displayed in the chat.
+ * Represents a page whose primary mode of input is Text. Either through string input from the player, or through
+ * buttons displayed in the chat.
  */
 public interface TextPage extends Page {
 

@@ -29,6 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+/**
+ * A static registry for {@link Finalizer Finalizers} and {@link Tracker Trackers}.
+ */
 public class MenuRegistry {
     private static List<Finalizer> finalizers;
     private static Map<String, Tracker> trackers;
@@ -38,20 +41,43 @@ public class MenuRegistry {
         MenuRegistry.trackers = new HashMap<>();
     }
 
+    /**
+     * Adds a {@link Tracker} to the registry.
+     *
+     * @param tracker The {@link Tracker} to add.
+     */
     public static void addTracker(Tracker tracker) {
-        if(!MenuRegistry.trackers.containsKey(tracker.compositeId())) {
+        if (!MenuRegistry.trackers.containsKey(tracker.compositeId())) {
             MenuRegistry.trackers.put(tracker.compositeId(), tracker);
         }
     }
 
+    /**
+     * @return A {@link Stream} of all currently registered {@link Tracker Trackers};
+     */
     public static Stream<Tracker> getTrackers() {
         return MenuRegistry.trackers.values().stream();
     }
 
+    /**
+     * Adds a {@link Finalizer} to the registry.
+     *
+     * @param finalizer The {@link Finalizer} to add.
+     */
     public static void addFinalizer(Finalizer finalizer) {
         MenuRegistry.finalizers.add(finalizer);
     }
 
+    /**
+     * Locates a {@link Finalizer} which can handle a page of type {@code page}, with a target of type {@code target}.
+     *
+     * @param target The {@link PageTarget} to use while locating an appropriate {@link Finalizer}.
+     * @param page   The {@link Page} to use while locating an appropriate {@link Finalizer}.
+     *
+     * @return An appropriate {@link Finalizer} for the given types.
+     *
+     * @throws IllegalArgumentException If no {@link Finalizer} is found.
+     */
     public static Finalizer lookForAppropriate(Class target, Class page) {
         return MenuRegistry.finalizers.stream().filter(f -> f.target().isAssignableFrom(target) && f.page().isAssignableFrom(page)).findFirst().orElseThrow(() -> new IllegalArgumentException("No finalizer for page \"" + page + "\" and target \"" + target + "\""));
     }

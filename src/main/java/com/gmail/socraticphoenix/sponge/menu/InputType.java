@@ -24,11 +24,20 @@ package com.gmail.socraticphoenix.sponge.menu;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.util.annotation.CatalogedBy;
 
+/**
+ * A {@link CatalogType} representing various {@link Input} types. See {@link InputTypes} for default tyoes.
+ */
 @CatalogedBy(InputTypes.class)
 public class InputType implements CatalogType {
     private String id;
     private String name;
 
+    /**
+     * Creates a new input type.
+     *
+     * @param id   The id of this input type.
+     * @param name The name of this input type.
+     */
     public InputType(String id, String name) {
         this.id = id;
         this.name = name;

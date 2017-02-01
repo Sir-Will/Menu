@@ -22,11 +22,10 @@
 package com.gmail.socraticphoenix.sponge.menu;
 
 import org.spongepowered.api.CatalogType;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.util.annotation.CatalogedBy;
 
 /**
- * A {@link CatalogType} representing various button types. See {@link ItemTypes} for default values.
+ * A {@link CatalogType} representing various {@link Button} types. See {@link ButtonTypes} for default types.
  */
 @CatalogedBy(ButtonTypes.class)
 public class ButtonType implements CatalogType {
@@ -36,7 +35,7 @@ public class ButtonType implements CatalogType {
     /**
      * Creates a new button type.
      *
-     * @param id The id of this button type.
+     * @param id   The id of this button type.
      * @param name The name of this button type.
      */
     public ButtonType(String id, String name) {

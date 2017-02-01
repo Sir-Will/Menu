@@ -26,7 +26,7 @@ import com.gmail.socraticphoenix.sponge.menu.InventoryReason;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.InventoryButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.GridTarget;
-import com.gmail.socraticphoenix.sponge.menu.util.CustomInventoryBuilder;
+import com.gmail.socraticphoenix.sponge.menu.builder.CustomInventoryBuilder;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;

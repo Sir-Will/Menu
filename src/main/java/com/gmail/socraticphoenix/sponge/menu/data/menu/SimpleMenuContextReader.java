@@ -30,7 +30,7 @@ import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
-import com.gmail.socraticphoenix.sponge.menu.impl.menu.context.SimpleMenuContext;
+import com.gmail.socraticphoenix.sponge.menu.impl.menu.SimpleMenuContext;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataView;
 

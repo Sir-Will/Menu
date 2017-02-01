@@ -54,7 +54,7 @@ public interface Button extends DataSerializable {
     String id();
 
     /**
-     * @return The type of this button.
+     * @return The {@link ButtonType} of this button.
      */
     ButtonType type();
 

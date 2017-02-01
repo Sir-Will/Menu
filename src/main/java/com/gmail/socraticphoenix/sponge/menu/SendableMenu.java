@@ -21,7 +21,6 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.builder.MenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.pair.SerializablePair;
 import org.spongepowered.api.Sponge;
@@ -36,6 +35,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * A container class holding all the necessary information to call {@link MenuService#send(Menu, MenuProperties, Player,
+ * Object, Map, Set)}.
+ */
 public class SendableMenu implements DataSerializable {
     private Menu menu;
     private Object plugin;
@@ -44,6 +47,16 @@ public class SendableMenu implements DataSerializable {
     private Set<Formatter> formatters;
     private MenuProperties properties;
 
+    /**
+     * Creates a new sendable menu with the given parameters.
+     *
+     * @param menu               The {@link Menu} to send.
+     * @param plugin             The instance of the plugin which owns the {@link Menu}.
+     * @param specificFormatters A {@link Map} of {@link Page} ids to {@link Formatter Formatters}. {@link Formatter
+     *                           Formatters} in this map will be applied to the {@link Page} with the given id.
+     * @param formatters         A {@link Set}
+     * @param properties         The {@link MenuProperties} to apply when sending this menu.
+     */
     public SendableMenu(Menu menu, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, MenuProperties properties) {
         this.menu = menu;
         this.plugin = plugin;
@@ -53,10 +66,11 @@ public class SendableMenu implements DataSerializable {
         this.pluginId = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance")).getId();
     }
 
-    public static MenuBuilder builder(Object plugin) {
-        return new MenuBuilder(plugin);
-    }
-
+    /**
+     * Sends this sendable menu to the given {@link Player}.
+     *
+     * @param target The {@link Player} to send the sendable menu to.
+     */
     public void send(Player target) {
         Sponge.getServiceManager().provideUnchecked(MenuService.class).send(this.menu, this.properties, target, this.plugin, this.specificFormatters, this.formatters);
     }

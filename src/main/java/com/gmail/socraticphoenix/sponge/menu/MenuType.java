@@ -23,19 +23,30 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import org.spongepowered.api.CatalogType;
 
+/**
+ * A {@link CatalogType} representing various {@link Menu} types. See {@link MenuType} for default types.
+ */
 public class MenuType implements CatalogType {
     private String id;
     private String name;
 
+    /**
+     * Creates a new menu type.
+     *
+     * @param id   The id of this menu type.
+     * @param name The name of this menu type.
+     */
     public MenuType(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }

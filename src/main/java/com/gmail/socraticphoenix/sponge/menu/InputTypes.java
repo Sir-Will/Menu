@@ -21,13 +21,35 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+/**
+ * Contains all the default {@link InputType InputTypes}.
+ */
 public interface InputTypes {
 
+    /**
+     * A {@link Input} which receives input through button presses in an inventory.
+     */
     InputType INVENTORY_BUTTON = new InputType("menuapi:inventory_button", "Inventory Button Input");
+    /**
+     * A {@link Input} which receives input through textual input in the chat.
+     */
     InputType CHAT_TEXT = new InputType("menuapi:chat_text", "Chat Text Input");
+    /**
+     * A {@link Input} which receives input through button presses in the chat.
+     */
     InputType CHAT_BUTTON = new InputType("menuapi:chat_button", "Chat Button Input");
+    /**
+     * A {@link Input} which receives input through textual input in an anvil.
+     */
     InputType ANVIL_TEXT_PAGE = new InputType("menuapi:anvil_text_page", "Anvil Text Page Input");
+    /**
+     * A {@link Input} which does not receive input.
+     */
     InputType EMPTY = new InputType("menuapi:empty", "Empty Input");
+    /**
+     * A {@link Input} whose type is unknown. This type can be used by plugins adding their own {@link Input}
+     * implementation, though it is suggested that such {@link Input Inputs} have their own custom type.
+     */
     InputType UNKNOWN = new InputType("menuapi:unknown", "Unknown Input");
 
 }

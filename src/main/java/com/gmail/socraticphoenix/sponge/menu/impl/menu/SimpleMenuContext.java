@@ -19,7 +19,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.impl.menu.context;
+package com.gmail.socraticphoenix.sponge.menu.impl.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.EndMenuReason;
 import com.gmail.socraticphoenix.sponge.menu.Formatter;
@@ -98,11 +98,6 @@ public class SimpleMenuContext implements MenuContext {
     }
 
     @Override
-    public void acceptInputContext() {
-
-    }
-
-    @Override
     public int page() {
         return this.page;
     }
@@ -174,7 +169,7 @@ public class SimpleMenuContext implements MenuContext {
 
     @Override
     public void terminate(EndMenuReason reason, Player player, Menu menu) {
-        if (player.getOpenInventory().isPresent()) {
+        if (player.getOpenInventory().isPresent() && this.getCurrentPage(menu).isPresent() && this.getCurrentPage(menu).get().isInventoryBased()) {
             player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", reason)));
         }
         player.remove(MenuData.class);

@@ -26,8 +26,22 @@ import org.spongepowered.api.entity.living.player.Player;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The service responsible for sending a {@link Menu} to a {@link Player}
+ */
 public interface MenuService {
 
+    /**
+     * Sends a {@link Menu}, with the given {@link MenuProperties}, {@link Formatter Formatters}, and owner.
+     *
+     * @param menu               The {@link Menu} to send.
+     * @param properties         The {@link MenuProperties} to apply when sending this menu.
+     * @param target             The {@link Player} to send the menu to.
+     * @param plugin             The instance of the plugin which owns the {@link Menu}.
+     * @param specificFormatters A {@link Map} of {@link Page} ids to {@link Formatter Formatters}. {@link Formatter
+     *                           Formatters} in this map will be applied to the {@link Page} with the given id.
+     * @param formatters         A {@link Set}
+     */
     void send(Menu menu, MenuProperties properties, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters);
 
 }

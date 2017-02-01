@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ButtonBuilder {
     private ButtonPageBuilder parent;
@@ -88,6 +89,10 @@ public class ButtonBuilder {
 
     public ButtonBuilder tracker(BiConsumer<SerializableMap, MenuInputEvent.Button> listener, String id) {
         return this.tracker(listener, new SerializableMap(), id);
+    }
+
+    public ButtonBuilder tracker(Consumer<MenuInputEvent.Button> listener, String id) {
+        return this.tracker((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
     }
 
     public void finish() {
