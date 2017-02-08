@@ -169,12 +169,17 @@ public class SimpleMenuContext implements MenuContext {
 
     @Override
     public void terminate(EndMenuReason reason, Player player, Menu menu) {
-        if (player.getOpenInventory().isPresent() && this.getCurrentPage(menu).isPresent() && this.getCurrentPage(menu).get().isInventoryBased()) {
-            player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", reason)));
+        MenuStateEvent.Close.Pre pre = new MenuStateEvent.Close.Pre(player);
+        Sponge.getEventManager().post(pre);
+
+        if(!pre.isCancelled()) {
+            if (player.getOpenInventory().isPresent() && this.getCurrentPage(menu).isPresent() && this.getCurrentPage(menu).get().isInventoryBased()) {
+                player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", reason)));
+            }
+            player.remove(MenuData.class);
+            MenuStateEvent event = new MenuStateEvent.Close(reason, player, menu, this);
+            Sponge.getEventManager().post(event);
         }
-        player.remove(MenuData.class);
-        MenuStateEvent event = new MenuStateEvent.Close(reason, player, menu, this);
-        Sponge.getEventManager().post(event);
     }
 
     @Override

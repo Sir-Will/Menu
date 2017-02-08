@@ -25,7 +25,7 @@ import com.gmail.socraticphoenix.sponge.menu.Input;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatTextPage;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.text.Text;
 

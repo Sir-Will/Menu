@@ -23,7 +23,6 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.TextButton;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;

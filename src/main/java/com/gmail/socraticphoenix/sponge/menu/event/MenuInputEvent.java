@@ -27,16 +27,14 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
-import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.plugin.PluginContainer;
 
-public abstract class MenuInputEvent extends AbstractEvent implements Cancellable {
+public abstract class MenuInputEvent extends TargetMenuEvent implements Cancellable {
     private boolean cancelled;
-    private Cause cause;
 
-    public MenuInputEvent(Cause cause) {
+    public MenuInputEvent(Cause cause, Menu menu, MenuContext context, Player player) {
+        super(cause, menu, context, player);
         this.cancelled = false;
-        this.cause = cause;
     }
 
     @Override
@@ -49,29 +47,14 @@ public abstract class MenuInputEvent extends AbstractEvent implements Cancellabl
         this.cancelled = cancel;
     }
 
-    @Override
-    public Cause getCause() {
-        return this.cause;
-    }
-
     public static class Button extends MenuInputEvent {
         private String buttonId;
         private PluginContainer buttonOwner;
-        private MenuContext context;
-        private Menu menu;
-        private Player player;
 
         public Button(Player player, String buttonId, PluginContainer buttonOwner, MenuContext context, Menu menu) {
-            super(Cause.of(NamedCause.source(player), NamedCause.of("id", buttonId), NamedCause.of("owner", buttonOwner), NamedCause.of("context", context), NamedCause.of("menu", menu)));
+            super(Cause.of(NamedCause.source(player), NamedCause.of("id", buttonId), NamedCause.of("owner", buttonOwner), NamedCause.of("context", context), NamedCause.of("menu", menu)), menu, context, player);
             this.buttonId = buttonId;
             this.buttonOwner = buttonOwner;
-            this.context = context;
-            this.menu = menu;
-            this.player = player;
-        }
-
-        public Player player() {
-            return this.player;
         }
 
         public String buttonId() {
@@ -82,39 +65,14 @@ public abstract class MenuInputEvent extends AbstractEvent implements Cancellabl
             return this.buttonOwner;
         }
 
-        public MenuContext context() {
-            return this.context;
-        }
-
-        public Menu menu() {
-            return this.menu;
-        }
     }
 
     public static class Text extends MenuInputEvent {
         private String input;
-        private MenuContext context;
-        private Menu menu;
-        private Player player;
 
         public Text(Player player, MenuContext context, Menu menu, String input) {
-            super(Cause.of(NamedCause.source(player), NamedCause.of("context", context), NamedCause.of("menu", menu)));
+            super(Cause.of(NamedCause.source(player), NamedCause.of("context", context), NamedCause.of("menu", menu)), menu, context, player);
             this.input = input;
-            this.context = context;
-            this.menu = menu;
-            this.player = player;
-        }
-
-        public Player player() {
-            return this.player;
-        }
-
-        public Menu menu() {
-            return this.menu;
-        }
-
-        public MenuContext context() {
-            return this.context;
         }
 
         public String input() {

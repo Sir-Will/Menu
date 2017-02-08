@@ -24,7 +24,7 @@ package com.gmail.socraticphoenix.sponge.menu.impl.tracker;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.data.DataContainer;
 
 import java.util.function.BiConsumer;

@@ -19,22 +19,32 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.impl.page;
+package com.gmail.socraticphoenix.sponge.menu.impl.tracker;
 
-import com.gmail.socraticphoenix.sponge.menu.InputTypes;
-import com.gmail.socraticphoenix.sponge.menu.TextPage;
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
 import com.gmail.socraticphoenix.sponge.menu.Tracker;
-import org.spongepowered.api.text.Text;
+import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuEvent;
 
-import java.util.List;
+import java.util.function.BiConsumer;
 
-public class AnvilTextPage extends AbstractPage implements TextPage {
+public class GeneralTracker<T extends MenuEvent> extends Tracker<T> {
+    private String pluginId;
+    private String menuId;
 
-    public AnvilTextPage(Text title, String id, List<Tracker> trackers) {
-        super(title, new SimpleInput(InputTypes.ANVIL_TEXT_PAGE), TextTarget::new, id, trackers, false);
+    public GeneralTracker(Class<T> event, BiConsumer<SerializableMap, T> consumer, SerializableMap vars, String id, String pluginId, String menuId) {
+        super(event, consumer, vars, id);
+        this.pluginId = pluginId;
+        this.menuId = menuId;
     }
 
+    @Override
+    public String compositeId() {
+        return this.pluginId + ".tracker.general." + this.id() + "." + this.menuId;
+    }
+
+    @Override
+    public void invoke(T event) {
+        this.getConsumer().accept(this.getVars(), event);
+    }
 
 }

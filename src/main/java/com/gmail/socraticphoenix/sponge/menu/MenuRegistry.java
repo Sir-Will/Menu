@@ -21,8 +21,6 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

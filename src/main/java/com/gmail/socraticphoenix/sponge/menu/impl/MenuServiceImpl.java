@@ -45,20 +45,25 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void send(Menu menu, MenuProperties properties, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters) {
-        PluginContainer container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
-        MenuContext context = new SimpleMenuContext(menu.type(), 0, InputContext.EMPTY, container, specificFormatters, formatters, new SerializableMap(), properties);
-        if(target.get(MenuData.class).isPresent()) {
-            target.get(MenuData.class).get().context().get().terminate(EndMenuReason.NEW_MENU, target, menu);
+        MenuStateEvent.Open.Pre pre = new MenuStateEvent.Open.Pre(target);
+        Sponge.getEventManager().post(pre);
+
+        if(!pre.isCancelled()) {
+            PluginContainer container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
+            MenuContext context = new SimpleMenuContext(menu.type(), 0, InputContext.EMPTY, container, specificFormatters, formatters, new SerializableMap(), properties);
+            if (target.get(MenuData.class).isPresent()) {
+                target.get(MenuData.class).get().context().get().terminate(EndMenuReason.NEW_MENU, target, menu);
+            }
+
+            MenuData newData = new MenuData(menu, context);
+            target.offer(newData);
+
+            context.refresh(target, menu);
+            Sponge.getScheduler().createTaskBuilder().delayTicks(5).intervalTicks(60).execute(new ChatRestrictTask(target)).submit(MenuPlugin.instance());
+
+            MenuStateEvent event = new MenuStateEvent.Open(target, menu, context);
+            Sponge.getEventManager().post(event);
         }
-
-        MenuData newData = new MenuData(menu, context);
-        target.offer(newData);
-
-        context.refresh(target, menu);
-        Sponge.getScheduler().createTaskBuilder().delayTicks(5).intervalTicks(60).execute(new ChatRestrictTask(target)).submit(MenuPlugin.instance());
-
-        MenuStateEvent event = new MenuStateEvent.Open(target, menu, context);
-        Sponge.getEventManager().post(event);
     }
 
 }

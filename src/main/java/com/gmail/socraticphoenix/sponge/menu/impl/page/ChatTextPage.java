@@ -25,7 +25,7 @@ import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.TextPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;

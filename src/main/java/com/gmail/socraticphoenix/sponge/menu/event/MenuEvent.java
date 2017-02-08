@@ -19,22 +19,21 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.impl.page;
+package com.gmail.socraticphoenix.sponge.menu.event;
 
-import com.gmail.socraticphoenix.sponge.menu.InputTypes;
-import com.gmail.socraticphoenix.sponge.menu.TextPage;
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
-import com.gmail.socraticphoenix.sponge.menu.Tracker;
-import org.spongepowered.api.text.Text;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-import java.util.List;
+public class MenuEvent extends AbstractEvent {
+    private Cause cause;
 
-public class AnvilTextPage extends AbstractPage implements TextPage {
-
-    public AnvilTextPage(Text title, String id, List<Tracker> trackers) {
-        super(title, new SimpleInput(InputTypes.ANVIL_TEXT_PAGE), TextTarget::new, id, trackers, false);
+    public MenuEvent(Cause cause) {
+        this.cause = cause;
     }
 
+    @Override
+    public Cause getCause() {
+        return this.cause;
+    }
 
 }

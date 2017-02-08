@@ -25,7 +25,7 @@ import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.TextTracker;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 

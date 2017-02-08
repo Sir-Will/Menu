@@ -27,7 +27,7 @@ import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.GridTarget;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.text.Text;
 

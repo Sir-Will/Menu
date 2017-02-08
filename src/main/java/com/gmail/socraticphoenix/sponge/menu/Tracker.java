@@ -19,10 +19,11 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.tracker;
+package com.gmail.socraticphoenix.sponge.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuEvent;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
@@ -32,7 +33,12 @@ import org.spongepowered.api.data.Queries;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
-public abstract class Tracker<T extends MenuInputEvent> implements DataSerializable {
+/**
+ * Represents a listener that tracks a single {@link Button}, {@link Page} or {@link Menu}.
+ *
+ * @param <T> The type of {@link MenuInputEvent} this tracker listens to.
+ */
+public abstract class Tracker<T extends MenuEvent> implements DataSerializable {
     private Class<T> event;
     private BiConsumer<SerializableMap, T> consumer;
     private SerializableMap vars;

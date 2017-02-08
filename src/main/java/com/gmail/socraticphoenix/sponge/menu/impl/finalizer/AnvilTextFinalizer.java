@@ -48,6 +48,7 @@ public class AnvilTextFinalizer implements Finalizer<AnvilTextPage, TextTarget> 
         ItemStack rename = ItemStack.of(ItemTypes.DIAMOND, 1);
         rename.offer(Keys.DISPLAY_NAME, page.title());
         //inventory.offer(rename); currently broken :(
+        player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
         player.openInventory(inventory, Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
     }
 

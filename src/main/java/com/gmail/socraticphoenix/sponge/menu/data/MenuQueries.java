@@ -50,6 +50,8 @@ public interface MenuQueries {
     DataQuery MENU_TYPE = DataQuery.of('.', "menuapi.menu.type");
     DataQuery MENU_PAGES = DataQuery.of('.', "menuapi.menu.pages");
     DataQuery MENU_OWNER = DataQuery.of('.', "menuapi.menu.owner");
+    DataQuery MENU_ID = DataQuery.of('.', "menuapi.menu.id");
+    DataQuery MENU_TRACKERS = DataQuery.of('.', "menuapi.menu.trackers");
 
     DataQuery INPUT_TYPE = DataQuery.of('.', "menuapi.input.type");
 

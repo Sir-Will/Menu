@@ -71,7 +71,6 @@ import com.gmail.socraticphoenix.sponge.menu.listeners.ChatListener;
 import com.gmail.socraticphoenix.sponge.menu.listeners.InventoryListener;
 import com.gmail.socraticphoenix.sponge.menu.listeners.PlayerListener;
 import com.gmail.socraticphoenix.sponge.menu.listeners.TrackerListener;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.slf4j.Logger;
 import org.spongepowered.api.GameRegistry;
 import org.spongepowered.api.Sponge;

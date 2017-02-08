@@ -25,6 +25,7 @@ import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuType;
 import com.gmail.socraticphoenix.sponge.menu.MenuTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.impl.menu.SimpleMenu;
 import org.spongepowered.api.data.DataView;
@@ -35,8 +36,8 @@ public class SimpleMenuReader implements MenuReader {
 
     @Override
     public Optional<Menu> read(MenuType type, DataView container) {
-        if(type == MenuTypes.SIMPLE && container.contains(MenuQueries.MENU_PAGES)) {
-            return Optional.of(new SimpleMenu(container.getSerializableList(MenuQueries.MENU_PAGES, Page.class).get()));
+        if(type == MenuTypes.SIMPLE && container.contains(MenuQueries.MENU_PAGES, MenuQueries.MENU_ID, MenuQueries.MENU_TRACKERS)) {
+            return Optional.of(new SimpleMenu(container.getString(MenuQueries.MENU_ID).get(), container.getSerializableList(MenuQueries.MENU_PAGES, Page.class).get(), container.getSerializableList(MenuQueries.MENU_TRACKERS, Tracker.class).get()));
         }
         return null;
     }

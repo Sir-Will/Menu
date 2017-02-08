@@ -50,6 +50,16 @@ public interface Menu extends DataSerializable {
      */
     MenuType type();
 
+    /**
+     * @return The id of this menu.
+     */
+    String id();
+
+    /**
+     * @return The {@link Tracker Trackers} associated with this menu.
+     */
+    List<Tracker> trackers();
+
     static MenuBuilder builder(Object plugin) {
         return new MenuBuilder(plugin);
     }
@@ -64,6 +74,16 @@ public interface Menu extends DataSerializable {
         @Override
         public MenuType type() {
             return MenuTypes.EMPTY;
+        }
+
+        @Override
+        public String id() {
+            return "empty";
+        }
+
+        @Override
+        public List<Tracker> trackers() {
+            return Collections.emptyList();
         }
 
         @Override

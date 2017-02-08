@@ -23,7 +23,7 @@ package com.gmail.socraticphoenix.sponge.menu.data.button;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
 import com.gmail.socraticphoenix.sponge.menu.ButtonType;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.text.Text;

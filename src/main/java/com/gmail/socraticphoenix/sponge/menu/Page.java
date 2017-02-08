@@ -21,7 +21,6 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.text.Text;
 

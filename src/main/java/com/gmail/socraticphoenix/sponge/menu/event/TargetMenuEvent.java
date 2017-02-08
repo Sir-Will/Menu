@@ -19,22 +19,35 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.gmail.socraticphoenix.sponge.menu.impl.page;
+package com.gmail.socraticphoenix.sponge.menu.event;
 
-import com.gmail.socraticphoenix.sponge.menu.InputTypes;
-import com.gmail.socraticphoenix.sponge.menu.TextPage;
-import com.gmail.socraticphoenix.sponge.menu.impl.input.SimpleInput;
-import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
-import com.gmail.socraticphoenix.sponge.menu.Tracker;
-import org.spongepowered.api.text.Text;
+import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.MenuContext;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 
-import java.util.List;
+public class TargetMenuEvent extends MenuEvent {
+    private Menu menu;
+    private MenuContext context;
+    private Player player;
 
-public class AnvilTextPage extends AbstractPage implements TextPage {
-
-    public AnvilTextPage(Text title, String id, List<Tracker> trackers) {
-        super(title, new SimpleInput(InputTypes.ANVIL_TEXT_PAGE), TextTarget::new, id, trackers, false);
+    public TargetMenuEvent(Cause cause, Menu menu, MenuContext context, Player player) {
+        super(cause);
+        this.menu = menu;
+        this.context = context;
+        this.player = player;
     }
 
+    public Player player() {
+        return this.player;
+    }
+
+    public Menu menu() {
+        return this.menu;
+    }
+
+    public MenuContext context() {
+        return this.context;
+    }
 
 }

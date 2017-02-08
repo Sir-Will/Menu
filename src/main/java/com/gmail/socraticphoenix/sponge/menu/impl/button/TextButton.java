@@ -22,7 +22,7 @@
 package com.gmail.socraticphoenix.sponge.menu.impl.button;
 
 import com.gmail.socraticphoenix.sponge.menu.ButtonTypes;
-import com.gmail.socraticphoenix.sponge.menu.tracker.Tracker;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
