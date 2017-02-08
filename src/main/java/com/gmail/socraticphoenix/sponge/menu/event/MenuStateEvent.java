@@ -47,13 +47,11 @@ public abstract class MenuStateEvent extends TargetMenuEvent {
             return this.reason;
         }
 
-        public static class Pre extends MenuEvent implements Cancellable {
+        public static class Pre extends MenuStateEvent implements Cancellable {
             private boolean cancelled;
-            private Player player;
 
-            public Pre(Player player) {
-                super(Cause.of(NamedCause.of("player", player)));
-                this.player = player;
+            public Pre(Menu menu, MenuContext context, Player player) {
+                super(Cause.of(NamedCause.of("player", player)), menu, context, player);
                 this.cancelled = false;
             }
 
@@ -66,10 +64,6 @@ public abstract class MenuStateEvent extends TargetMenuEvent {
             @Override
             public void setCancelled(boolean cancel) {
                 this.cancelled = cancel;
-            }
-
-            public Player player() {
-                return this.player;
             }
 
         }
@@ -82,13 +76,11 @@ public abstract class MenuStateEvent extends TargetMenuEvent {
             super(Cause.of(NamedCause.of("player", player), NamedCause.of("menu", menu), NamedCause.of("context", context)), menu, context, player);
         }
 
-        public static class Pre extends MenuEvent implements Cancellable {
+        public static class Pre extends MenuStateEvent implements Cancellable {
             private boolean cancelled;
-            private Player player;
 
-            public Pre(Player player) {
-                super(Cause.of(NamedCause.of("player", player)));
-                this.player = player;
+            public Pre(Menu menu, MenuContext context, Player player) {
+                super(Cause.of(NamedCause.of("player", player)), menu, context, player);
                 this.cancelled = false;
             }
 
@@ -101,10 +93,6 @@ public abstract class MenuStateEvent extends TargetMenuEvent {
             @Override
             public void setCancelled(boolean cancel) {
                 this.cancelled = cancel;
-            }
-
-            public Player player() {
-                return this.player;
             }
 
         }

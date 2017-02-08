@@ -45,8 +45,9 @@ public class AbstractPage implements Page {
     private String id;
     private List<Tracker> trackers;
     private boolean chatBased;
+    private boolean inventoryBased;
 
-    public AbstractPage(Text title, Input input, Supplier<PageTarget> targetSupplier, String id, List<Tracker> trackers, boolean chatBased) {
+    public AbstractPage(Text title, Input input, Supplier<PageTarget> targetSupplier, String id, List<Tracker> trackers, boolean chatBased, boolean inventoryBased) {
         trackers = trackers.stream().filter(t -> !(t.getConsumer() instanceof DummyConsumer)).collect(Collectors.toList());
         this.trackers = Collections.unmodifiableList(trackers);
         trackers.forEach(MenuRegistry::addTracker);
@@ -55,6 +56,7 @@ public class AbstractPage implements Page {
         this.targetSupplier = targetSupplier;
         this.id = id;
         this.chatBased = chatBased;
+        this.inventoryBased = inventoryBased;
     }
 
     @Override
@@ -85,6 +87,11 @@ public class AbstractPage implements Page {
     @Override
     public boolean isChatBased() {
         return this.chatBased;
+    }
+
+    @Override
+    public boolean isInventoryBased() {
+        return this.inventoryBased;
     }
 
     @Override

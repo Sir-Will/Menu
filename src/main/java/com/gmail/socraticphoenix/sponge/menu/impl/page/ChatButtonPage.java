@@ -38,7 +38,7 @@ public class ChatButtonPage extends AbstractPage implements ButtonPage {
     private List<Button> buttons;
 
     public ChatButtonPage(Text title, List<Button> buttons, List<Tracker> trackers, String id) {
-        super(title, new SimpleInput(InputTypes.CHAT_BUTTON), TextTarget::new, id, trackers, true);
+        super(title, new SimpleInput(InputTypes.CHAT_BUTTON), TextTarget::new, id, trackers, true, false);
         this.buttons = Collections.unmodifiableList(buttons);
     }
 

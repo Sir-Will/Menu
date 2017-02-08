@@ -33,7 +33,7 @@ import java.util.List;
 public class AnvilTextPage extends AbstractPage implements TextPage {
 
     public AnvilTextPage(Text title, String id, List<Tracker> trackers) {
-        super(title, new SimpleInput(InputTypes.ANVIL_TEXT_PAGE), TextTarget::new, id, trackers, false);
+        super(title, new SimpleInput(InputTypes.ANVIL_TEXT_PAGE), TextTarget::new, id, trackers, false, true);
     }
 
 

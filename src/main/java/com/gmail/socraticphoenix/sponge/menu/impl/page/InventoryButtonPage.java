@@ -40,7 +40,7 @@ public class InventoryButtonPage extends AbstractPage implements ButtonPage {
     private int length;
 
     public InventoryButtonPage(Text title, List<Button> buttons, List<Tracker> trackers, int height, int length, String id) {
-        super(title, new SimpleInput(InputTypes.INVENTORY_BUTTON), () -> new GridTarget(length, height), id, trackers, false);
+        super(title, new SimpleInput(InputTypes.INVENTORY_BUTTON), () -> new GridTarget(length, height), id, trackers, false, true);
         this.buttons = Collections.unmodifiableList(buttons);
         this.height = height;
         this.length = length;

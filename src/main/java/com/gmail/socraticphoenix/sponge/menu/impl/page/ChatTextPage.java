@@ -33,7 +33,7 @@ import java.util.List;
 public class ChatTextPage extends AbstractPage implements TextPage {
 
     public ChatTextPage(Text title, String id, List<Tracker> trackers) {
-        super(title, new SimpleInput(InputTypes.CHAT_TEXT), TextTarget::new, id, trackers, true);
+        super(title, new SimpleInput(InputTypes.CHAT_TEXT), TextTarget::new, id, trackers, true, false);
     }
 
 }

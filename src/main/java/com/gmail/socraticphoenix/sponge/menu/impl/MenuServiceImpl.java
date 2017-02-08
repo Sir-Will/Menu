@@ -45,12 +45,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void send(Menu menu, MenuProperties properties, Player target, Object plugin, Map<String, Formatter> specificFormatters, Set<Formatter> formatters) {
-        MenuStateEvent.Open.Pre pre = new MenuStateEvent.Open.Pre(target);
+        PluginContainer container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
+        MenuContext context = new SimpleMenuContext(menu.type(), 0, InputContext.EMPTY, container, specificFormatters, formatters, new SerializableMap(), properties);
+        MenuStateEvent.Open.Pre pre = new MenuStateEvent.Open.Pre(menu, context, target);
         Sponge.getEventManager().post(pre);
 
-        if(!pre.isCancelled()) {
-            PluginContainer container = Sponge.getPluginManager().fromInstance(plugin).orElseThrow(() -> new IllegalArgumentException(plugin + " is not a plugin instance"));
-            MenuContext context = new SimpleMenuContext(menu.type(), 0, InputContext.EMPTY, container, specificFormatters, formatters, new SerializableMap(), properties);
+        if (!pre.isCancelled()) {
             if (target.get(MenuData.class).isPresent()) {
                 target.get(MenuData.class).get().context().get().terminate(EndMenuReason.NEW_MENU, target, menu);
             }

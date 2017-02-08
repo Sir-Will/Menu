@@ -169,7 +169,7 @@ public class SimpleMenuContext implements MenuContext {
 
     @Override
     public void terminate(EndMenuReason reason, Player player, Menu menu) {
-        MenuStateEvent.Close.Pre pre = new MenuStateEvent.Close.Pre(player);
+        MenuStateEvent.Close.Pre pre = new MenuStateEvent.Close.Pre(menu, this, player);
         Sponge.getEventManager().post(pre);
 
         if(!pre.isCancelled()) {
