@@ -42,7 +42,7 @@ public class ButtonPageBuilder {
     private int height;
     private int width;
 
-    public ButtonPageBuilder(MenuBuilder parent) {
+    ButtonPageBuilder(MenuBuilder parent) {
         this.parent = parent;
         this.title = Text.of("Page");
         this.id = "default_id";

@@ -44,6 +44,15 @@ public abstract class Tracker<T extends MenuEvent> implements DataSerializable {
     private SerializableMap vars;
     private String id;
 
+    /**
+     * Creates a new Tracker, which tracks the given event, using the given listener, and has the given variables and
+     * id.
+     *
+     * @param event    The type of event this tracker tracks.
+     * @param consumer The listener.
+     * @param vars     The contextual variables associated with the listener.
+     * @param id       The id of this tracker.
+     */
     public Tracker(Class<T> event, BiConsumer<SerializableMap, T> consumer, SerializableMap vars, String id) {
         this.event = event;
         this.consumer = consumer;
@@ -54,22 +63,49 @@ public abstract class Tracker<T extends MenuEvent> implements DataSerializable {
         }
     }
 
+    /**
+     * @return The unique, composite id of this tracker, made up of its type, event, and id.
+     */
     public abstract String compositeId();
 
+    /**
+     * Invokes this tracker with the given event.
+     *
+     * @param event The event to listen to.
+     */
     public abstract void invoke(T event);
 
+    /**
+     * @return The type of event this tracker tracks.
+     */
     public Class<T> getEvent() {
         return this.event;
     }
 
+    /**
+     * @return The listener.
+     */
     public BiConsumer<SerializableMap, T> getConsumer() {
         return this.consumer;
     }
 
+    /**
+     * @return The contextual variables associated with this tracker.
+     */
     public SerializableMap getVars() {
         return this.vars;
     }
 
+    /**
+     * Returns the id of this tracker. In general, trackers with the same {@link BiConsumer} listener should have the
+     * same id, but this is not always the case. Without going into the implementation, trackers with the same id,
+     * {@link BiConsumer} listener, target event, and target element (page, button, menu, etc.) will <i>not</i> stack,
+     * meaning applying the exact same tracker twice will result in it being called only once. Therefore, if you are
+     * applying the exact same tracker to an element intentionally, it is necessary to use different ids to distinguish
+     * the two trackers.
+     *
+     * @return The id of this tracker.
+     */
     public String id() {
         return this.id;
     }

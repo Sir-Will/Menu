@@ -22,6 +22,7 @@
 package com.gmail.socraticphoenix.sponge.menu.builder;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
+import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
@@ -39,6 +40,11 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * A builder which constructs an {@link Button}. It requires a reference to a parent {@link ButtonPageBuilder}, and an
+ * instance can be obtained through {@link ButtonPageBuilder#button(Button)}. When using this builder, it is necessary
+ * to call {@link ButtonBuilder#id(String)} before calling any other methods.
+ */
 public class ButtonBuilder {
     private ButtonPageBuilder parent;
     private PluginContainer plugin;
@@ -47,7 +53,7 @@ public class ButtonBuilder {
     private String id;
     private List<Tracker> trackers;
 
-    public ButtonBuilder(ButtonPageBuilder parent) {
+    ButtonBuilder(ButtonPageBuilder parent) {
         this.parent = parent;
         this.title = Text.of("Button");
         this.id = "default_id";
@@ -55,49 +61,119 @@ public class ButtonBuilder {
         this.trackers = new ArrayList<>();
     }
 
+    /**
+     * Sets the icon of this button. Setting the icon will cause this builder to construct a {@link ItemButton}, instead
+     * of a {@link TextButton}.
+     *
+     * @param icon The {@link ItemStack} to use as an icon.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder icon(ItemStack icon) {
         this.icon = icon;
         return this;
     }
 
+    /**
+     * Sets the icon of this button. Setting the icon will cause this builder to construct a {@link ItemButton}, instead
+     * of a {@link TextButton}.
+     *
+     * @param type     The {@link ItemType} to use as an icon.
+     * @param quantity The quantity to use for the icon.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder icon(ItemType type, int quantity) {
         return this.icon(ItemStack.of(type, quantity));
     }
 
+    /**
+     * Sets the icon of this button. Setting the icon will cause this builder to construct a {@link ItemButton}, instead
+     * of a {@link TextButton}.
+     *
+     * @param type The {@link ItemType} to use as an icon.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder icon(ItemType type) {
         return this.icon(type, 1);
     }
 
+    /**
+     * Sets the title of this button.
+     *
+     * @param title The title of this button.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder title(Text title) {
         this.title = title;
         return this;
     }
 
+    /**
+     * Sets the title of this button. This is a convenience method, which is equivalent to calling {@code
+     * builder.title(Text.of(elements))}.
+     *
+     * @param elements The text elements of the title of this button.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder title(Objects... elements) {
         return this.title(Text.of(elements));
     }
 
+    /**
+     * Sets the id of this button. This method must be called first.
+     *
+     * @param id The id of this button.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder id(String id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Applies a tracker to this button, with the given listener, contextual variables, and id. Because {@link Menu
+     * Menus} are fully serializable, the listener consumer cannot have a constructor (or, if it is a lambda, use any
+     * variables from outside the lambda expression). To get around this, contextual variables are transmitted to the
+     * listener through a {@link SerializableMap}.
+     *
+     * @param listener The listener.
+     * @param vars     The contextual variables to transmit to the listener.
+     * @param id       The id of the tracker. (See {@link Tracker#id()} for conventions).
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder tracker(BiConsumer<SerializableMap, MenuInputEvent.Button> listener, SerializableMap vars, String id) {
         this.trackers.add(new ButtonTracker(MenuInputEvent.Button.class, listener, vars, this.id, this.plugin.getId(), id));
         return this;
     }
 
-    public ButtonBuilder tracker(BiConsumer<SerializableMap, MenuInputEvent.Button> listener, String id) {
-        return this.tracker(listener, new SerializableMap(), id);
-    }
-
+    /**
+     * Applies a tracker to this button, with the given listener and id. Because {@link Menu
+     * Menus} are fully serializable, the listener consumer cannot have a constructor (or, if it is a lambda, use any
+     * variables from outside the lambda expression). If you need to transmit variables to the listener, use the {@link
+     * ButtonBuilder#tracker(BiConsumer, SerializableMap, String)} method.
+     *
+     * @param listener The listener.
+     * @param id       The id of the tracker. (See {@link Tracker#id()} for conventions).
+     *
+     * @return This, for method chaining.
+     */
     public ButtonBuilder tracker(Consumer<MenuInputEvent.Button> listener, String id) {
         return this.tracker((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
     }
 
+    /**
+     * Constructs the {@link Button} and applies it to the parent {@link ButtonPageBuilder}. {@link Button Buttons} are
+     * applied to the parent builder in the order that this method is called.
+     */
     public void finish() {
         Button button;
-        if(this.icon != null) {
+        if (this.icon != null) {
             button = new ItemButton(this.title, this.icon, this.trackers, this.id);
         } else {
             button = new TextButton(this.title, this.id, this.trackers);

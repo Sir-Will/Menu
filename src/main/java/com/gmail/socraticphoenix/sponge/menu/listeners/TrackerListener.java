@@ -25,8 +25,10 @@ import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuRegistry;
 import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.event.MenuEvent;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.ButtonTracker;
+import com.gmail.socraticphoenix.sponge.menu.impl.tracker.GeneralTracker;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.TextTracker;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.filter.IsCancelled;
@@ -35,6 +37,12 @@ import org.spongepowered.api.util.Tristate;
 import java.util.Optional;
 
 public class TrackerListener {
+
+    @Listener
+    @IsCancelled(Tristate.FALSE)
+    public void onMenuEvent(MenuEvent ev) {
+        MenuRegistry.getTrackers().filter(tracker -> tracker instanceof GeneralTracker).filter(tracker -> tracker.getEvent().isInstance(ev)).forEach(tracker -> tracker.invoke(ev));
+    }
 
     @Listener
     @IsCancelled(Tristate.FALSE)

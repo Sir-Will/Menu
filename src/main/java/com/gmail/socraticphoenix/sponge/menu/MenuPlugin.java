@@ -85,7 +85,7 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
-@Plugin(id = "menuapi", name = "Menu", version = "0.0.0", description = "GUIs", authors = "Socratic_Phoenix")
+@Plugin(id = "menuapi", name = "Menu", version = "0.0.1", description = "GUIs", authors = "Socratic_Phoenix")
 public class MenuPlugin {
     public static final String DEFAULT_BUTTON_ID = "default_id";
     public static final String NO_PLUGIN_ID = "missing_plugin";

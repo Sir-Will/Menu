@@ -32,6 +32,9 @@ import java.util.function.Consumer;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+/**
+ * This is a class only meant to be used and seen in the internals of Menu API, and as such, does not have any documentation.
+ */
 public class CustomInventoryBuilder implements Inventory.Builder {
     private Inventory.Builder builder;
 
