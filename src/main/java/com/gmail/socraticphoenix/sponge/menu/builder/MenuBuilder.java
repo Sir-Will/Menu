@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class MenuBuilder {
     private List<Page> pages;
@@ -119,32 +118,32 @@ public class MenuBuilder {
         return this.tracker(new GeneralTracker<>(MenuStateEvent.Open.class, listener, vars, id, this.getContainer().getId(), this.id));
     }
 
-    public MenuBuilder onOpen(Consumer<MenuStateEvent.Open> listener, String id) {
-        return this.onOpen((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
+    public MenuBuilder onOpen(BiConsumer<SerializableMap, MenuStateEvent.Open> listener, String id) {
+        return this.onOpen(listener, new SerializableMap(), id);
     }
 
     public MenuBuilder onClose(BiConsumer<SerializableMap, MenuStateEvent.Close> listener, SerializableMap vars, String id) {
         return this.tracker(new GeneralTracker<>(MenuStateEvent.Close.class, listener, vars, id, this.getContainer().getId(), this.id));
     }
 
-    public MenuBuilder onClose(Consumer<MenuStateEvent.Close> listener, String id) {
-        return this.onClose((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
+    public MenuBuilder onClose(BiConsumer<SerializableMap, MenuStateEvent.Close> listener, String id) {
+        return this.onClose(listener, new SerializableMap(), id);
     }
 
     public MenuBuilder onOpenPre(BiConsumer<SerializableMap, MenuStateEvent.Open.Pre> listener, SerializableMap vars, String id) {
         return this.tracker(new GeneralTracker<>(MenuStateEvent.Open.Pre.class, listener, vars, id, this.getContainer().getId(), this.id));
     }
 
-    public MenuBuilder onOpenPre(Consumer<MenuStateEvent.Open.Pre> listener, String id) {
-        return this.onOpenPre((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
+    public MenuBuilder onOpenPre(BiConsumer<SerializableMap, MenuStateEvent.Open.Pre> listener, String id) {
+        return this.onOpenPre(listener, new SerializableMap(), id);
     }
 
     public MenuBuilder onClosePre(BiConsumer<SerializableMap, MenuStateEvent.Close.Pre> listener, SerializableMap vars, String id) {
         return this.tracker(new GeneralTracker<>(MenuStateEvent.Close.Pre.class, listener, vars, id, this.getContainer().getId(), this.id));
     }
 
-    public MenuBuilder onClosePre(Consumer<MenuStateEvent.Close.Pre> listener, String id) {
-        return this.onClosePre((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
+    public MenuBuilder onClosePre(BiConsumer<SerializableMap, MenuStateEvent.Close.Pre> listener, String id) {
+        return this.onClosePre(listener, new SerializableMap(), id);
     }
 
     public MenuBuilder tracker(Tracker tracker) {

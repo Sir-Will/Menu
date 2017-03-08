@@ -21,6 +21,9 @@
  */
 package com.gmail.socraticphoenix.sponge.menu;
 
+import com.gmail.socraticphoenix.sponge.menu.builder.ButtonBuilder;
+import com.gmail.socraticphoenix.sponge.menu.builder.ButtonPageBuilder;
+import com.gmail.socraticphoenix.sponge.menu.builder.MenuBuilder;
 import com.gmail.socraticphoenix.sponge.menu.catalogs.ButtonTypeCatalog;
 import com.gmail.socraticphoenix.sponge.menu.catalogs.InputTypeCatalog;
 import com.gmail.socraticphoenix.sponge.menu.catalogs.MenuTypeCatalog;
@@ -77,10 +80,14 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.data.DataManager;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
@@ -184,6 +191,19 @@ public class MenuPlugin {
         eventManager.registerListeners(this, new ChatListener());
         eventManager.registerListeners(this, new PlayerListener());
         eventManager.registerListeners(this, new TrackerListener());
+    }
+
+    @Listener
+    public void onJoin(ClientConnectionEvent.Join ev, @First Player player) {
+        MenuBuilder builder = Menu.builder(this).properties(new MenuProperties(false, false));
+        ButtonPageBuilder pageBuilder = builder.buttonPage();
+        pageBuilder.id("page1").title(Text.of("Inventory Menu"));
+        ButtonBuilder button = pageBuilder.button();
+        button.id("button1").title(Text.of("A Button")).icon(ItemTypes.GUNPOWDER).tracker((event) -> {
+            event.player().sendMessage(Text.of("Achievement Get: Test MenuAPI"));
+        }, "tracker1").finish();
+        pageBuilder.orderedGridFormatter(false).finish(InputTypes.INVENTORY_BUTTON);
+        builder.build().send(player);
     }
 
 }

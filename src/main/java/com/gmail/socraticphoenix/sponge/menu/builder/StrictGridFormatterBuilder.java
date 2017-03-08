@@ -26,6 +26,7 @@ import com.gmail.socraticphoenix.sponge.menu.impl.formatter.StrictGridFormatter;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,14 @@ public class StrictGridFormatterBuilder {
 
     public StrictGridFormatterBuilder set(String button, Vector2i... locs) {
         this.locations.put(button, Lists.newArrayList(locs));
+        return this;
+    }
+
+    public StrictGridFormatterBuilder add(String button, Vector2i... locs) {
+        if(!this.locations.containsKey(button)) {
+            this.locations.put(button, new ArrayList<>());
+        }
+        Collections.addAll(this.locations.get(button), locs);
         return this;
     }
 

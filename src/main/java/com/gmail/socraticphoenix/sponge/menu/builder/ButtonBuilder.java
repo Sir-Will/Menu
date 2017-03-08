@@ -23,12 +23,12 @@ package com.gmail.socraticphoenix.sponge.menu.builder;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
 import com.gmail.socraticphoenix.sponge.menu.Menu;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.ItemButton;
 import com.gmail.socraticphoenix.sponge.menu.impl.button.TextButton;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.ButtonTracker;
-import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * A builder which constructs an {@link Button}. It requires a reference to a parent {@link ButtonPageBuilder}, and an
@@ -163,8 +162,8 @@ public class ButtonBuilder {
      *
      * @return This, for method chaining.
      */
-    public ButtonBuilder tracker(Consumer<MenuInputEvent.Button> listener, String id) {
-        return this.tracker((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
+    public ButtonBuilder tracker(BiConsumer<SerializableMap, MenuInputEvent.Button> listener, String id) {
+        return this.tracker(listener, new SerializableMap(), id);
     }
 
     /**

@@ -25,19 +25,18 @@ import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.InputType;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.tree.TreeNode;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.AnvilTextPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatTextPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.TextTracker;
-import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class TextPageBuilder {
     private MenuBuilder parent;
@@ -93,10 +92,6 @@ public class TextPageBuilder {
 
     public TextPageBuilder tracker(BiConsumer<SerializableMap, MenuInputEvent.Text> listener, String id) {
         return this.tracker(listener, new SerializableMap(), id);
-    }
-
-    public TextPageBuilder tracker(Consumer<MenuInputEvent.Text> listener, String id) {
-        return this.tracker((vars, ev) -> listener.accept(ev), new SerializableMap(), id);
     }
 
     public MenuBuilder getParent() {
