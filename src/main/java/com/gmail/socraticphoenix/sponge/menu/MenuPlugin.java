@@ -199,7 +199,7 @@ public class MenuPlugin {
         ButtonPageBuilder pageBuilder = builder.buttonPage();
         pageBuilder.id("page1").title(Text.of("Inventory Menu"));
         ButtonBuilder button = pageBuilder.button();
-        button.id("button1").title(Text.of("A Button")).icon(ItemTypes.GUNPOWDER).tracker((event) -> {
+        button.id("button1").title(Text.of("A Button")).icon(ItemTypes.GUNPOWDER).tracker((map, event) -> {
             event.player().sendMessage(Text.of("Achievement Get: Test MenuAPI"));
         }, "tracker1").finish();
         pageBuilder.orderedGridFormatter(false).finish(InputTypes.INVENTORY_BUTTON);
