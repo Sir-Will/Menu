@@ -39,7 +39,6 @@ import java.util.Optional;
 public class TrackerListener {
 
     @Listener
-    @IsCancelled(Tristate.FALSE)
     public void onMenuEvent(MenuEvent ev) {
         MenuRegistry.getTrackers().filter(tracker -> tracker instanceof GeneralTracker).filter(tracker -> tracker.getEvent().isInstance(ev)).forEach(tracker -> tracker.invoke(ev));
     }
