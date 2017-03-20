@@ -39,6 +39,7 @@ import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.filter.IsCancelled;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.item.inventory.ClickInventoryEvent;
+import org.spongepowered.api.event.item.inventory.DropItemEvent;
 import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Container;
@@ -55,7 +56,7 @@ public class InventoryListener {
 
     @Listener
     public void onClose(InteractInventoryEvent.Close ev, @First Player player) {
-        if(!ev.getCause().containsType(EndMenuReason.class) && !ev.getCause().containsType(InventoryReason.class) && player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent() && player.get(MenuData.class).get().getCurrentPage().get().isChatBased()) {
+        if(!ev.getCause().containsType(EndMenuReason.class) && !ev.getCause().containsType(InventoryReason.class) && isInInventoryMenu(player)) {
             MenuData data = player.get(MenuData.class).get();
             data.context().get().terminate(EndMenuReason.QUIT, player, data.menu().get());
         }
@@ -72,7 +73,6 @@ public class InventoryListener {
                     ImmutableButtonData data = snapshotButtonDataOptional.get();
                     MenuInputEvent event = new MenuInputEvent.Button(player, data.id().get(), data.owner().get(), menuData.context().get(), menuData.menu().get());
                     Sponge.getEventManager().post(event);
-                    ev.setCancelled(true);
                     return;
                 }
 
@@ -88,7 +88,6 @@ public class InventoryListener {
                             MenuInputEvent.Button event = new MenuInputEvent.Button(player, data.id().get(), data.owner().get(), menuData.context().get(), menuData.menu().get());
                             Sponge.getEventManager().post(event);
                         }
-                        ev.setCancelled(true);
                         return;
                     }
                 }
@@ -98,7 +97,6 @@ public class InventoryListener {
                     MenuData menuData = player.get(MenuData.class).get();
                     MenuInputEvent event = new MenuInputEvent.Text(player, menuData.context().get(), menuData.menu().get(), snapshot.get(Keys.DISPLAY_NAME).isPresent() ? snapshot.get(Keys.DISPLAY_NAME).get().toPlain() : snapshot.getType().getTranslation().get());
                     Sponge.getEventManager().post(event);
-                    ev.setCancelled(true);
                     return;
                 }
             }
@@ -108,12 +106,31 @@ public class InventoryListener {
     @Listener(order = Order.LATE)
     @IsCancelled(Tristate.FALSE)
     public void onClick(ClickInventoryEvent ev, @First Player player) {
-        if (player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent()) {
-            Page page = player.get(MenuData.class).get().getCurrentPage().get();
-            if (page instanceof InventoryButtonPage || page instanceof AnvilTextPage) {
-                ev.setCancelled(true);
+        if(isInInventoryMenu(player)) {
+            ev.setCancelled(true);
+        }
+    }
+
+    @Listener(order = Order.LATE)
+    @IsCancelled(Tristate.FALSE)
+    public void onDrop(DropItemEvent ev, @First Player player) {
+        if(isInInventoryMenu(player)) {
+            ev.setCancelled(true);
+        }
+    }
+
+    private static boolean isInInventoryMenu(Player player) {
+        Optional<MenuData> dataOptional = player.get(MenuData.class);
+        if(dataOptional.isPresent()) {
+            MenuData data = dataOptional.get();
+            Optional<Page> pageOptional = data.getCurrentPage();
+            if(pageOptional.isPresent()) {
+                Page page = pageOptional.get();
+                return page.isInventoryBased() && player.isViewingInventory();
             }
         }
+
+        return false;
     }
 
 }

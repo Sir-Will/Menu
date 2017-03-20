@@ -65,4 +65,5 @@ public interface Page extends DataSerializable {
      * @return True if this page is displayed through an inventory, false otherwise.
      */
     boolean isInventoryBased();
+
 }
