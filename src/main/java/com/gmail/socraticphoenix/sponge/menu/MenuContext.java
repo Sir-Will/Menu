@@ -64,12 +64,14 @@ public interface MenuContext extends DataSerializable {
     PluginContainer owner();
 
     /**
-     * @return The set of {@link Formatter Formatters} to apply to {@link Page Pages} when displaying them to the player.
+     * @return The set of {@link Formatter Formatters} to apply to {@link Page Pages} when displaying them to the
+     * player.
      */
     Set<Formatter> formatters();
 
     /**
-     * @return The set of variables maintained in relation to the {@link Menu} instance. This map can be used to store information about a specific menu across different event calls.
+     * @return The set of variables maintained in relation to the {@link Menu} instance. This map can be used to store
+     * information about a specific menu across different event calls.
      */
     SerializableMap variables();
 
@@ -82,16 +84,25 @@ public interface MenuContext extends DataSerializable {
      * Refreshes this menu context for the given player, using the pages in the given {@link Menu}.
      *
      * @param player The player to refresh the {@link Menu} for.
-     * @param menu The {@link Menu} to pull pages from.
+     * @param menu   The {@link Menu} to pull pages from.
      */
     void refresh(Player player, Menu menu);
+
+    /**
+     * Refreshes this menu context for the given player, using the pages in the given {@link Menu}. This method will
+     * attempt to apply the next page to the menu setup by the previous page.
+     *
+     * @param player The player to refresh the {@link Menu} for.
+     * @param menu   The {@link Menu} to pull pages from.
+     */
+    void silentRefresh(Player player, Menu menu);
 
     /**
      * Terminates the current {@link Menu} instance, for the given player, for the given reason.
      *
      * @param reason The reason the {@link Menu} instance is being terminated.
      * @param player The player to terminate the {@link Menu} for.
-     * @param menu The {@link Menu} to terminate.
+     * @param menu   The {@link Menu} to terminate.
      */
     void terminate(EndMenuReason reason, Player player, Menu menu);
 
@@ -103,13 +114,22 @@ public interface MenuContext extends DataSerializable {
     void setPage(int page);
 
     /**
-     * Returns the current {@link Page}, as defined by {@link #page()}, from the given {@link Menu}. If {@link #page()} is out of bounds, {@link Optional#empty()} is returned.
+     * Returns the current {@link Page}, as defined by {@link #page()}, from the given {@link Menu}. If {@link #page()}
+     * is out of bounds, {@link Optional#empty()} is returned.
      *
      * @param menu The {@link Menu} to pull the page from.
+     *
      * @return The current {@link Page}, if {@link #page()} is in bounds.
      */
     default Optional<Page> getCurrentPage(Menu menu) {
         return this.page() >= 0 && this.page() < menu.pages().size() ? Optional.of(menu.pages().get(this.page())) : Optional.empty();
+    }
+
+    /**
+     * Sets the current page to {@code this.page() + 1}
+     */
+    default void nextPage() {
+        setPage(page() + 1);
     }
 
     class Empty implements MenuContext {
@@ -151,6 +171,11 @@ public interface MenuContext extends DataSerializable {
 
         @Override
         public void refresh(Player player, Menu menu) {
+
+        }
+
+        @Override
+        public void silentRefresh(Player player, Menu menu) {
 
         }
 

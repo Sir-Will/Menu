@@ -23,11 +23,11 @@ package com.gmail.socraticphoenix.sponge.menu.impl.tracker;
 
 import com.gmail.socraticphoenix.sponge.menu.Tracker;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
-import com.gmail.socraticphoenix.sponge.menu.event.MenuEvent;
+import com.gmail.socraticphoenix.sponge.menu.event.TargetMenuEvent;
 
 import java.util.function.BiConsumer;
 
-public class GeneralTracker<T extends MenuEvent> extends Tracker<T> {
+public class GeneralTracker<T extends TargetMenuEvent> extends Tracker<T> {
     private String pluginId;
     private String menuId;
 
@@ -35,6 +35,10 @@ public class GeneralTracker<T extends MenuEvent> extends Tracker<T> {
         super(event, consumer, vars, id);
         this.pluginId = pluginId;
         this.menuId = menuId;
+    }
+
+    public String getMenuId() {
+        return this.menuId;
     }
 
     @Override

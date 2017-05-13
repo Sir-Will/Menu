@@ -35,6 +35,11 @@ public class ChatTextFinalizer implements Finalizer<ChatTextPage, TextTarget> {
     }
 
     @Override
+    public void redisplay(Player player, TextTarget target, ChatTextPage page, PluginContainer owner) {
+        this.display(player, target, page, owner);
+    }
+
+    @Override
     public Class<ChatTextPage> page() {
         return ChatTextPage.class;
     }

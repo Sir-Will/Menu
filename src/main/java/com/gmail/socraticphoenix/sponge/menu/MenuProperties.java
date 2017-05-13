@@ -37,7 +37,7 @@ public class MenuProperties implements DataSerializable {
     private boolean persistent;
     private boolean restrictChat;
 
-    //IMPORTANT NOTE: By contract, the below constructor must remain FOR ALL ETERNITY, and simple link to any new constructors and provide default values
+    //IMPORTANT NOTE: By contract, the below constructor must remain FOR ALL ETERNITY, and simply link to any new constructors and provide default values
 
     /**
      * Constructs a new set of properties with the given parameters

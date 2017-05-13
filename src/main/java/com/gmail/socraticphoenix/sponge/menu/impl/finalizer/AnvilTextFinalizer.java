@@ -24,9 +24,9 @@ package com.gmail.socraticphoenix.sponge.menu.impl.finalizer;
 import com.gmail.socraticphoenix.sponge.menu.Finalizer;
 import com.gmail.socraticphoenix.sponge.menu.InventoryReason;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
+import com.gmail.socraticphoenix.sponge.menu.builder.CustomInventoryBuilder;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.AnvilTextPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.TextTarget;
-import com.gmail.socraticphoenix.sponge.menu.builder.CustomInventoryBuilder;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
@@ -50,6 +50,18 @@ public class AnvilTextFinalizer implements Finalizer<AnvilTextPage, TextTarget> 
         //inventory.offer(rename); currently broken :(
         player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
         player.openInventory(inventory, Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
+    }
+
+    @Override
+    public void redisplay(Player player, TextTarget target, AnvilTextPage page, PluginContainer owner) {
+        if(player.isViewingInventory()) {
+            Inventory inventory = player.getOpenInventory().get();
+            ItemStack rename = ItemStack.of(ItemTypes.DIAMOND, 1);
+            rename.offer(Keys.DISPLAY_NAME, page.title());
+            //inventory.offer(rename); currently broken :(
+        } else {
+            this.display(player, target, page, owner);
+        }
     }
 
     @Override

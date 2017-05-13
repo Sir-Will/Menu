@@ -48,6 +48,20 @@ public interface Button extends DataSerializable {
     ItemStack icon();
 
     /**
+     * Sets the title of this button.
+     *
+     * @param title The new title.
+     */
+    void setTitle(Text title);
+
+    /**
+     * Sets the icon of this button.
+     *
+     * @param stack The new icon.
+     */
+    void setIcon(ItemStack stack);
+
+    /**
      * @return The id of this button.
      */
     String id();

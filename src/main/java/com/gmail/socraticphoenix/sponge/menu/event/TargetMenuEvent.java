@@ -25,17 +25,19 @@ import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-public class TargetMenuEvent extends MenuEvent {
+public class TargetMenuEvent extends AbstractEvent {
     private Menu menu;
     private MenuContext context;
     private Player player;
+    private Cause cause;
 
     public TargetMenuEvent(Cause cause, Menu menu, MenuContext context, Player player) {
-        super(cause);
         this.menu = menu;
         this.context = context;
         this.player = player;
+        this.cause = cause;
     }
 
     public Player player() {
@@ -48,6 +50,11 @@ public class TargetMenuEvent extends MenuEvent {
 
     public MenuContext context() {
         return this.context;
+    }
+
+    @Override
+    public Cause getCause() {
+        return this.cause;
     }
 
 }

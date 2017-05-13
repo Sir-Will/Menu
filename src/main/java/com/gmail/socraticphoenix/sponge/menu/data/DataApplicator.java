@@ -36,6 +36,7 @@ public class DataApplicator {
         ButtonData data = new ButtonData(button.id(), owner);
         stack.offer(data);
         stack.offer(Keys.DISPLAY_NAME, button.title());
+        stack.offer(Keys.HIDE_ATTRIBUTES, true);
         return stack;
     }
 

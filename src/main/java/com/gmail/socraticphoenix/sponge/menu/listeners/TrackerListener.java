@@ -25,8 +25,8 @@ import com.gmail.socraticphoenix.sponge.menu.Menu;
 import com.gmail.socraticphoenix.sponge.menu.MenuContext;
 import com.gmail.socraticphoenix.sponge.menu.MenuRegistry;
 import com.gmail.socraticphoenix.sponge.menu.Page;
-import com.gmail.socraticphoenix.sponge.menu.event.MenuEvent;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
+import com.gmail.socraticphoenix.sponge.menu.event.TargetMenuEvent;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.ButtonTracker;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.GeneralTracker;
 import com.gmail.socraticphoenix.sponge.menu.impl.tracker.TextTracker;
@@ -39,8 +39,8 @@ import java.util.Optional;
 public class TrackerListener {
 
     @Listener
-    public void onMenuEvent(MenuEvent ev) {
-        MenuRegistry.getTrackers().filter(tracker -> tracker instanceof GeneralTracker).filter(tracker -> tracker.getEvent().isInstance(ev)).forEach(tracker -> tracker.invoke(ev));
+    public void onMenuEvent(TargetMenuEvent ev) {
+        MenuRegistry.getTrackers().filter(tracker -> tracker instanceof GeneralTracker).map(tracker -> (GeneralTracker) tracker).filter(tracker -> tracker.getMenuId().equals(ev.menu().id()) && tracker.getEvent().isInstance(ev)).forEach(tracker -> tracker.invoke(ev));
     }
 
     @Listener

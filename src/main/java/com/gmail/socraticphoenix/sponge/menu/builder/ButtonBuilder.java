@@ -36,12 +36,11 @@ import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 
 /**
  * A builder which constructs an {@link Button}. It requires a reference to a parent {@link ButtonPageBuilder}, and an
- * instance can be obtained through {@link ButtonPageBuilder#button(Button)}. When using this builder, it is necessary
+ * instance can be obtained through {@link ButtonPageBuilder#button()}. When using this builder, it is necessary
  * to call {@link ButtonBuilder#id(String)} before calling any other methods.
  */
 public class ButtonBuilder {
@@ -118,7 +117,7 @@ public class ButtonBuilder {
      *
      * @return This, for method chaining.
      */
-    public ButtonBuilder title(Objects... elements) {
+    public ButtonBuilder title(Object... elements) {
         return this.title(Text.of(elements));
     }
 

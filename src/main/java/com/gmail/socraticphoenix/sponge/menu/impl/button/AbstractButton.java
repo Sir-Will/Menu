@@ -82,6 +82,16 @@ public abstract class AbstractButton implements Button {
     }
 
     @Override
+    public void setTitle(Text title) {
+        this.title = title;
+    }
+
+    @Override
+    public void setIcon(ItemStack stack) {
+        this.icon = stack;
+    }
+
+    @Override
     public int getContentVersion() {
         return 1;
     }

@@ -40,5 +40,9 @@ public enum EndMenuReason {
     /**
      * A reason representing an error occurred at some point in menu creation or input or event handling.
      */
-    ERROR
+    ERROR,
+    /**
+     * A reason representing that a plugin decided to end the menu, for some reason.
+     */
+    PLUGIN
 }

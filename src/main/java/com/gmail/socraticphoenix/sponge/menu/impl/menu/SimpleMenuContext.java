@@ -68,6 +68,7 @@ public class SimpleMenuContext implements MenuContext {
     }
 
     private int page;
+    private int lastFormatPage;
     private InputContext context;
     private MenuType type;
     private PluginContainer owner;
@@ -78,6 +79,7 @@ public class SimpleMenuContext implements MenuContext {
 
     public SimpleMenuContext(MenuType type, int page, InputContext context, PluginContainer owner, Map<String, Formatter> specificFormatters, Set<Formatter> formatters, SerializableMap variables, MenuProperties properties) {
         this.page = page;
+        this.lastFormatPage = page;
         this.context = context;
         this.type = type;
         this.owner = owner;
@@ -156,15 +158,56 @@ public class SimpleMenuContext implements MenuContext {
 
             if (usableFormatter != null) {
                 usableFormatter.format(page, target, this.owner());
-                MenuRegistry.lookForAppropriate(target.getClass(), page.getClass()).display(player, target, page, this.owner);
+                if (this.lastFormatPage == this.page) {
+                    MenuRegistry.lookForAppropriate(target.getClass(), page.getClass()).redisplay(player, target, page, this.owner);
+                } else {
+                    MenuRegistry.lookForAppropriate(target.getClass(), page.getClass()).display(player, target, page, this.owner);
+                }
             } else {
                 player.sendMessage(Text.of(TextColors.RED, "[MenuAPI] Error: no formatter in context for page \"" + page.getClass() + "\" and target \"" + target.getClass() + "\""));
                 this.terminate(EndMenuReason.ERROR, player, menu);
             }
         } else {
-            player.sendMessage(Text.of(TextColors.RED, "[MenuAPI] Error: " + this.page + " is out of bounds"));
+            player.sendMessage(Text.of(TextColors.RED, "[MenuAPI] Error: page #" + this.page + " is out of bounds"));
             this.terminate(EndMenuReason.ERROR, player, menu);
         }
+        this.lastFormatPage = this.page;
+    }
+
+    @Override
+    public void silentRefresh(Player player, Menu menu) {
+        if (this.page < menu.pages().size() && this.page >= 0) {
+            Page page = menu.pages().get(this.page);
+            PageTarget target = page.produceTarget();
+            Formatter usableFormatter = null;
+            if (this.specificFormatters.containsKey(page.id())) {
+                Formatter formatter = this.specificFormatters.get(page.id());
+                if (formatter.page().isInstance(page) && formatter.target().isInstance(target)) {
+                    usableFormatter = formatter;
+                }
+            }
+
+            if (usableFormatter == null) {
+                for (Formatter formatter : this.formatters) {
+                    if (formatter.page().isInstance(page) && formatter.target().isInstance(target)) {
+                        usableFormatter = formatter;
+                        break;
+                    }
+                }
+            }
+
+            if (usableFormatter != null) {
+                usableFormatter.format(page, target, this.owner());
+                MenuRegistry.lookForAppropriate(target.getClass(), page.getClass()).redisplay(player, target, page, this.owner);
+            } else {
+                player.sendMessage(Text.of(TextColors.RED, "[MenuAPI] Error: no formatter in context for page \"" + page.getClass() + "\" and target \"" + target.getClass() + "\""));
+                this.terminate(EndMenuReason.ERROR, player, menu);
+            }
+        } else {
+            player.sendMessage(Text.of(TextColors.RED, "[MenuAPI] Error: page #" + this.page + " is out of bounds"));
+            this.terminate(EndMenuReason.ERROR, player, menu);
+        }
+        this.lastFormatPage = this.page;
     }
 
     @Override
@@ -172,7 +215,7 @@ public class SimpleMenuContext implements MenuContext {
         MenuStateEvent.Close.Pre pre = new MenuStateEvent.Close.Pre(menu, this, player);
         Sponge.getEventManager().post(pre);
 
-        if(!pre.isCancelled()) {
+        if (!pre.isCancelled()) {
             if (player.getOpenInventory().isPresent() && this.getCurrentPage(menu).isPresent() && this.getCurrentPage(menu).get().isInventoryBased()) {
                 player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", reason)));
             }

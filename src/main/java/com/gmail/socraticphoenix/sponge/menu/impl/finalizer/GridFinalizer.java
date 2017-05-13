@@ -24,9 +24,9 @@ package com.gmail.socraticphoenix.sponge.menu.impl.finalizer;
 import com.gmail.socraticphoenix.sponge.menu.Finalizer;
 import com.gmail.socraticphoenix.sponge.menu.InventoryReason;
 import com.gmail.socraticphoenix.sponge.menu.MenuPlugin;
+import com.gmail.socraticphoenix.sponge.menu.builder.CustomInventoryBuilder;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.InventoryButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.target.GridTarget;
-import com.gmail.socraticphoenix.sponge.menu.builder.CustomInventoryBuilder;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.NamedCause;
@@ -52,7 +52,7 @@ public class GridFinalizer implements Finalizer<InventoryButtonPage, GridTarget>
         for (int x = 0; x < target.length(); x++) {
             for (int y = 0; y < target.height(); y++) {
                 Inventory slot = inventory.query(new SlotPos(x + offset, y)).query(Slot.class);
-                if(slot instanceof Slot) {
+                if (slot instanceof Slot) {
                     target.get(x, y).ifPresent(slot::set);
                 }
             }
@@ -60,6 +60,32 @@ public class GridFinalizer implements Finalizer<InventoryButtonPage, GridTarget>
 
         player.closeInventory(Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
         player.openInventory(inventory, Cause.of(NamedCause.source(MenuPlugin.container()), NamedCause.of("reason", InventoryReason.NEW_PAGE)));
+    }
+
+    @Override
+    public void redisplay(Player player, GridTarget target, InventoryButtonPage page, PluginContainer owner) {
+        if (player.isViewingInventory()) {
+            Inventory inventory = player.getOpenInventory().get().first();
+            InventoryDimension dimension = inventory.getProperties(InventoryDimension.class).iterator().next();
+            if (dimension.getRows() == target.height()) {
+                inventory.clear();
+                int offset = (9 - target.length()) / 2;
+                offset = offset < 0 ? 0 : offset;
+                for (int x = 0; x < target.length(); x++) {
+                    for (int y = 0; y < target.height(); y++) {
+                        Inventory slot = inventory.query(new SlotPos(x + offset, y)).query(Slot.class);
+                        if (slot instanceof Slot) {
+                            target.get(x, y).ifPresent(slot::set);
+                        }
+                    }
+                }
+            } else {
+                this.display(player, target, page, owner);
+            }
+        } else {
+            this.display(player, target, page, owner);
+        }
+
     }
 
     @Override

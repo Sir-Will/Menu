@@ -110,6 +110,4 @@ public class TextPageBuilder {
         this.parent.page(page);
     }
 
-
-
 }

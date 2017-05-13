@@ -22,10 +22,15 @@
 package com.gmail.socraticphoenix.sponge.menu.builder;
 
 import com.gmail.socraticphoenix.sponge.menu.Button;
+import com.gmail.socraticphoenix.sponge.menu.ButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.Formatter;
 import com.gmail.socraticphoenix.sponge.menu.InputType;
 import com.gmail.socraticphoenix.sponge.menu.InputTypes;
 import com.gmail.socraticphoenix.sponge.menu.Page;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.CategoricalTextFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.OrderedGridFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.SequentialTextFormatter;
+import com.gmail.socraticphoenix.sponge.menu.impl.formatter.StrictGridFormatter;
 import com.gmail.socraticphoenix.sponge.menu.impl.formatter.tree.TreeNode;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.ChatButtonPage;
 import com.gmail.socraticphoenix.sponge.menu.impl.page.InventoryButtonPage;
@@ -34,6 +39,11 @@ import org.spongepowered.api.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A builder which constructs an {@link ButtonPage}. It requires a reference to a parent {@link MenuBuilder}, and an
+ * instance can be obtained through {@link MenuBuilder#buttonPage()}. When using this builder, it is necessary to call
+ * {@link ButtonPageBuilder#id(String)} before calling any other methods.
+ */
 public class ButtonPageBuilder {
     private MenuBuilder parent;
     private Text title;
@@ -51,61 +61,149 @@ public class ButtonPageBuilder {
         this.width = 9;
     }
 
+    /**
+     * @return This builders parent {@link MenuBuilder}
+     */
     public MenuBuilder getParent() {
         return this.parent;
     }
 
+    /**
+     * Sets the id of this page. This method must be called first.
+     *
+     * @param id The id of this page.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder id(String id) {
         this.id = id;
         return this;
     }
 
+    /**
+     * Sets the title of this page.
+     *
+     * @param title The title of this page.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder title(Text title) {
         this.title = title;
         return this;
     }
 
+    /**
+     * Sets the height of this page. This value is only used if the {@link InputType} of this page is {@link
+     * InputTypes#INVENTORY_BUTTON}.
+     *
+     * @param height The height of this page.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder height(int height) {
         this.height = height;
         return this;
     }
 
+
+    /**
+     * Sets the width of this page. This value is only used if the {@link InputType} of this page is {@link
+     * InputTypes#INVENTORY_BUTTON}.
+     *
+     * @param width The width of this page.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder width(int width) {
         this.width = width;
         return this;
     }
 
+    /**
+     * @return A {@link StrictGridFormatterBuilder} to build a {@link StrictGridFormatter} for this page.
+     */
     public StrictGridFormatterBuilder strictGridFormatter() {
         return new StrictGridFormatterBuilder(this.parent, this.id);
     }
 
+    /**
+     * Applies a {@link CategoricalTextFormatter} to this page, with the given categories and indent.
+     *
+     * @param categories The categories for the formatter.
+     * @param indent     The indent for the formatter.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder categoricalTextFormatter(TreeNode categories, Text indent) {
         this.parent.categoricalTextFormatter(this.id, categories, indent);
         return this;
     }
 
+    /**
+     * Applies a {@link SequentialTextFormatter} to this page, with the given separator.
+     *
+     * @param separator The separator for the formatter.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder sequentialTextFormatter(Text separator) {
         this.parent.sequentialTextFormatter(this.id, separator);
         return this;
     }
 
+    /**
+     * Applies a {@link OrderedGridFormatter} to this page, with the given vertical property.
+     *
+     * @param vertical The vertical property for the formatter.
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder orderedGridFormatter(boolean vertical) {
         this.parent.orderedGridFormatter(this.id, vertical);
         return this;
     }
 
+    /**
+     * Applies a {@link Formatter} to this page.
+     *
+     * @param formatter The formatter to apply
+     *
+     * @return This, for method chaining.
+     */
     public ButtonPageBuilder formatter(Formatter formatter) {
         this.parent.formatter(this.id, formatter);
         return this;
     }
 
+    /**
+     * @return A {@link ButtonBuilder} to build a button for this page.
+     */
     public ButtonBuilder button() {
         return new ButtonBuilder(this);
     }
 
+    /**
+     * Applies a {@link Button} to this page.
+     *
+     * @param button The button to apply.
+     *
+     * @return This, for method chaining.
+     */
+    public ButtonPageBuilder button(Button button) {
+        this.buttons.add(button);
+        return this;
+    }
+
+    /**
+     * Finishes the construction of this button page, and applies the page to the parent {@link MenuBuilder}.
+     *
+     * @param type The {@link InputType} for this page.
+     *
+     * @throws IllegalArgumentException If the {@link InputType} is invalid for a button page.
+     */
     public void finish(InputType type) {
         Page page;
-        if(type == InputTypes.INVENTORY_BUTTON) {
+        if (type == InputTypes.INVENTORY_BUTTON) {
             page = new InventoryButtonPage(this.title, this.buttons, new ArrayList<>(), this.height, this.width, this.id);
         } else if (type == InputTypes.CHAT_BUTTON) {
             page = new ChatButtonPage(this.title, this.buttons, new ArrayList<>(), this.id);
@@ -115,8 +213,4 @@ public class ButtonPageBuilder {
         this.parent.page(page);
     }
 
-    public ButtonPageBuilder button(Button button) {
-        this.buttons.add(button);
-        return this;
-    }
 }

@@ -23,8 +23,8 @@ package com.gmail.socraticphoenix.sponge.menu;
 
 import com.gmail.socraticphoenix.sponge.menu.data.MenuQueries;
 import com.gmail.socraticphoenix.sponge.menu.data.map.SerializableMap;
-import com.gmail.socraticphoenix.sponge.menu.event.MenuEvent;
 import com.gmail.socraticphoenix.sponge.menu.event.MenuInputEvent;
+import com.gmail.socraticphoenix.sponge.menu.event.TargetMenuEvent;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataSerializable;
 import org.spongepowered.api.data.MemoryDataContainer;
@@ -38,7 +38,7 @@ import java.util.stream.Stream;
  *
  * @param <T> The type of {@link MenuInputEvent} this tracker listens to.
  */
-public abstract class Tracker<T extends MenuEvent> implements DataSerializable {
+public abstract class Tracker<T extends TargetMenuEvent> implements DataSerializable {
     private Class<T> event;
     private BiConsumer<SerializableMap, T> consumer;
     private SerializableMap vars;

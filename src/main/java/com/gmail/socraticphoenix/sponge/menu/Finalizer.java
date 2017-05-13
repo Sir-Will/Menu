@@ -48,6 +48,16 @@ public interface Finalizer<T extends Page, K extends PageTarget> {
     void display(Player player, K target, T page, PluginContainer owner);
 
     /**
+     * Re-Displays the given {@link Page}, formatted to the given {@link PageTarget}, to the given {@link Player}.
+     *
+     * @param player The {@link Player} to display the given {@link Page} to.
+     * @param target The formatted {@link Page}.
+     * @param page   The {@link Page}.
+     * @param owner  The plugin which owns the {@link Menu} being displayed.
+     */
+    void redisplay(Player player, K target, T page, PluginContainer owner);
+
+    /**
      * @return The type of {@link Page} this finalizer accepts.
      */
     Class<T> page();

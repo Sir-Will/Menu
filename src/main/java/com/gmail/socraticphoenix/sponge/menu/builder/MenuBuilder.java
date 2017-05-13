@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+
 public class MenuBuilder {
     private List<Page> pages;
     private List<Tracker> trackers;
