@@ -38,6 +38,8 @@ import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.item.inventory.property.SlotPos;
 import org.spongepowered.api.plugin.PluginContainer;
 
+import java.util.Collection;
+
 public class GridFinalizer implements Finalizer<InventoryButtonPage, GridTarget> {
 
     @Override
@@ -64,9 +66,10 @@ public class GridFinalizer implements Finalizer<InventoryButtonPage, GridTarget>
 
     @Override
     public void redisplay(Player player, GridTarget target, InventoryButtonPage page, PluginContainer owner) {
-        if (player.isViewingInventory()) {
-            Inventory inventory = player.getOpenInventory().get().first();
-            InventoryDimension dimension = inventory.getProperties(InventoryDimension.class).iterator().next();
+        Inventory inventory = player.getOpenInventory().get().first();
+        Collection<InventoryDimension> collection = inventory.getProperties(InventoryDimension.class);
+        if (!collection.isEmpty()) {
+            InventoryDimension dimension = collection.iterator().next();
             if (dimension.getRows() == target.height()) {
                 inventory.clear();
                 int offset = (9 - target.length()) / 2;
