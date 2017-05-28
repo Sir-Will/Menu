@@ -46,7 +46,7 @@ public class ButtonCommand implements CommandExecutor {
             Optional<MenuData> menuDataOptional = player.get(MenuData.class);
             if(menuDataOptional.isPresent()) {
                 MenuData menuData = menuDataOptional.get();
-                MenuInputEvent event = new MenuInputEvent.Button(player, id, container, menuData.context().get(), menuData.menu().get());
+                MenuInputEvent event = new MenuInputEvent.Button(player, id, container, menuData.context().get(), menuData.menu().get(), true);
                 Sponge.getEventManager().post(event);
             }
         }

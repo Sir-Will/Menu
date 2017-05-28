@@ -50,11 +50,13 @@ public abstract class MenuInputEvent extends TargetMenuEvent implements Cancella
     public static class Button extends MenuInputEvent {
         private String buttonId;
         private PluginContainer buttonOwner;
+        private boolean isPrimaryClick;
 
-        public Button(Player player, String buttonId, PluginContainer buttonOwner, MenuContext context, Menu menu) {
+        public Button(Player player, String buttonId, PluginContainer buttonOwner, MenuContext context, Menu menu, boolean isPrimaryClick) {
             super(Cause.of(NamedCause.source(player), NamedCause.of("id", buttonId), NamedCause.of("owner", buttonOwner), NamedCause.of("context", context), NamedCause.of("menu", menu)), menu, context, player);
             this.buttonId = buttonId;
             this.buttonOwner = buttonOwner;
+            this.isPrimaryClick = isPrimaryClick;
         }
 
         public String buttonId() {
@@ -63,6 +65,10 @@ public abstract class MenuInputEvent extends TargetMenuEvent implements Cancella
 
         public PluginContainer buttonOwner() {
             return this.buttonOwner;
+        }
+
+        public boolean isPrimaryClick() {
+            return this.isPrimaryClick;
         }
 
     }

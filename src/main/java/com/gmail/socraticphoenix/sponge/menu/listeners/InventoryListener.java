@@ -63,41 +63,45 @@ public class InventoryListener {
     }
 
     @Listener(order = Order.EARLY)
-    public void onClick(ClickInventoryEvent.Primary ev, @First Player player, @Getter("getTargetInventory") Container container) {
-        if (player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent()) {
-            if (container.getArchetype() == InventoryArchetypes.CHEST && player.get(MenuData.class).get().getCurrentPage().get() instanceof InventoryButtonPage) {
-                ItemStackSnapshot def = ev.getCursorTransaction().getFinal();
-                Optional<ImmutableButtonData> snapshotButtonDataOptional = def.get(ImmutableButtonData.class);
-                if (snapshotButtonDataOptional.isPresent()) {
-                    MenuData menuData = player.get(MenuData.class).get();
-                    ImmutableButtonData data = snapshotButtonDataOptional.get();
-                    MenuInputEvent event = new MenuInputEvent.Button(player, data.id().get(), data.owner().get(), menuData.context().get(), menuData.menu().get());
-                    Sponge.getEventManager().post(event);
-                    return;
-                }
-
-                for (SlotTransaction transaction : ev.getTransactions()) {
-                    Slot slot = transaction.getSlot();
-                    Optional<ItemStack> stackOptional = slot.peek();
-                    if (stackOptional.isPresent()) {
-                        ItemStack stack = stackOptional.get();
-                        Optional<ButtonData> dataOptional = stack.get(ButtonData.class);
-                        if (dataOptional.isPresent()) {
-                            MenuData menuData = player.get(MenuData.class).get();
-                            ButtonData data = dataOptional.get();
-                            MenuInputEvent.Button event = new MenuInputEvent.Button(player, data.id().get(), data.owner().get(), menuData.context().get(), menuData.menu().get());
-                            Sponge.getEventManager().post(event);
-                        }
+    public void onClick(ClickInventoryEvent ev, @First Player player, @Getter("getTargetInventory") Container container) {
+        if (ev instanceof ClickInventoryEvent.Primary || ev instanceof ClickInventoryEvent.Secondary) {
+            if (player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent()) {
+                boolean isPrimaryClick = ev instanceof ClickInventoryEvent.Primary;
+                System.out.println(ev.getCause().toString());
+                if (container.getArchetype() == InventoryArchetypes.UNKNOWN && player.get(MenuData.class).get().getCurrentPage().get() instanceof InventoryButtonPage) {
+                    ItemStackSnapshot def = ev.getCursorTransaction().getFinal();
+                    Optional<ImmutableButtonData> snapshotButtonDataOptional = def.get(ImmutableButtonData.class);
+                    if (snapshotButtonDataOptional.isPresent()) {
+                        MenuData menuData = player.get(MenuData.class).get();
+                        ImmutableButtonData data = snapshotButtonDataOptional.get();
+                        MenuInputEvent event = new MenuInputEvent.Button(player, data.id().get(), data.owner().get(), menuData.context().get(), menuData.menu().get(), isPrimaryClick);
+                        Sponge.getEventManager().post(event);
                         return;
                     }
-                }
-            } else if (container.getArchetype() == InventoryArchetypes.ANVIL && player.get(MenuData.class).get().getCurrentPage().get() instanceof AnvilTextPage) {
-                ItemStackSnapshot snapshot = ev.getCursorTransaction().getFinal();
-                if (snapshot.getType() != ItemTypes.NONE) {
-                    MenuData menuData = player.get(MenuData.class).get();
-                    MenuInputEvent event = new MenuInputEvent.Text(player, menuData.context().get(), menuData.menu().get(), snapshot.get(Keys.DISPLAY_NAME).isPresent() ? snapshot.get(Keys.DISPLAY_NAME).get().toPlain() : snapshot.getType().getTranslation().get());
-                    Sponge.getEventManager().post(event);
-                    return;
+
+                    for (SlotTransaction transaction : ev.getTransactions()) {
+                        Slot slot = transaction.getSlot();
+                        Optional<ItemStack> stackOptional = slot.peek();
+                        if (stackOptional.isPresent()) {
+                            ItemStack stack = stackOptional.get();
+                            Optional<ButtonData> dataOptional = stack.get(ButtonData.class);
+                            if (dataOptional.isPresent()) {
+                                MenuData menuData = player.get(MenuData.class).get();
+                                ButtonData data = dataOptional.get();
+                                MenuInputEvent.Button event = new MenuInputEvent.Button(player, data.id().get(), data.owner().get(), menuData.context().get(), menuData.menu().get(), isPrimaryClick);
+                                Sponge.getEventManager().post(event);
+                            }
+                            return;
+                        }
+                    }
+                } else if (container.getArchetype() == InventoryArchetypes.ANVIL && player.get(MenuData.class).get().getCurrentPage().get() instanceof AnvilTextPage) {
+                    ItemStackSnapshot snapshot = ev.getCursorTransaction().getFinal();
+                    if (snapshot.getType() != ItemTypes.NONE) {
+                        MenuData menuData = player.get(MenuData.class).get();
+                        MenuInputEvent event = new MenuInputEvent.Text(player, menuData.context().get(), menuData.menu().get(), snapshot.get(Keys.DISPLAY_NAME).isPresent() ? snapshot.get(Keys.DISPLAY_NAME).get().toPlain() : snapshot.getType().getTranslation().get());
+                        Sponge.getEventManager().post(event);
+                        return;
+                    }
                 }
             }
         }
