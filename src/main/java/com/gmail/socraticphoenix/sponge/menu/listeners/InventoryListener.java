@@ -67,7 +67,6 @@ public class InventoryListener {
         if (ev instanceof ClickInventoryEvent.Primary || ev instanceof ClickInventoryEvent.Secondary) {
             if (player.get(MenuData.class).isPresent() && player.get(MenuData.class).get().getCurrentPage().isPresent()) {
                 boolean isPrimaryClick = ev instanceof ClickInventoryEvent.Primary;
-                System.out.println(ev.getCause().toString());
                 if (container.getArchetype() == InventoryArchetypes.UNKNOWN && player.get(MenuData.class).get().getCurrentPage().get() instanceof InventoryButtonPage) {
                     ItemStackSnapshot def = ev.getCursorTransaction().getFinal();
                     Optional<ImmutableButtonData> snapshotButtonDataOptional = def.get(ImmutableButtonData.class);
